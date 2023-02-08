@@ -139,27 +139,6 @@ type ProfileReturn = {
 }
 ```
 
-## Name History
-
-Getting the history for a name is very simple and can be done in two ways.
-Not all data can be immediately fetched for the history of an FNS name, which is why there is multiple methods for doing so.
-Text records do not contain the string value of the changed record, only the key. The value needs to be derived from fetching
-the individual transaction hash. This can potentially be very slow if the name has a long history.
-
-```js
-/* Normal Fetching, requires a second function for more details */
-const history = await FNSInstance.getHistory('test.eth')
-
-/* Details helper for history */
-/* You'll need to implement custom logic to get the index if you want to use that parameter, it's not currently done in the function */
-const detail = await FNSInstance.getHistoryDetailForTransactionHash(
-  transactionHash,
-  optionalIndex,
-)
-
-/* Fetching with all details upfront */
-const historyWithDetail = await FNSInstance.getHistoryWithDetail('test.eth')
-```
 
 ## Ownership Levels
 
