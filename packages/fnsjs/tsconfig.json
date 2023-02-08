@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "ts-node": {
+    "compilerOptions": {
+      "target": "es2018",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true
+    }
+  },
+  "compilerOptions": {
+    "types": ["jest"],
+    "outDir": "./dist",
+    "declaration": true,
+    "importsNotUsedAsValues": "remove",
+    "lib": ["ES2021", "DOM"],
+    "module": "Node16",
+    "moduleResolution": "Node16"
+  },
+  "include": ["src/**/*.ts", "./hardhat.config.ts", "./deploy"]
+}
