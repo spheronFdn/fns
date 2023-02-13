@@ -1,6 +1,6 @@
 import { Oracle as NewOracle } from '@ensdomains/dnssecoraclejs'
 import packet from 'dns-packet'
-import type { ENSArgs } from '../index'
+import type { FNSArgs } from '../index'
 import { EMPTY_ADDRESS } from '../utils/consts'
 
 export const DNS_OVER_HTTP_ENDPOINT = 'https://1.1.1.1/dns-query'
@@ -11,7 +11,7 @@ export type ImportDNSSECNameProps = {
 }
 
 export default async function (
-  { contracts, provider }: ENSArgs<'contracts' | 'signer' | 'provider'>,
+  { contracts, provider }: FNSArgs<'contracts' | 'signer' | 'provider'>,
   name: string,
   { address, proverResult }: ImportDNSSECNameProps,
 ) {

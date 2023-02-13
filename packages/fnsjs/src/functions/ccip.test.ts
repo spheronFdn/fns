@@ -1,13 +1,13 @@
 import dotenv from 'dotenv'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 
 dotenv.config()
 
-let ensInstance: ENS
+let fnsInstance: FNS
 
 beforeAll(async () => {
-  ;({ ensInstance } = await setup(true))
+  ;({ fnsInstance } = await setup(true))
 })
 
 jest.setTimeout(20000)
@@ -15,7 +15,7 @@ jest.setTimeout(20000)
 describe('CCIP', () => {
   describe('getProfile', () => {
     it('should return a profile from a ccip-read name', async () => {
-      const result = await ensInstance.getProfile('1.offchainexample.eth', {
+      const result = await fnsInstance.getProfile('1.offchainexample.eth', {
         fallback: {
           texts: ['email', 'description'],
           contentHash: true,
@@ -32,10 +32,10 @@ describe('CCIP', () => {
   })
   describe('batch', () => {
     it('allows batch ccip', async () => {
-      const result = await ensInstance.batch(
-        ensInstance.getAddr.batch('1.offchainexample.eth'),
-        ensInstance.getAddr.batch('1.offchainexample.eth', 'LTC'),
-        ensInstance.getText.batch('1.offchainexample.eth', 'email'),
+      const result = await fnsInstance.batch(
+        fnsInstance.getAddr.batch('1.offchainexample.eth'),
+        fnsInstance.getAddr.batch('1.offchainexample.eth', 'LTC'),
+        fnsInstance.getText.batch('1.offchainexample.eth', 'email'),
       )
       expect(result).toBeTruthy()
       if (result) {
@@ -48,9 +48,9 @@ describe('CCIP', () => {
       }
     })
     it('allows nested batch ccip', async () => {
-      const result = await ensInstance.batch(
-        ensInstance.batch.batch(
-          ensInstance.getAddr.batch('1.offchainexample.eth'),
+      const result = await fnsInstance.batch(
+        fnsInstance.batch.batch(
+          fnsInstance.getAddr.batch('1.offchainexample.eth'),
         ),
       )
       expect(result).toBeTruthy()

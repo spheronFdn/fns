@@ -1,7 +1,7 @@
 import type { Result } from '@ethersproject/abi'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { hexStripZeros } from '@ethersproject/bytes'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { labelhash } from '../utils/labels'
 import { namehash as makeNamehash } from '../utils/normalise'
 import { checkIsDotEth } from '../utils/validation'
@@ -14,7 +14,7 @@ type Owner = {
 }
 
 const singleContractOwnerRaw = async (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   contract: 'nameWrapper' | 'registry' | 'registrar',
   namehash: string,
   labels: string[],
@@ -51,7 +51,7 @@ const singleContractOwnerRaw = async (
 }
 
 const raw = async (
-  { contracts, multicallWrapper }: ENSArgs<'contracts' | 'multicallWrapper'>,
+  { contracts, multicallWrapper }: FNSArgs<'contracts' | 'multicallWrapper'>,
   name: string,
   contract?: 'nameWrapper' | 'registry' | 'registrar',
 ) => {
@@ -115,7 +115,7 @@ const decode = async (
     contracts,
     multicallWrapper,
     gqlInstance,
-  }: ENSArgs<'contracts' | 'multicallWrapper' | 'gqlInstance'>,
+  }: FNSArgs<'contracts' | 'multicallWrapper' | 'gqlInstance'>,
   data: string,
   name: string,
   contract?: 'nameWrapper' | 'registry' | 'registrar',

@@ -35,11 +35,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     'PublicResolver',
     await ethers.getSigner(owner),
   )
-  const registrar = await ethers.getContract('Registrar')
-  const controller = await ethers.getContract('RegistrarController')
+  const registrar = await ethers.getContract('BaseRegistrarImplementation')
+  const controller = await ethers.getContract('ETHRegistrarController')
   const wrapper = await ethers.getContract('NameWrapper')
   const controllerArtifact = await deployments.getArtifact(
-    'RegistrarController',
+    'IETHRegistrarController',
   )
 
   const bulkRenewal = await deploy('BulkRenewal', {

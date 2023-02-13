@@ -1,27 +1,27 @@
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
+import { hexEncodeName } from '../utils/hexEncodedName'
 
-const raw = async ({ contracts }: ENSArgs<'contracts'>, address: string) => {
-  const publicResolver = await contracts?.getPublicResolver()!
-  const reverseRegistrar = await contracts?.getReverseRegistrar()!
-  const reverseNode = await reverseRegistrar.node(address)
+const raw = async ({ contracts }: FNSArgs<'contracts'>, address: string) => {
+  const universalResolver = await contracts?.getUniversalResolver()!
+  const reverseNode = `${address.toLowerCase().substring(2)}.addr.reverse`
   return {
-    to: publicResolver.address,
-    data: publicResolver.interface.encodeFunctionData('name(bytes32)', [
-      reverseNode,
+    to: universalResolver.address,
+    data: universalResolver.interface.encodeFunctionData('reverse(bytes)', [
+      hexEncodeName(reverseNode),
     ]),
   }
 }
 
 const decode = async (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   data: string,
   address: string,
 ) => {
   if (data === null) return
-  const universalResolver = await contracts?.getPublicResolver()!
+  const universalResolver = await contracts?.getUniversalResolver()!
   try {
     const result = universalResolver.interface.decodeFunctionResult(
-      'name(bytes32)',
+      'reverse(bytes)',
       data,
     )
     return {

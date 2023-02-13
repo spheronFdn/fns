@@ -29,7 +29,7 @@ import type {
 export interface RootInterface extends Interface {
   functions: {
     'controllers(address)': FunctionFragment
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'isOwner(address)': FunctionFragment
     'lock(bytes32)': FunctionFragment
     'locked(bytes32)': FunctionFragment
@@ -44,7 +44,7 @@ export interface RootInterface extends Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | 'controllers'
-      | 'ens'
+      | 'fns'
       | 'isOwner'
       | 'lock'
       | 'locked'
@@ -60,7 +60,7 @@ export interface RootInterface extends Interface {
     functionFragment: 'controllers',
     values: [PromiseOrValue<string>],
   ): string
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'isOwner',
     values: [PromiseOrValue<string>],
@@ -96,7 +96,7 @@ export interface RootInterface extends Interface {
   ): string
 
   decodeFunctionResult(functionFragment: 'controllers', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'isOwner', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'lock', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'locked', data: BytesLike): Result
@@ -165,7 +165,7 @@ export interface Root extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[boolean]>
 
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     isOwner(
       addr: PromiseOrValue<string>,
@@ -217,7 +217,7 @@ export interface Root extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<boolean>
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   isOwner(
     addr: PromiseOrValue<string>,
@@ -269,7 +269,7 @@ export interface Root extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<boolean>
 
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     isOwner(
       addr: PromiseOrValue<string>,
@@ -329,7 +329,7 @@ export interface Root extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     isOwner(
       addr: PromiseOrValue<string>,
@@ -382,7 +382,7 @@ export interface Root extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>
 
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     isOwner(
       addr: PromiseOrValue<string>,

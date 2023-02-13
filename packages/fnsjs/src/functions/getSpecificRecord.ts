@@ -2,12 +2,12 @@ import { formatsByCoinType, formatsByName } from '@ensdomains/address-encoder'
 import { BigNumber } from '@ethersproject/bignumber'
 import { arrayify, hexStripZeros, isBytesLike } from '@ethersproject/bytes'
 import { toUtf8String } from '@ethersproject/strings'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { decodeContenthash } from '../utils/contentHash'
 import { namehash } from '../utils/normalise'
 
 export const _getContentHash = {
-  raw: async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
+  raw: async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
     const publicResolver = await contracts?.getPublicResolver()!
     return {
       to: '0x0000000000000000000000000000000000000000',
@@ -16,7 +16,7 @@ export const _getContentHash = {
       ]),
     }
   },
-  decode: async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+  decode: async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
     let response: any
     const publicResolver = await contracts?.getPublicResolver()!
     try {
@@ -49,14 +49,14 @@ export const _getContentHash = {
 
 export const getContentHash = {
   raw: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     name: string,
   ) => {
     const prData = await _getContentHash.raw({ contracts }, name)
     return universalWrapper.raw(name, prData.data)
   },
   decode: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     data: string,
   ) => {
     const urData = await universalWrapper.decode(data)
@@ -67,7 +67,7 @@ export const getContentHash = {
 
 export const _getText = {
   raw: async (
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     name: string,
     key: string,
   ) => {
@@ -80,7 +80,7 @@ export const _getText = {
       ]),
     }
   },
-  decode: async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+  decode: async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
     const publicResolver = await contracts?.getPublicResolver()!
     const [response] = publicResolver.interface.decodeFunctionResult(
       'text',
@@ -95,7 +95,7 @@ export const _getText = {
 
 export const getText = {
   raw: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     name: string,
     key: string,
   ) => {
@@ -103,7 +103,7 @@ export const getText = {
     return universalWrapper.raw(name, prData.data)
   },
   decode: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     data: string,
   ) => {
     const urData = await universalWrapper.decode(data)
@@ -114,7 +114,7 @@ export const getText = {
 
 export const _getAddr = {
   raw: async (
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     name: string,
     coinType?: string | number,
     bypassFormat?: boolean,
@@ -163,7 +163,7 @@ export const _getAddr = {
     }
   },
   decode: async (
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     data: string,
     _name: string,
     coinType?: string | number,
@@ -218,7 +218,7 @@ export const _getAddr = {
 
 export const getAddr = {
   raw: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     name: string,
     coinType?: string | number,
   ) => {
@@ -226,7 +226,7 @@ export const getAddr = {
     return universalWrapper.raw(name, prData.data)
   },
   decode: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     data: string,
     _name: string,
     coinType?: string | number,
@@ -245,7 +245,7 @@ export const getAddr = {
 const supportedContentTypes = '0xf'
 
 export const _getABI = {
-  raw: async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
+  raw: async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
     const publicResolver = await contracts?.getPublicResolver()!
     return {
       to: '0x0000000000000000000000000000000000000000',
@@ -255,7 +255,7 @@ export const _getABI = {
       ]),
     }
   },
-  decode: async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+  decode: async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
     const publicResolver = await contracts?.getPublicResolver()!
     const [bnContentType, encodedABIData] =
       publicResolver.interface.decodeFunctionResult('ABI', data)
@@ -313,14 +313,14 @@ export const _getABI = {
 
 export const getABI = {
   raw: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     name: string,
   ) => {
     const prData = await _getABI.raw({ contracts }, name)
     return universalWrapper.raw(name, prData.data)
   },
   decode: async (
-    { contracts, universalWrapper }: ENSArgs<'contracts' | 'universalWrapper'>,
+    { contracts, universalWrapper }: FNSArgs<'contracts' | 'universalWrapper'>,
     data: string,
   ) => {
     const urData = await universalWrapper.decode(data)

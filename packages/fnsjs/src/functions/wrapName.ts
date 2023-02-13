@@ -1,14 +1,14 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { Signer } from '@ethersproject/abstract-signer'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { CombinedFuseInput, encodeFuses } from '../utils/fuses'
 import { hexEncodeName } from '../utils/hexEncodedName'
 import { checkIsDotEth } from '../utils/validation'
 import { Expiry, wrappedLabelLengthCheck } from '../utils/wrapper'
 
 async function wrapETH(
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   labels: string[],
   wrappedOwner: string,
   decodedFuses: number,
@@ -32,7 +32,7 @@ async function wrapETH(
 }
 
 async function wrapOther(
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   name: string,
   wrappedOwner: string,
   resolverAddress: string,
@@ -61,7 +61,7 @@ async function wrapOther(
 }
 
 export default async function (
-  { contracts, signer }: ENSArgs<'contracts' | 'signer'>,
+  { contracts, signer }: FNSArgs<'contracts' | 'signer'>,
   name: string,
   {
     wrappedOwner,

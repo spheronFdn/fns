@@ -1,4 +1,4 @@
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { parseInputType } from '../utils/validation'
 
 type ProfileOptions = {
@@ -9,14 +9,14 @@ type ProfileOptions = {
 }
 
 export default async function (
-  { getProfile }: ENSArgs<'getProfile'>,
+  { getProfile }: FNSArgs<'getProfile'>,
   name: string,
   options?: ProfileOptions,
 ) {
   const inputType = parseInputType(name)
 
   if (inputType.type !== 'name' && inputType.type !== 'label') {
-    throw new Error('Input must be an ENS name')
+    throw new Error('Input must be an FNS name')
   }
 
   return getProfile(name, options)

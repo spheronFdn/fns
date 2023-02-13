@@ -17,20 +17,20 @@ import writeTx from './utils/writeTx'
 
 export type { ChildFuses, ParentFuses } from './utils/fuses'
 
-type ENSOptions = {
+type FNSOptions = {
   graphURI?: string | null
   getContractAddress?: typeof _getContractAddress
 }
 
-export type InternalENS = {
-  options?: ENSOptions
+export type InternalFNS = {
+  options?: FNSOptions
   provider?: Provider
   signer: JsonRpcSigner
   graphURI?: string | null
-} & ENS
+} & FNS
 
-export type ENSArgs<K extends keyof InternalENS> = {
-  [P in K]: InternalENS[P]
+export type FNSArgs<K extends keyof InternalFNS> = {
+  [P in K]: InternalFNS[P]
 }
 
 type OmitFirstArg<F> = F extends (x: any, ...args: infer P) => infer R
@@ -142,10 +142,10 @@ export type FunctionSubtype =
   | 'write'
   | 'populateTransaction'
 
-export class ENS {
+export class FNS {
   [x: string]: any
 
-  protected options?: ENSOptions
+  protected options?: FNSOptions
 
   protected provider?: JsonRpcProvider
 
@@ -159,7 +159,7 @@ export class ENS {
 
   gqlInstance = new GqlManager()
 
-  constructor(options?: ENSOptions) {
+  constructor(options?: FNSOptions) {
     this.options = options
     this.getContractAddress = options?.getContractAddress || _getContractAddress
   }
@@ -176,9 +176,9 @@ export class ENS {
   }
 
   /**
-   * Creates an object of ENS properties from an array
-   * @param {FunctionDeps} dependencies - An array of ENS properties
-   * @returns {Object} - An object of ENS properties
+   * Creates an object of FNS properties from an array
+   * @param {FunctionDeps} dependencies - An array of FNS properties
+   * @returns {Object} - An object of FNS properties
    */
   protected forwardDependenciesFromArray = <F>(
     dependencies: FunctionDeps<F>,
@@ -186,7 +186,7 @@ export class ENS {
     // Creates an object from entries of the array
     Object.fromEntries(
       // Maps over dependencies and create arrays for each, e.g. ['contracts', contractObj]
-      dependencies.map((dep) => [dep, this[dep as keyof InternalENS]]),
+      dependencies.map((dep) => [dep, this[dep as keyof InternalFNS]]),
     )
 
   // eslint-disable-next-line class-methods-use-this
@@ -216,7 +216,7 @@ export class ENS {
   /**
    * Creates a wrapper for a function to be dynamically imported, with the correct dependencies passed in
    * @param {string} path - The path of the exported function
-   * @param {FunctionDeps} dependencies - An array of ENS properties
+   * @param {FunctionDeps} dependencies - An array of FNS properties
    * @param {string} exportName - The export name of the target function
    * @param {string} subFunc - The type of function being imported
    * @returns {Function} - The generated wrapped function
@@ -328,7 +328,7 @@ export class ENS {
   /**
    * Generates a normal wrapped function
    * @param {string} path - The path of the exported function
-   * @param {FunctionDeps} dependencies - An array of ENS properties
+   * @param {FunctionDeps} dependencies - An array of FNS properties
    * @param {string} exportName - The export name of the target function
    * @returns {OmitFirstArg} - The generated wrapped function
    */
@@ -342,7 +342,7 @@ export class ENS {
   /**
    * Generates a write wrapped function
    * @param {string} path - The path of the exported function
-   * @param {FunctionDeps} dependencies - An array of ENS properties
+   * @param {FunctionDeps} dependencies - An array of FNS properties
    * @param {string} exportName - The export name of the target function
    * @returns {OmitFirstArg} - The generated wrapped function
    */
@@ -361,7 +361,7 @@ export class ENS {
   /**
    * Generates a wrapped function from raw and decode exports
    * @param {string} path - The path of the exported function
-   * @param {FunctionDeps} dependencies - An array of ENS properties
+   * @param {FunctionDeps} dependencies - An array of FNS properties
    * @param {string} exportName - The export name of the target function
    * @returns {GeneratedRawFunction} - The generated wrapped function
    */
@@ -378,7 +378,7 @@ export class ENS {
     ) as GeneratedRawFunction<F>
 
   /**
-   * Sets the provider for the ENS class
+   * Sets the provider for the FNS class
    * @param {JsonRpcProvider} provider - The provider to set
    * @returns {Promise<void>} - A promise that resolves when the provider is set
    */
@@ -400,14 +400,14 @@ export class ENS {
   }
 
   /**
-   * Creates a new ENS instance with a different provider, ideally should be used individually with any given function
+   * Creates a new FNS instance with a different provider, ideally should be used individually with any given function
    * @param {JsonRpcProvider} provider - The provider to use
-   * @returns {ENS} - A new ENS instance with the given provider
+   * @returns {FNS} - A new FNS instance with the given provider
    */
-  public withProvider = (provider: JsonRpcProvider): ENS => {
-    const newENS = new ENS(this.options)
-    newENS.initialProvider = provider
-    return newENS
+  public withProvider = (provider: JsonRpcProvider): FNS => {
+    const newFNS = new FNS(this.options)
+    newFNS.initialProvider = provider
+    return newFNS
   }
 
   public batch = this.generateRawFunction<FunctionTypes['batch']>(
@@ -548,6 +548,26 @@ export class ENS {
     ['contracts'],
   )
 
+  public getAddress = this.generateRawFunction<FunctionTypes['getAddress']>(
+    'getAddress',
+    ['contracts'],
+  )
+
+  public getContent = this.generateRawFunction<FunctionTypes['getContent']>(
+    'getContent',
+    ['contracts'],
+  )
+
+  public getNameNode = this.generateRawFunction<FunctionTypes['getNameNode']>(
+    'getNameNode',
+    ['contracts'],
+  )
+
+  public getAddrName = this.generateRawFunction<FunctionTypes['getAddrName']>(
+    'getAddrName',
+    ['contracts'],
+  )
+
   public getDecryptedName = this.generateRawFunction<
     FunctionTypes['getDecryptedName']
   >('getDecryptedName', ['contracts', 'gqlInstance'])
@@ -625,7 +645,7 @@ export class ENS {
 
   public transferSubname = this.generateWriteFunction<
     FunctionTypes['transferSubname']
-  >('transferSubname', ['contracts', 'getExpiry'])
+  >('transferSubname', ['contracts'])
 
   public commitName = this.generateWriteFunction<FunctionTypes['commitName']>(
     'commitName',

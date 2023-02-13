@@ -1,16 +1,16 @@
 import { ethers } from 'ethers'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 import { unnamedUserSettableFuses, userSettableFuseEnum } from '../utils/fuses'
 import { namehash } from '../utils/normalise'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 let provider: ethers.providers.JsonRpcProvider
 let accounts: string[]
 
 beforeAll(async () => {
-  ;({ ensInstance, revert, provider } = await setup())
+  ;({ fnsInstance, revert, provider } = await setup())
   accounts = await provider.listAccounts()
 })
 
@@ -73,14 +73,14 @@ describe('setFuses', () => {
   })
   describe('Array', () => {
     it('should return a setFuses transaction from a named fuse array and succeed', async () => {
-      const tx = await ensInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.eth', {
         named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
         addressOrIndex: accounts[1],
       })
       expect(tx).toBeTruthy()
       await tx.wait()
 
-      const nameWrapper = await ensInstance.contracts!.getNameWrapper()!
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
@@ -90,26 +90,26 @@ describe('setFuses', () => {
       ])
     })
     it('should return a setFuses transaction from an unnamed fuse array and succeed', async () => {
-      const tx0 = await ensInstance.setFuses('wrapped.eth', {
+      const tx0 = await fnsInstance.setFuses('wrapped.eth', {
         named: ['CANNOT_UNWRAP'],
         addressOrIndex: accounts[1],
       })
       expect(tx0).toBeTruthy()
       await tx0.wait()
 
-      const tx = await ensInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.eth', {
         unnamed: [128, 256, 512],
         addressOrIndex: accounts[1],
       })
       expect(tx).toBeTruthy()
       await tx.wait()
 
-      const nameWrapper = await ensInstance.contracts!.getNameWrapper()!
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
       checkUnnamedFuses(fuses, [128, 256, 512])
     })
     it('should return a setFuses transaction from both an unnamed and named fuse array and succeed', async () => {
-      const tx = await ensInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.eth', {
         named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
         unnamed: [128, 256, 512],
         addressOrIndex: accounts[1],
@@ -117,7 +117,7 @@ describe('setFuses', () => {
       expect(tx).toBeTruthy()
       await tx.wait()
 
-      const nameWrapper = await ensInstance.contracts!.getNameWrapper()!
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
@@ -129,7 +129,7 @@ describe('setFuses', () => {
     })
     it('should throw an error when trying to burn a named fuse in an unnamed fuse array', async () => {
       try {
-        await ensInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.eth', {
           unnamed: [32] as any,
           addressOrIndex: accounts[1],
         })
@@ -142,7 +142,7 @@ describe('setFuses', () => {
     })
     it('should throw an error when trying to burn an unnamed fuse in a named fuse array', async () => {
       try {
-        await ensInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.eth', {
           named: ['COOL_SWAG_FUSE'] as any,
         })
         expect(false).toBeTruthy()
@@ -153,14 +153,14 @@ describe('setFuses', () => {
   })
   describe('Number', () => {
     it('should return a setFuses transaction from a number and succeed', async () => {
-      const tx = await ensInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.eth', {
         number: 49,
         addressOrIndex: accounts[1],
       })
       expect(tx).toBeTruthy()
       await tx.wait()
 
-      const nameWrapper = await ensInstance.contracts!.getNameWrapper()!
+      const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
@@ -171,7 +171,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is too high', async () => {
       try {
-        await ensInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.eth', {
           number: 4294967297,
           addressOrIndex: accounts[1],
         })
@@ -184,7 +184,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is too low', async () => {
       try {
-        await ensInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.eth', {
           number: -1,
           addressOrIndex: accounts[1],
         })
@@ -197,7 +197,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is not an integer', async () => {
       try {
-        await ensInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.eth', {
           number: 7.5,
         })
         expect(false).toBeTruthy()
@@ -210,8 +210,8 @@ describe('setFuses', () => {
 
 describe('setChildFuses', () => {
   it('should return a setChildFuses transaction and succeed', async () => {
-    const nameWrapper = await ensInstance.contracts!.getNameWrapper()!
-    const setParentTx = await ensInstance.setFuses(
+    const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
+    const setParentTx = await fnsInstance.setFuses(
       'wrapped-with-subnames.eth',
       {
         named: ['CANNOT_UNWRAP'],
@@ -221,7 +221,7 @@ describe('setChildFuses', () => {
     expect(setParentTx).toBeTruthy()
     await setParentTx.wait()
 
-    const tx = await ensInstance.setChildFuses(
+    const tx = await fnsInstance.setChildFuses(
       'test.wrapped-with-subnames.eth',
       {
         fuses: 65537,

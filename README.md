@@ -4,8 +4,7 @@ The FNS Javascript Library is the ultimate solution for working with the FNS on 
 
 ## NOTE!!!
 
-FNSjs is currently in the early development stage, meaning that the APIs are subject to change.
-We also use undeployed contracts under the hood, so this **will not** work on any mainnet/testnet where the contracts are not deployed.
+FNSjs is currently in the early development stage, meaning that the projects are subject to change.
 
 Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
 
@@ -14,11 +13,15 @@ Given the current development status, we're actively seeking feedback so feel fr
 
 - Dynamically load **everything**
 - Super fast response times (1 call for most RPC calls)
-- Easy call batchability
 - Written in TypeScript
 - Supports the most cutting edge FNS features
-- - More
+- More
 
+
+## Installation
+```sh
+yarn addd https://github.com/spheronFdn/fnsjs/tree/main/packages/fnsjs
+```
 
 ## Getting Started
 
@@ -26,7 +29,7 @@ All that's needed to get started is an ethers provider instance(https://filecoin
 Once you create a new FNS instance, you can pass it in using setProvider.
 
 ```js
-import { FNS } from '@spheron/fnsjs'
+import { FNS } from '@spheron/fnslib'
 import { ethers } from 'ethers'
 
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
@@ -42,43 +45,34 @@ If using FNSjs with Node, you may need to pass the `--experimental-specifier-res
 node --experimental-specifier-resolution=node ./index.js
 ```
 
-## Batching Calls
-
-The batch function is a large part of this library, and there are plenty of situations where you might want to use it.
-**Note that only functions with the `GeneratedRawFunction` type can be batched together.**
-
-```js
-/* Batch functions can be called like so, with the function as the first item in an array, with the following items being the function's arguments */
-const batched = await FNSInstance.batch(
-  FNSInstance.getText.batch('test.eth', 'foo'),
-  FNSInstance.getAddr.batch('test.eth'),
-  FNSInstance.getOwner.batch('test.eth'),
-)
-
-/* The response is formatted like so:
-  [
-    response1,
-    response2,
-    response3,
-    ...etc,
-  ]
-*/
-```
-
 ## Single-use Providers
 
 If you want to use a specific provider to make a single call occasionally, you can easily do so.
 
 ```js
-import { FNS } from '@ensdomains/ensjs'
+import { FNS } from '@spheron/fnslib'
 
 const FNSInstance = new FNS()
 
 const callWithProvider = await FNSInstance.withProvider(otherProvider).getText(
-  'test.eth',
+  'vitalik.fil',
   'foo',
 )
 ```
+## Name Availability 
+Check if a name is available to be registered on the FEVM Naming Service.
+
+```js
+const name = "vitalik.fil"
+const isAvailable = await FNSInstance.getAvailable(name);
+```
+## Price
+View the current price of registering or updating a name on the FEVM Naming Service. The price is determined by market demand and is subject to change.
+
+```js
+const name = "vitalik.fil"
+const price = await FNSInstance.getPrice(name, duration);
+``` 
 
 ## Profiles
 
@@ -95,24 +89,34 @@ For addresses, this means the "match" property (a boolean value for matching rev
 
 ```js
 /* Normal profile fetching */
-const profile = await FNSInstance.getProfile('test.eth')
+const profile = await FNSInstance.getProfile('vitalik.fil')
+
+/* Normal address fetching */
+const address = await FNSInstance.getAddress('vitalik.fil')
+
+/* Normal content fetching */
+const contentHash = await FNSInstance.getContent('vitalik.fil')
+
+/* Get Name from Address */
+const node = await FNSInstance.getNameNode(address);
+const name = await FNSInstance.getAddrName(node);
 
 /* Profile fetching from an address */
 const profile = await FNSInstance.getProfile(
-  '0xeefB13C7D42eFCc655E528dA6d6F7bBcf9A2251d',
+  '0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5',
 )
 
 /* Get all records of a specific type (or multiple) */
-const profile = await FNSInstance.getProfile('test.eth', {
+const profile = await FNSInstance.getProfile('vitalik.fil', {
   texts: true,
   coinTypes: true,
   contentHash: true,
 })
 
 /* Get specific records */
-const profile = await FNSInstance.getProfile('test.eth', {
+const profile = await FNSInstance.getProfile('vitalik.fil', {
   texts: ['foo'],
-  coinTypes: ['ETH'],
+  coinTypes: ['FIL'],
 })
 ```
 
@@ -153,6 +157,18 @@ function, where a contract needs to be specified.
 
 Currently, some write functions have an `options` argument. While this may expand over time,
 it currently just allows you to pass an address or index for an account array to ethers for specifying the signer of the transaction.
+
+## Register A Name
+```js
+/* write operation to register name */
+await FNSInstance.register('aromedev.fil', address, duration, { value: 2000 });
+/* write operation to set record */
+await FNSInstance.setRecord('arome.fil', {
+    type: 'contentHash',
+    record: ipfsHash,
+    resolverAddress
+})
+```
 
 ## Internal Structure
 
@@ -196,27 +212,6 @@ It allows `withProvider` to act as a new FNS instance without having to await a 
 
 Utils can be imported at follows
 `import { encodeContenthash } from '@ensdomains/ensjs/utils/contentHash'`
-
-### getFuses
-
-Gets the fuses for a specified wrapped name.
-
-Input:
-
-- `name`: string
-  - Target name
-
-Output:
-
-- `fuseObj`: object
-  - Decoded known fuses
-- `vulnerability`: string
-  - Vulnerability for name
-  - Will be "Safe" if no vulnerability
-- `vulnerableNode`: string | null
-  - Node that is vulnerable in chain
-- `rawFuses`: BigNumber
-  - Unformatted fuse result
 
 
 ### getName

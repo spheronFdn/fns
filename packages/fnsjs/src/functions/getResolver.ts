@@ -1,8 +1,8 @@
 import { hexStripZeros } from '@ethersproject/bytes'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { hexEncodeName } from '../utils/hexEncodedName'
 
-const raw = async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
+const raw = async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
   const universalResolver = await contracts?.getUniversalResolver()!
   return {
     to: universalResolver.address,
@@ -12,7 +12,7 @@ const raw = async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
   }
 }
 
-const decode = async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+const decode = async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
   const universalResolver = await contracts?.getUniversalResolver()!
   const response = universalResolver.interface.decodeFunctionResult(
     'findResolver',

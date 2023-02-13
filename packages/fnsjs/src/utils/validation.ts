@@ -43,7 +43,7 @@ export const parseInputType = (input: string): InputType => {
     const termArray = input.split('.')
     const tld = input.match(regex) ? input.match(regex)![0] : ''
     if (validTLD) {
-      if (tld === 'eth' && [...termArray[termArray.length - 2]].length < 3) {
+      if (tld === 'fil' && [...termArray[termArray.length - 2]].length < 3) {
         // code-point length
         return {
           type: 'name',
@@ -72,4 +72,4 @@ export const parseInputType = (input: string): InputType => {
 }
 
 export const checkIsDotEth = (labels: string[]) =>
-  labels.length === 2 && labels[1] === 'eth'
+  labels.length === 2 && labels[1] === 'fil'

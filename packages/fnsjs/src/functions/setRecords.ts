@@ -1,4 +1,4 @@
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { namehash } from '../utils/normalise'
 import { generateRecordCallArray, RecordOptions } from '../utils/recordHelpers'
 
@@ -8,7 +8,7 @@ export default async function (
     provider,
     getResolver,
     signer,
-  }: ENSArgs<'contracts' | 'provider' | 'getResolver' | 'signer'>,
+  }: FNSArgs<'contracts' | 'provider' | 'getResolver' | 'signer'>,
   name: string,
   {
     records,
@@ -19,7 +19,7 @@ export default async function (
   },
 ) {
   if (!name.includes('.')) {
-    throw new Error('Input is not an ENS name')
+    throw new Error('Input is not an FNS name')
   }
 
   let resolverToUse: string

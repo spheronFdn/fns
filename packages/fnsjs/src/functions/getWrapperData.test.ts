@@ -1,13 +1,13 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 let createSnapshot: Awaited<ReturnType<typeof setup>>['createSnapshot']
 let withWrappedSnapshot: any
 
 beforeAll(async () => {
-  ;({ ensInstance, revert, createSnapshot } = await setup())
+  ;({ fnsInstance, revert, createSnapshot } = await setup())
 
   withWrappedSnapshot = await createSnapshot()
 })
@@ -23,13 +23,13 @@ afterAll(async () => {
 
 describe('getWrapperData', () => {
   it('should return default data for an unwrapped name', async () => {
-    const result = await ensInstance.getWrapperData('with-profile.eth')
+    const result = await fnsInstance.getWrapperData('with-profile.eth')
     expect(result?.expiryDate).toBeUndefined()
     expect(result?.rawFuses).toEqual(0)
     expect(result?.child.CAN_DO_EVERYTHING).toBeTruthy()
   })
   it('should return with CAN_DO_EVERYTHING set to true for a name with no fuses burned', async () => {
-    const result = await ensInstance.getWrapperData(
+    const result = await fnsInstance.getWrapperData(
       'test.wrapped-with-subnames.eth',
     )
     expect(result).toBeTruthy()
@@ -39,13 +39,13 @@ describe('getWrapperData', () => {
     }
   })
   it('should return with other correct fuses', async () => {
-    const tx = await ensInstance.setFuses('wrapped.eth', {
+    const tx = await fnsInstance.setFuses('wrapped.eth', {
       named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
       addressOrIndex: 1,
     })
     await tx.wait()
 
-    const result = await ensInstance.getWrapperData('wrapped.eth')
+    const result = await fnsInstance.getWrapperData('wrapped.eth')
     expect(result).toBeTruthy()
     if (result) {
       expect(result.child.CAN_DO_EVERYTHING).toBe(false)
@@ -56,10 +56,9 @@ describe('getWrapperData', () => {
     }
   })
   it('should return correct expiry', async () => {
-    const result = await ensInstance.getWrapperData('wrapped.eth')
+    const result = await fnsInstance.getWrapperData('wrapped.eth')
     expect(result).toBeTruthy()
     if (result) {
-      console.log(result.expiryDate)
       expect(result.expiryDate).toBeInstanceOf(Date)
       expect(Number.isNaN(result.expiryDate?.getTime())).toBe(false)
     }

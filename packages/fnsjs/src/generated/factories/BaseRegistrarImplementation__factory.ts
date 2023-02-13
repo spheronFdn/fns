@@ -7,15 +7,15 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import type { Provider } from '@ethersproject/providers'
 import type {
-  Registrar,
-  RegistrarInterface,
-} from '../Registrar'
+  BaseRegistrarImplementation,
+  BaseRegistrarImplementationInterface,
+} from '../BaseRegistrarImplementation'
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '_ens',
         type: 'address',
       },
@@ -349,10 +349,10 @@ const _abi = [
   {
     constant: true,
     inputs: [],
-    name: 'ens',
+    name: 'fns',
     outputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '',
         type: 'address',
       },
@@ -765,19 +765,19 @@ const _abi = [
   },
 ]
 
-export class Registrar__factory {
+export class BaseRegistrarImplementation__factory {
   static readonly abi = _abi
-  static createInterface(): RegistrarInterface {
-    return new Interface(_abi) as RegistrarInterface
+  static createInterface(): BaseRegistrarImplementationInterface {
+    return new Interface(_abi) as BaseRegistrarImplementationInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider,
-  ): Registrar {
+  ): BaseRegistrarImplementation {
     return new Contract(
       address,
       _abi,
       signerOrProvider,
-    ) as Registrar
+    ) as BaseRegistrarImplementation
   }
 }

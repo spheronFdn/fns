@@ -4,7 +4,7 @@ import path from 'path'
 import { glob, runTypeChain } from 'typechain'
 
 const overrides = [
-  'RegistrarController',
+  'ETHRegistrarController',
   'NameWrapper',
   'PublicResolver',
   'ReverseRegistrar',
@@ -16,10 +16,7 @@ const overrides = [
 async function main() {
   const cwd = process.cwd()
 
-  const contracts = path.resolve(
-    cwd,
-    './node_modules/@ensdomains/ens-contracts'
-  )
+  const contracts = path.resolve(cwd, './node_modules/@ensdomains/ens-contracts')
   if (!fs.existsSync(contracts)) {
     throw new Error('@ensdomains/ens-contracts not found')
   }

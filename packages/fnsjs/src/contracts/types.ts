@@ -1,8 +1,13 @@
-export type SupportedNetworkId = '3141'
+export type SupportedNetworkId = '1' | '3' | '4' | '5' | '1337' | '3141'
 
 export type ContractName =
-  | 'Registrar'
-  | 'RegistrarController'
+  | 'BaseRegistrarImplementation'
+  | 'ETHRegistrarController'
+  | 'Multicall'
+  | 'NameWrapper'
+  | 'DNSRegistrar'
   | 'PublicResolver'
-  | 'FNSRegistry'
+  | 'ENSRegistry'
   | 'ReverseRegistrar'
+  | 'UniversalResolver'
+  | 'BulkRenewal'

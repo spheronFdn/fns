@@ -1,5 +1,5 @@
 import { hexStripZeros } from '@ethersproject/bytes'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { hexDecodeName } from '../utils/hexEncodedName'
 import {
   checkIsDecrypted,
@@ -10,7 +10,7 @@ import {
 import { namehash } from '../utils/normalise'
 
 const raw = async (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   name: string,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   allowIncomplete?: boolean,
@@ -43,7 +43,7 @@ const generateNameQuery = (labels: string[]) => {
 }
 
 const decode = async (
-  { contracts, gqlInstance }: ENSArgs<'contracts' | 'gqlInstance'>,
+  { contracts, gqlInstance }: FNSArgs<'contracts' | 'gqlInstance'>,
   data: string,
   name: string,
   allowIncomplete: boolean = false,

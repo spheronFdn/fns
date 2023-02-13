@@ -22,7 +22,7 @@ const _abi = [
         type: 'address',
       },
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '_ens',
         type: 'address',
       },
@@ -104,7 +104,7 @@ const _abi = [
     name: 'ens',
     outputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '',
         type: 'address',
       },

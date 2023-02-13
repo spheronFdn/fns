@@ -1,18 +1,18 @@
 import { BigNumber } from 'ethers'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 
 beforeAll(async () => {
-  ;({ ensInstance } = await setup())
+  ;({ fnsInstance } = await setup())
 })
 
 const yearCost = BigNumber.from('8561643835626')
 
 describe('getPrice', () => {
   it('should return a base and premium price for a name', async () => {
-    const { base, premium } = (await ensInstance.getPrice(
+    const { base, premium } = (await fnsInstance.getPrice(
       'test123',
       86400,
       false,
@@ -22,7 +22,7 @@ describe('getPrice', () => {
   })
 
   it('should return a base and premium price for an array of names', async () => {
-    const { base, premium } = (await ensInstance.getPrice(
+    const { base, premium } = (await fnsInstance.getPrice(
       ['test123', 'to-be-renewed'],
       86400,
       false,
@@ -33,7 +33,7 @@ describe('getPrice', () => {
 
   describe('legacy mode', () => {
     it('should return a base and premium price for a name', async () => {
-      const { base, premium } = (await ensInstance.getPrice(
+      const { base, premium } = (await fnsInstance.getPrice(
         'test123',
         86400,
         true,
@@ -43,7 +43,7 @@ describe('getPrice', () => {
     })
 
     it('should return a base and premium price for an array of names', async () => {
-      const { base, premium } = (await ensInstance.getPrice(
+      const { base, premium } = (await fnsInstance.getPrice(
         ['test123', 'to-be-renewed'],
         86400,
         true,

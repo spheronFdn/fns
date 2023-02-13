@@ -1,13 +1,13 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 import { hexEncodeName } from '../utils/hexEncodedName'
 import { namehash } from '../utils/normalise'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 
 beforeAll(async () => {
-  ;({ ensInstance, revert } = await setup())
+  ;({ fnsInstance, revert } = await setup())
 })
 
 afterAll(async () => {
@@ -16,7 +16,7 @@ afterAll(async () => {
 
 describe('setRecords', () => {
   it('should return a transaction to the resolver and set successfully', async () => {
-    const tx = await ensInstance.setRecords('test123.eth', {
+    const tx = await fnsInstance.setRecords('test123.eth', {
       records: {
         coinTypes: [
           {
@@ -32,8 +32,8 @@ describe('setRecords', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedText = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('text', [

@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { namehash } from '../utils/normalise'
 import { checkIsDotEth } from '../utils/validation'
 
@@ -11,7 +11,7 @@ type Args = {
 }
 
 const getRegistrarExpiry = async (
-  { contracts, multicallWrapper }: ENSArgs<'contracts' | 'multicallWrapper'>,
+  { contracts, multicallWrapper }: FNSArgs<'contracts' | 'multicallWrapper'>,
   labels: string[],
 ) => {
   if (labels.length > 2 || labels[1] !== 'eth') {
@@ -39,7 +39,7 @@ const getRegistrarExpiry = async (
 }
 
 const getWrapperExpiry = async (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   labels: string[],
 ) => {
   const nameWrapper = await contracts?.getNameWrapper()!
@@ -64,7 +64,7 @@ const getContractToUse = (
 }
 
 const raw = async (
-  ensArgs: ENSArgs<'contracts' | 'multicallWrapper'>,
+  fnsArgs: FNSArgs<'contracts' | 'multicallWrapper'>,
   name: string,
   { contract }: Args = {},
 ) => {
@@ -73,12 +73,12 @@ const raw = async (
   const contractToUse = getContractToUse(contract, labels)
 
   return contractToUse === 'nameWrapper'
-    ? getWrapperExpiry(ensArgs, labels)
-    : getRegistrarExpiry(ensArgs, labels)
+    ? getWrapperExpiry(fnsArgs, labels)
+    : getRegistrarExpiry(fnsArgs, labels)
 }
 
 const decodeRegistrarExpiry = async (
-  { contracts, multicallWrapper }: ENSArgs<'contracts' | 'multicallWrapper'>,
+  { contracts, multicallWrapper }: FNSArgs<'contracts' | 'multicallWrapper'>,
   data: string,
 ) => {
   const result = await multicallWrapper.decode(data)
@@ -102,7 +102,7 @@ const decodeRegistrarExpiry = async (
 }
 
 const decodeWrapperExpiry = async (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   data: string,
 ) => {
   const nameWrapper = await contracts?.getNameWrapper()!
@@ -121,7 +121,7 @@ const decodeWrapperExpiry = async (
 }
 
 const decode = async (
-  ensArgs: ENSArgs<'contracts' | 'multicallWrapper'>,
+  ensArgs: FNSArgs<'contracts' | 'multicallWrapper'>,
   data: string,
   name: string,
   { contract }: Args = {},

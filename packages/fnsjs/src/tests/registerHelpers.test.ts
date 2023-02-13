@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
-import { ENS } from '../index'
-import type { ETHRegistrarController, PublicResolver } from '../generated/index'
+import { FNS } from '../index'
+import type { FILRegistrarController, PublicResolver } from '../generated/index'
 import {
   makeCommitment,
   makeCommitmentData,
@@ -10,18 +10,18 @@ import {
 } from '../utils/registerHelpers'
 import setup from './setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let provider: ethers.providers.JsonRpcProvider
 let accounts: string[]
 let publicResolver: PublicResolver
-let controller: ETHRegistrarController
+let controller: FILRegistrarController
 let baseData: Partial<RegistrationParams>
 
 beforeAll(async () => {
-  ;({ ensInstance, provider } = await setup())
+  ;({ fnsInstance, provider } = await setup())
   accounts = await provider.listAccounts()
-  publicResolver = await ensInstance.contracts!.getPublicResolver()!
-  controller = await ensInstance.contracts!.getEthRegistrarController()!
+  publicResolver = await fnsInstance.contracts!.getPublicResolver()!
+  controller = await fnsInstance.contracts!.getEthRegistrarController()!
   baseData = {
     name: 'test.eth',
     owner: accounts[1],

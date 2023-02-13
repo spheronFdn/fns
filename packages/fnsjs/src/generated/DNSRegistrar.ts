@@ -41,7 +41,7 @@ export declare namespace DNSSEC {
 export interface DNSRegistrarInterface extends Interface {
   functions: {
     'claim(bytes,bytes)': FunctionFragment
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'oracle()': FunctionFragment
     'proveAndClaim(bytes,(bytes,bytes)[],bytes)': FunctionFragment
     'proveAndClaimWithResolver(bytes,(bytes,bytes)[],bytes,address,address)': FunctionFragment
@@ -54,7 +54,7 @@ export interface DNSRegistrarInterface extends Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | 'claim'
-      | 'ens'
+      | 'fns'
       | 'oracle'
       | 'proveAndClaim'
       | 'proveAndClaimWithResolver'
@@ -68,7 +68,7 @@ export interface DNSRegistrarInterface extends Interface {
     functionFragment: 'claim',
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>],
   ): string
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(functionFragment: 'oracle', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'proveAndClaim',
@@ -103,7 +103,7 @@ export interface DNSRegistrarInterface extends Interface {
   ): string
 
   decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'oracle', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'proveAndClaim',
@@ -200,7 +200,7 @@ export interface DNSRegistrar extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<ContractTransaction>
 
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     oracle(overrides?: CallOverrides): Promise<[string]>
 
@@ -249,7 +249,7 @@ export interface DNSRegistrar extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   oracle(overrides?: CallOverrides): Promise<string>
 
@@ -298,7 +298,7 @@ export interface DNSRegistrar extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<void>
 
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     oracle(overrides?: CallOverrides): Promise<string>
 
@@ -369,7 +369,7 @@ export interface DNSRegistrar extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>
 
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     oracle(overrides?: CallOverrides): Promise<BigNumber>
 
@@ -419,7 +419,7 @@ export interface DNSRegistrar extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>
 
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>
 

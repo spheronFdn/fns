@@ -24,16 +24,16 @@ import type {
 
 export interface DefaultReverseResolverInterface extends Interface {
   functions: {
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'name(bytes32)': FunctionFragment
     'setName(bytes32,string)': FunctionFragment
   }
 
   getFunction(
-    nameOrSignatureOrTopic: 'ens' | 'name' | 'setName',
+    nameOrSignatureOrTopic: 'fns' | 'name' | 'setName',
   ): FunctionFragment
 
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'name',
     values: [PromiseOrValue<BytesLike>],
@@ -43,7 +43,7 @@ export interface DefaultReverseResolverInterface extends Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>],
   ): string
 
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'setName', data: BytesLike): Result
 
@@ -77,7 +77,7 @@ export interface DefaultReverseResolver extends BaseContract {
   removeListener: OnEvent<this>
 
   functions: {
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     name(
       arg0: PromiseOrValue<BytesLike>,
@@ -91,7 +91,7 @@ export interface DefaultReverseResolver extends BaseContract {
     ): Promise<ContractTransaction>
   }
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   name(
     arg0: PromiseOrValue<BytesLike>,
@@ -105,7 +105,7 @@ export interface DefaultReverseResolver extends BaseContract {
   ): Promise<ContractTransaction>
 
   callStatic: {
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     name(
       arg0: PromiseOrValue<BytesLike>,
@@ -122,7 +122,7 @@ export interface DefaultReverseResolver extends BaseContract {
   filters: {}
 
   estimateGas: {
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     name(
       arg0: PromiseOrValue<BytesLike>,
@@ -137,7 +137,7 @@ export interface DefaultReverseResolver extends BaseContract {
   }
 
   populateTransaction: {
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     name(
       arg0: PromiseOrValue<BytesLike>,

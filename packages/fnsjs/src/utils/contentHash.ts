@@ -1,4 +1,4 @@
-import contentHash from '@ensdomains/content-hash'
+import contentHash from 'content-hash'
 import { isHexString } from '@ethersproject/bytes'
 
 export type DecodedContentHash = {

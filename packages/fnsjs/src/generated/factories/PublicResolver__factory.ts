@@ -12,7 +12,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '_ens',
         type: 'address',
       },

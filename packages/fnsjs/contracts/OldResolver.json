@@ -238,7 +238,7 @@
     },
     {
       "inputs": [
-        { "internalType": "contract ENS", "name": "_ens", "type": "address" }
+        { "internalType": "contract FNS", "name": "_ens", "type": "address" }
       ],
       "payable": false,
       "stateMutability": "nonpayable",

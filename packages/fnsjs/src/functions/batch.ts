@@ -1,8 +1,8 @@
 import { TransactionRequest } from '@ethersproject/abstract-provider'
-import { BatchFunctionResult, ENSArgs, RawFunction } from '../index'
+import { BatchFunctionResult, FNSArgs, RawFunction } from '../index'
 
 const raw = async (
-  { multicallWrapper }: ENSArgs<'multicallWrapper'>,
+  { multicallWrapper }: FNSArgs<'multicallWrapper'>,
   ...items: BatchFunctionResult<RawFunction>[]
 ) => {
   const rawDataArr: { to: string; data: string }[] = await Promise.all(
@@ -18,7 +18,7 @@ const raw = async (
 }
 
 const decode = async (
-  { multicallWrapper }: ENSArgs<'multicallWrapper'>,
+  { multicallWrapper }: FNSArgs<'multicallWrapper'>,
   data: string,
   passthrough: TransactionRequest & { passthrough?: any }[],
   ...items: BatchFunctionResult<RawFunction>[]

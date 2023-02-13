@@ -4,18 +4,18 @@ import { parse, print, visit } from 'graphql/language'
 import traverse from 'traverse'
 import ContractManager from './contracts/index'
 import { SupportedNetworkId } from './contracts/types'
-import { ENS, FunctionSubtype, graphURIEndpoints } from './index'
+import { FNS, FunctionSubtype, graphURIEndpoints } from './index'
 
 import type Factories from './contracts/factories'
 import type FunctionTypes from './functions/types'
 import { requestMiddleware, responseMiddleware } from './GqlManager'
 
-type Options = ConstructorParameters<typeof ENS>[0] & {
+type Options = ConstructorParameters<typeof FNS>[0] & {
   functions: Partial<FunctionTypes>
   contracts: Partial<Factories>
 }
 
-class StaticENS extends ENS {
+class StaticFNS extends FNS {
   private functions: Partial<FunctionTypes>
 
   private contractsObject: Partial<Factories>
@@ -91,4 +91,4 @@ class StaticENS extends ENS {
   }
 }
 
-export default StaticENS
+export default StaticFNS
