@@ -55,11 +55,10 @@
     "src/",
     "!src/tests"
   ],
-  "repository": "git@github.com:ensdomains/ensjs-v3.git",
-  "author": "TateB <yo@taytems.xyz>",
+  "repository": "https://github.com/spheronFdn/fns",
+  "author": "Spheron <http://spheron.network/>",
   "license": "MIT",
   "scripts": {
-    "tenv": "ens-test-env -a",
     "denv": "pnpm tenv start -ns -nb --extra-time 11368000 --verbosity 1",
     "generate-types": "ts-node scripts/runTypechain.ts",
     "generate-abis": "hardhat export-abi",
