@@ -1,6 +1,6 @@
 ## Contribution Guidelines
 
-We welcome contributions from anyone interested in helping us improve FNSjs. If you have ideas for new features, bug fixes, and improvements to the documentation, please follow the guidelines below to get started.
+We welcome contributions from anyone interested in helping us improve the Spheron FNSjs. If you have ideas for new features, bug fixes, and improvements to the documentation, please follow the guidelines below to get started.
 
 ### Code of Conduct
 Please be respectful and professional when contributing to FNSjs. We expect all the contributors to follow our code of conduct, which can be found in the [code-of-conduct.md](https://github.com/spheronFdn/fns/blob/aayush/sph-1169/.github/code-of-conduct.md) file.
@@ -16,7 +16,7 @@ Before making any changes, please fork the [FNS repository](https://github.com/s
 Use a descriptive branch name that reflects the changes you plan to make.
 
 ### Coding Standards
-Please follow the FNSjs coding standards below. It is recommended to use prettier to format the code for all the files. Add appropriate comment lines where necessary, explaining what you intend to do properly.
+Please follow the Spheron FNSjs coding standards below. It is recommended to use prettier to format the code for all the files. Add appropriate comment lines where necessary, explaining what you intend to do properly.
 
 ### Pull Requests
 When you are ready to make changes, please create a pull request on GitHub. Provide a detailed description of what you have done and why. Maintainers will review your changes and provide you with feedback.
