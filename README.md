@@ -211,7 +211,7 @@ It allows `withProvider` to act as a new FNS instance without having to await a 
 ### Utils
 
 Utils can be imported at follows
-`import { encodeContenthash } from '@ensdomains/ensjs/utils/contentHash'`
+`import { encodeContenthash } from '@spheron/fnslib/utils/contentHash'`
 
 
 ### getName
