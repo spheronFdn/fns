@@ -450,9 +450,9 @@ Output:
 - transaction
 
 ## Contribution
-We encourage you to read the [contribution guidelines](https://github.com/spheronFdn/fns/blob/aayush/sph-1169/.github/contribution-guidelines.md) to learn about our development process and how to propose bug fixes and improvements before submitting a pull request.
+We encourage you to read the [contribution guidelines](https://github.com/spheronFdn/fns/blob/main/.github/contribution-guidelines.md) to learn about our development process and how to propose bug fixes and improvements before submitting a pull request.
 
-The Spheron community extends beyond issues and pull requests! You can support Spheron [in many other ways](https://github.com/spheronFdn/fns/blob/aayush/sph-1169/.github/support.md) as well.
+The Spheron community extends beyond issues and pull requests! You can support Spheron [in many other ways](https://github.com/spheronFdn/fns/blob/main/.github/support.md) as well.
 
 ## Community
 For help, discussions or any other queries: [Join us on Discord](https://discord.com/invite/ahxuCtm)
