@@ -3,7 +3,7 @@
 We welcome contributions from anyone interested in helping us improve the Spheron FNSjs. If you have ideas for new features, bug fixes, and improvements to the documentation, please follow the guidelines below to get started.
 
 ### Code of Conduct
-Please be respectful and professional when contributing to FNSjs. We expect all the contributors to follow our code of conduct, which can be found in the [code-of-conduct.md](https://github.com/spheronFdn/fns/blob/aayush/sph-1169/.github/code-of-conduct.md) file.
+Please be respectful and professional when contributing to FNSjs. We expect all the contributors to follow our code of conduct, which can be found in the [code-of-conduct.md](https://github.com/spheronFdn/fns/blob/main/.github/code-of-conduct.md) file.
 
 ### Communication
 If you have any questions or need clarification on an issue, please contact the maintainers through [Discord](https://discord.com/invite/ahxuCtm).
