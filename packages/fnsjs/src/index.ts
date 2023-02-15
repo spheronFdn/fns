@@ -11,14 +11,13 @@ import { getContractAddress as _getContractAddress } from './contracts/getContra
 import ContractManager from './contracts/index'
 import { SupportedNetworkId } from './contracts/types'
 import type FunctionTypes from './functions/types'
-import GqlManager from './GqlManager'
 import singleCall from './utils/singleCall'
 import writeTx from './utils/writeTx'
 
 export type { ChildFuses, ParentFuses } from './utils/fuses'
 
 type FNSOptions = {
-  graphURI?: string | null
+  // graphURI?: string | null
   getContractAddress?: typeof _getContractAddress
 }
 
@@ -26,7 +25,7 @@ export type InternalFNS = {
   options?: FNSOptions
   provider?: Provider
   signer: JsonRpcSigner
-  graphURI?: string | null
+  // graphURI?: string | null
 } & FNS
 
 export type FNSArgs<K extends keyof InternalFNS> = {
@@ -76,12 +75,12 @@ interface WriteFunction<F extends (...args: any) => any> extends Function {
 }
 
 /* eslint-disable @typescript-eslint/naming-convention */
-export const graphURIEndpoints: Record<string, string> = {
-  1: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
-  3: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensropsten',
-  4: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensrinkeby',
-  5: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli',
-}
+// export const graphURIEndpoints: Record<string, string> = {
+//   1: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens',
+//   3: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensropsten',
+//   4: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensrinkeby',
+//   5: 'https://api.thegraph.com/subgraphs/name/ensdomains/ensgoerli',
+// }
 /* eslint-enable @typescript-eslint/naming-convention */
 
 export type RawFunction = {
@@ -149,15 +148,13 @@ export class FNS {
 
   protected provider?: JsonRpcProvider
 
-  protected graphURI?: string | null
+  // protected graphURI?: string | null
 
   protected initialProvider?: JsonRpcProvider
 
   contracts?: ContractManager
 
   getContractAddress = _getContractAddress
-
-  gqlInstance = new GqlManager()
 
   constructor(options?: FNSOptions) {
     this.options = options
@@ -193,7 +190,7 @@ export class FNS {
   protected getModule = async (path: string, exportName: string) => {
     let mod = await import(
       /* webpackMode: "lazy", webpackChunkName: "[request]", webpackPreload: true, webpackExclude: /.*\.ts$/ */
-      `./functions/${path}`
+      `./functions/${path}.mjs`
     )
 
     // if export is nested in default, use default
@@ -387,12 +384,12 @@ export class FNS {
     const network = this.staticNetwork
       ? this.provider._network.chainId
       : (await this.provider.getNetwork()).chainId
-    if (this.options && this.options.graphURI) {
-      this.graphURI = this.options.graphURI
-    } else {
-      this.graphURI = graphURIEndpoints[network]
-    }
-    await this.gqlInstance.setUrl(this.graphURI)
+    // if (this.options && this.options.graphURI) {
+    //   this.graphURI = this.options.graphURI
+    // } else {
+    //   this.graphURI = graphURIEndpoints[network]
+    // }
+    // await this.gqlInstance.setUrl(this.graphURI)
     this.contracts = new ContractManager(
       this.provider,
       this.getContractAddress(String(network) as SupportedNetworkId),
