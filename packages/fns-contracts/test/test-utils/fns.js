@@ -1,10 +1,10 @@
-const { utils, BigNumber: BN } = ethers
-const packet = require('dns-packet')
+const { utils, BigNumber: BN } = ethers;
+const packet = require("dns-packet");
 
-const labelhash = (label) => utils.keccak256(utils.toUtf8Bytes(label))
-const namehash = require('eth-ens-namehash').hash
+const labelhash = (label) => utils.keccak256(utils.toUtf8Bytes(label));
+const namehash = require("eth-ens-namehash").hash;
 function encodeName(name) {
-  return '0x' + packet.name.encode(name).toString('hex')
+  return "0x" + packet.name.encode(name).toString("hex");
 }
 
 const FUSES = {
@@ -17,10 +17,10 @@ const FUSES = {
   CANNOT_CREATE_SUBDOMAIN: 32,
   PARENT_CANNOT_CONTROL: 2 ** 16,
   IS_DOT_ETH: 2 ** 17,
-  CAN_EXTEND_EXPIRY: 2 ** 18
-}
+  CAN_EXTEND_EXPIRY: 2 ** 18,
+};
 
-let MAX_EXPIRY = 2n ** 64n - 1n
+let MAX_EXPIRY = 2n ** 64n - 1n;
 
 module.exports = {
   labelhash,
@@ -28,4 +28,4 @@ module.exports = {
   encodeName,
   FUSES,
   MAX_EXPIRY,
-}
+};

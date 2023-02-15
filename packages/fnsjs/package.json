@@ -33,28 +33,14 @@
   },
   "typesVersions": {
     "*": {
-      "static": [
-        "./dist/types/static.d.ts"
-      ],
-      "contracts/*": [
-        "./dist/types/contracts/*"
-      ],
-      "functions/*": [
-        "./dist/types/functions/*"
-      ],
-      "utils/*": [
-        "./dist/types/utils/*"
-      ],
-      "generated/*": [
-        "./dist/types/generated/*"
-      ]
+      "static": ["./dist/types/static.d.ts"],
+      "contracts/*": ["./dist/types/contracts/*"],
+      "functions/*": ["./dist/types/functions/*"],
+      "utils/*": ["./dist/types/utils/*"],
+      "generated/*": ["./dist/types/generated/*"]
     }
   },
-  "files": [
-    "dist/",
-    "src/",
-    "!src/tests"
-  ],
+  "files": ["dist/", "src/", "!src/tests"],
   "repository": "https://github.com/spheronFdn/fns",
   "author": "Spheron <http://spheron.network/>",
   "license": "MIT",
@@ -92,7 +78,6 @@
   "devDependencies": {
     "@ensdomains/buffer": "^0.0.13",
     "@ensdomains/ens-contracts": "^0.0.17",
-    "@ensdomains/ens-test-env": "workspace:*",
     "@ethersproject/abi": "^5.6.4",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",

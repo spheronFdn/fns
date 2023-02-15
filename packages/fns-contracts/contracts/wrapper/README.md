@@ -423,26 +423,6 @@ RESOLVER_ADDRESS=
 
 NOTE: If you want to override the default metadata url, set `METADATA_HOST=` to `.env`
 
-```
-$yarn deploy:rinkeby
-yarn run v1.22.10
-$ npx hardhat run --network rinkeby scripts/deploy.js
-Deploying contracts to rinkeby with the account:0x97bA55F61345665cF08c4233b9D6E61051A43B18
-Account balance: 1934772596667918724 true
-{
-  registryAddress: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  registrarAddress: '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85'
-}
-Setting metadata service to https://ens-metadata-service.appspot.com/name/0x{id}
-Metadata address: 0x08f2D8D8240fC70FD777358b0c63e539714DD473
-Wrapper address: 0x88ce50eFeA21996B20838d5E71994191562758f9
-Resolver address: 0x784b7B9BA0Fc04b90187c06C0C7efC51AeA06aFB
-wait for 5 sec until bytecodes are uploaded into etherscan
-verify  0x08f2D8D8240fC70FD777358b0c63e539714DD473 with arguments https://ens-metadata-service.appspot.com/name/0x{id}
-verify  0x88ce50eFeA21996B20838d5E71994191562758f9 with arguments 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e,0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85,0x08f2D8D8240fC70FD777358b0c63e539714DD473
-verify  0x784b7B9BA0Fc04b90187c06C0C7efC51AeA06aFB with arguments 0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e,0x88ce50eFeA21996B20838d5E71994191562758f9
-```
-
 After running the script it sets addresses to `.env`. If you want to redeploy some of contracts, remove the contract address from `.env` and runs the script again.
 
 ## Seeding test data into Rinkeby
@@ -450,23 +430,6 @@ After running the script it sets addresses to `.env`. If you want to redeploy so
 1. Register a name using the account you used to deploy the contract
 2. Set the label (`matoken` for `matoken.eth`) to `SEED_NAME=` on `.env`
 3. Run `yarn seed:rinkeby`
-
-```
-~/.../ens/name-wrapper (seed)$yarn seed:rinkeby
-yarn run v1.22.10
-$ npx hardhat run --network rinkeby scripts/seed.js
-Account balance: 1925134991223891632
-{
-  registryAddress: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
-  registrarAddress: '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85',
-  wrapperAddress: '0x88ce50eFeA21996B20838d5E71994191562758f9',
-  resolverAddress: '0x784b7B9BA0Fc04b90187c06C0C7efC51AeA06aFB',
-  firstAddress: '0x97bA55F61345665cF08c4233b9D6E61051A43B18',
-  name: 'wrappertest4'
-}
-Wrapped NFT for wrappertest4.eth is available at https://testnets.opensea.io/assets/0x88ce50eFeA21996B20838d5E71994191562758f9/42538507198368349158588132934279877358592939677496199760991827793914037599925
-Wrapped NFT for sub2.wrappertest4.eth is available at https://testnets.opensea.io/assets/0x88ce50eFeA21996B20838d5E71994191562758f9/22588238952906792220944282072078294622689934598844133294480594786812258911617
-```
 
 ## Notes on upgrading the Name Wrapper
 
