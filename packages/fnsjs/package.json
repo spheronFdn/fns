@@ -1,7 +1,7 @@
 {
   "name": "@spheron/fnslib",
   "version": "1.0.0",
-  "description": "FNS javascript library for contract interaction",
+  "description": "FNS javascript library for FNS contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
   "types": "./dist/types/index.d.ts",
@@ -33,30 +33,16 @@
   },
   "typesVersions": {
     "*": {
-      "static": [
-        "./dist/types/static.d.ts"
-      ],
-      "contracts/*": [
-        "./dist/types/contracts/*"
-      ],
-      "functions/*": [
-        "./dist/types/functions/*"
-      ],
-      "utils/*": [
-        "./dist/types/utils/*"
-      ],
-      "generated/*": [
-        "./dist/types/generated/*"
-      ]
+      "static": ["./dist/types/static.d.ts"],
+      "contracts/*": ["./dist/types/contracts/*"],
+      "functions/*": ["./dist/types/functions/*"],
+      "utils/*": ["./dist/types/utils/*"],
+      "generated/*": ["./dist/types/generated/*"]
     }
   },
-  "files": [
-    "dist/",
-    "src/",
-    "!src/tests"
-  ],
+  "files": ["dist/", "src/", "!src/tests"],
   "repository": "https://github.com/spheronFdn/fns",
-  "author": "Spheron <http://spheron.network/>",
+  "author": "Spheron <https://spheron.network/>",
   "license": "MIT",
   "scripts": {
     "denv": "pnpm tenv start -ns -nb --extra-time 11368000 --verbosity 1",
@@ -92,7 +78,6 @@
   "devDependencies": {
     "@ensdomains/buffer": "^0.0.13",
     "@ensdomains/ens-contracts": "^0.0.17",
-    "@ensdomains/ens-test-env": "workspace:*",
     "@ethersproject/abi": "^5.6.4",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",

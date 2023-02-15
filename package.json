@@ -1,9 +1,7 @@
 {
   "name": "fnsjs-monorepo",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "publish:local:fnsjs": "yalc publish packages/fnsjs --push --up"
   },
@@ -25,7 +23,7 @@
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13"
   },
   "dependenciesMeta": {
-    "ens-contracts": {
+    "fns-contracts": {
       "built": false,
       "unplugged": true
     }
