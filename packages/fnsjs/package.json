@@ -1,7 +1,7 @@
 {
   "name": "@spheron/fnslib",
   "version": "1.0.0",
-  "description": "FNS javascript library for contract interaction",
+  "description": "FNS javascript library for FNS contract interaction",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.mjs",
   "types": "./dist/types/index.d.ts",
@@ -42,7 +42,7 @@
   },
   "files": ["dist/", "src/", "!src/tests"],
   "repository": "https://github.com/spheronFdn/fns",
-  "author": "Spheron <http://spheron.network/>",
+  "author": "Spheron <https://spheron.network/>",
   "license": "MIT",
   "scripts": {
     "denv": "pnpm tenv start -ns -nb --extra-time 11368000 --verbosity 1",
