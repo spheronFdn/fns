@@ -9,18 +9,10 @@ FNSjs is currently in the early development stage, meaning that the projects are
 Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
 
 
-## Features
-
-- Dynamically load **everything**
-- Super fast response times (1 call for most RPC calls)
-- Written in TypeScript
-- Supports the most cutting edge FNS features
-- More
-
 
 ## Installation
 ```sh
-npm i @spheron/fnslib
+npm i @spheron/fnslib ethers
 ```
 
 ## Getting Started
