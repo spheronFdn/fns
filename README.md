@@ -55,7 +55,7 @@ import { FNS } from '@spheron/fnslib'
 const FNSInstance = new FNS()
 
 const callWithProvider = await FNSInstance.withProvider(otherProvider).getText(
-  'vitalik.fil',
+  'juan.fil',
   'foo',
 )
 ```
@@ -63,14 +63,14 @@ const callWithProvider = await FNSInstance.withProvider(otherProvider).getText(
 Check if a name is available to be registered on the FEVM Naming Service.
 
 ```js
-const name = "vitalik.fil"
+const name = "juan.fil"
 const isAvailable = await FNSInstance.getAvailable(name);
 ```
 ## Price
 View the current price of registering or updating a name on the FEVM Naming Service. The price is determined by market demand and is subject to change.
 
 ```js
-const name = "vitalik.fil"
+const name = "juan.fil"
 const price = await FNSInstance.getPrice(name, duration);
 ``` 
 
@@ -89,13 +89,13 @@ For addresses, this means the "match" property (a boolean value for matching rev
 
 ```js
 /* Normal profile fetching */
-const profile = await FNSInstance.getProfile('vitalik.fil')
+const profile = await FNSInstance.getProfile('juan.fil')
 
 /* Normal address fetching */
-const address = await FNSInstance.getAddress('vitalik.fil')
+const address = await FNSInstance.getAddress('juan.fil')
 
 /* Normal content fetching */
-const contentHash = await FNSInstance.getContent('vitalik.fil')
+const contentHash = await FNSInstance.getContent('juan.fil')
 
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
@@ -107,14 +107,14 @@ const profile = await FNSInstance.getProfile(
 )
 
 /* Get all records of a specific type (or multiple) */
-const profile = await FNSInstance.getProfile('vitalik.fil', {
+const profile = await FNSInstance.getProfile('juan.fil', {
   texts: true,
   coinTypes: true,
   contentHash: true,
 })
 
 /* Get specific records */
-const profile = await FNSInstance.getProfile('vitalik.fil', {
+const profile = await FNSInstance.getProfile('juan.fil', {
   texts: ['foo'],
   coinTypes: ['FIL'],
 })
