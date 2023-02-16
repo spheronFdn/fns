@@ -20,7 +20,7 @@ Given the current development status, we're actively seeking feedback so feel fr
 
 ## Installation
 ```sh
-yarn add https://github.com/spheronFdn/fnsjs/tree/main/packages/fnsjs
+npm i @spheron/fnslib
 ```
 
 ## Getting Started
