@@ -313,7 +313,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Wraps a non .eth domain, of any kind. Could be a DNSSEC name vitalik.xyz or a subdomain
+     * @notice Wraps a non .eth domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner in the registry or an authorised caller in the registry
      * @param name The name to wrap, in DNS format
      * @param wrappedOwner Owner of the name in this contract
@@ -351,7 +351,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Unwraps a .eth domain. e.g. vitalik.eth
+     * @notice Unwraps a .eth domain. e.g. juan.eth
      * @dev Can be called by the owner in the wrapper or an authorised caller in the wrapper
      * @param labelhash Labelhash of the .eth domain
      * @param registrant Sets the owner in the .eth registrar to this address
@@ -375,10 +375,10 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Unwraps a non .eth domain, of any kind. Could be a DNSSEC name vitalik.xyz or a subdomain
+     * @notice Unwraps a non .eth domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner in the wrapper or an authorised caller in the wrapper
-     * @param parentNode Parent namehash of the name e.g. vitalik.xyz would be namehash('xyz')
-     * @param labelhash Labelhash of the name, e.g. vitalik.xyz would be keccak256('vitalik')
+     * @param parentNode Parent namehash of the name e.g. juan.xyz would be namehash('xyz')
+     * @param labelhash Labelhash of the name, e.g. juan.xyz would be keccak256('juan')
      * @param controller Sets the owner in the registry to this address
      */
 
@@ -419,8 +419,8 @@ contract NameWrapper is
 
     /**
      * @notice Extends expiry for a name
-     * @param parentNode Parent namehash of the name e.g. vitalik.xyz would be namehash('xyz')
-     * @param labelhash Labelhash of the name, e.g. vitalik.xyz would be keccak256('vitalik')
+     * @param parentNode Parent namehash of the name e.g. juan.xyz would be namehash('xyz')
+     * @param labelhash Labelhash of the name, e.g. juan.xyz would be keccak256('juan')
      * @param expiry When the name will expire in seconds since the Unix epoch
      * @return New expiry
      */
@@ -490,7 +490,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Upgrades a non .eth domain of any kind. Could be a DNSSEC name vitalik.xyz or a subdomain
+     * @notice Upgrades a non .eth domain of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner or an authorised caller
      * Requires upgraded Namewrapper to permit old Namewrapper to call `setSubnodeRecord` for all names
      * @param parentNode Namehash of the parent name
@@ -528,8 +528,8 @@ contract NameWrapper is
 
     /** 
     /* @notice Sets fuses of a name that you own the parent of. Can also be called by the owner of a .eth name
-     * @param parentNode Parent namehash of the name e.g. vitalik.xyz would be namehash('xyz')
-     * @param labelhash Labelhash of the name, e.g. vitalik.xyz would be keccak256('vitalik')
+     * @param parentNode Parent namehash of the name e.g. juan.xyz would be namehash('xyz')
+     * @param labelhash Labelhash of the name, e.g. juan.xyz would be keccak256('juan')
      * @param fuses Fuses to burn
      * @param expiry When the name will expire in seconds since the Unix epoch
      */

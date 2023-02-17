@@ -187,7 +187,7 @@ To check whether or not a fuse is burnt you can use this function that takes a f
 
 ```js
 const areBurned = await allFusesBurned(
-  namehash('vitalik.eth'),
+  namehash('juan.eth'),
   CANNOT_TRANSFER | CANNOT_SET_RESOLVER
 )
 // if CANNOT_UNWRAP AND CANNOT_SET_RESOLVER are *both* burned this will return true
