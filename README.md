@@ -1,6 +1,28 @@
-# ![FNSjs](https://res.cloudinary.com/letech-digital-solutions/image/upload/v1674554473/Group_131_mcmn2e.png)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo.svg">
+    <img alt="Spheron" src="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo-dark.svg" width="250">
+  </picture>
+</p>
 
-The FNS Javascript Library is the ultimate solution for working with the FNS on the FEVM ecosystem, with [ethers.js](https://github.com/ethers-io/ethers.js) at its core and inspired by and modelled on the [ENS Package](https://github.com/ensdomains/ensjs-v3)
+<p align="center">
+  🧰 fnslib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron. 
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/static/v1?label=npm&message=v14.0.0&color=green" />
+  <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
+  <a href="https://discord.com/invite/ahxuCtm" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/static/v1?label=community&message=discord&color=blue" />
+  </a>
+  <a href="https://twitter.com/SpheronFdn" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40SpheronFdn" />
+  </a>
+</p>
+
+
+fnslib is built with [ethers.js](https://github.com/ethers-io/ethers.js) at its core and inspired by and modelled on the [ENS Package](https://github.com/ensdomains/ensjs-v3)
 
 ## NOTE!!!
 
@@ -11,8 +33,13 @@ Given the current development status, we're actively seeking feedback so feel fr
 
 
 ## Installation
-```sh
-npm i @spheron/fnslib ethers
+Using NPM
+```
+npm install @spheron/fnslib
+```
+Using Yarn
+```
+yarn add @spheron/fnslib
 ```
 
 ## Getting Started
