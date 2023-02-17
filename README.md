@@ -93,6 +93,14 @@ const name = "juan.fil"
 const price = await FNSInstance.getPrice(name, duration);
 ``` 
 
+## Expiration
+View the timestamp in which a particular registered name will expire. 
+
+```js
+const name = "juan.fil"
+const price = await FNSInstance.getExpiry(name);
+``` 
+
 ## Profiles
 
 You can fetch almost all information about an FNS name (or address) using getProfile.
