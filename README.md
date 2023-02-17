@@ -35,11 +35,11 @@ Given the current development status, we're actively seeking feedback so feel fr
 ## Installation
 Using NPM
 ```
-npm install @spheron/fnslib
+npm install @spheron/fnslib ethers
 ```
 Using Yarn
 ```
-yarn add @spheron/fnslib
+yarn add @spheron/fnslib ethers
 ```
 
 ## Getting Started
