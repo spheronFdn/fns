@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import { getPriceOnYear, registerDomain } from '../../services/spheron-fns'
 import { Web3Context } from '../../context/web3-context'
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { getFee, getUserBalance } from '../../lib/utils'
 
 const DomainRegister = () => {
@@ -25,52 +25,52 @@ const DomainRegister = () => {
       setGasFee(fees)
     }
 
-    async function getBalance(address: string) {
-      setUserBalanceLoading(true)
-      const balance = await getUserBalance(address)
-
-      setUserBalance(balance)
-      setUserBalanceLoading(false)
-    }
     async function getPrice(domainName: string) {
       setPriceLoading(true)
       const priceHex: any = await getPriceOnYear(domainName, year)
+      console.log('PRICE: ', priceHex)
       const finalPrice = ethers.utils.formatEther(
         `${parseInt(priceHex.base._hex, 16)}`,
       )
       setPrice(finalPrice)
       setPriceLoading(false)
     }
-    if (currentAccount && searchQuery && isDomainAvailable) {
+    if (searchQuery && isDomainAvailable) {
       getPrice(searchQuery)
       getGasFee()
-      getBalance(currentAccount)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentAccount, year])
+  }, [searchQuery, year, isDomainAvailable])
+
+  useEffect(() => {
+    async function getBalance(address: string) {
+      setUserBalanceLoading(true)
+      const balance = await getUserBalance(address)
+      setUserBalance(balance)
+      setUserBalanceLoading(false)
+    }
+    if (currentAccount) getBalance(currentAccount)
+  }, [currentAccount])
 
   const handleRegister = async () => {
     setRegisterLoading(true)
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response = await registerDomain(
         searchQuery,
         currentAccount,
         year,
-        BigNumber.from(price),
+        price,
       )
-      setRegisterLoading(false)
     } catch (error) {
       console.log('ERROR: ', error)
     }
+    setRegisterLoading(false)
   }
 
   const totalPrice = Number(gasFee) + Number(price)
   const isLessBalance = totalPrice > Number(userBalance)
-  console.log(
-    'PRO',
-    process.env.REACT_APP_SPHERON_SECRET,
-    process.env.REACT_APP_RPC_URL,
-  )
+
   return (
     <>
       {loading ? (
@@ -124,27 +124,32 @@ const DomainRegister = () => {
                         : `${totalPrice.toFixed(4)} TFIL`}
                     </div>
                   </div>
-
-                  <Button
-                    disabled={priceLoading || registerLoading}
-                    onClick={handleRegister}
-                  >
-                    Register
-                  </Button>
+                  {currentAccount && (
+                    <Button
+                      disabled={priceLoading || registerLoading}
+                      onClick={handleRegister}
+                    >
+                      Register
+                    </Button>
+                  )}
                 </div>
                 <div className="w-56 flex items-center justify-between">
-                  <span className="text-base text-slate-600">
-                    Your Balance:
-                  </span>
-                  <div
-                    className={`font-semibold ${
-                      isLessBalance ? 'text-red-600' : ''
-                    }`}
-                  >
-                    {userBalanceLoading
-                      ? 'Loading..'
-                      : `${Number(userBalance).toFixed(4)} TFIL`}
-                  </div>
+                  {currentAccount && (
+                    <>
+                      <span className="text-base text-slate-600">
+                        Your Balance:
+                      </span>
+                      <div
+                        className={`font-semibold ${
+                          isLessBalance ? 'text-red-600' : ''
+                        }`}
+                      >
+                        {userBalanceLoading
+                          ? 'Loading..'
+                          : `${Number(userBalance).toFixed(4)} TFIL`}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </>

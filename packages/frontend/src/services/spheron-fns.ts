@@ -1,5 +1,5 @@
 import { FNS } from '@spheron/fnslib'
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
 
 const providerUrl = 'https://api.hyperspace.node.glif.io/rpc/v1'
@@ -26,7 +26,7 @@ export const getPriceOnYear = async (name: string, duration: number) => {
 
     return price
   } catch (error) {
-    return error
+    return '0'
   }
 }
 
@@ -34,19 +34,19 @@ export const registerDomain = async (
   name: string,
   address: string,
   duration: number,
-  price: BigNumber,
+  price: string,
 ) => {
   try {
     const FNSInstance = new FNS()
     await FNSInstance.setProvider(provider)
+    console.log('PRICE: ', price)
 
     const res = await FNSInstance.registerName(name, {
       owner: address,
       duration: getSecondsFromYear(duration),
       secret: process.env.REACT_APP_SPHERON_SECRET || '',
-      value: price,
+      value: ethers.BigNumber.from(price).pow(18),
     })
-    console.log('RESPONE: ', res)
     return res
   } catch (error) {
     console.log(error)
@@ -73,15 +73,21 @@ export const getAddress = async (domainName: string) => {
     return address
   } catch (error) {
     console.log('ERROR: ', error)
+    return '0'
   }
 }
 
 export const getContentHash = async (domainName: string) => {
-  const FNSInstance = new FNS()
-  await FNSInstance.setProvider(provider)
-  const contentHash = await FNSInstance.getContent(domainName)
-  console.log('CONTENT: ', contentHash)
-  return `${contentHash?.protocolType}://${contentHash?.decoded}`
+  try {
+    const FNSInstance = new FNS()
+    await FNSInstance.setProvider(provider)
+    const contentHash = await FNSInstance.getContent(domainName)
+    console.log('CONTENT: ', contentHash)
+    return `${contentHash?.protocolType}://${contentHash?.decoded}`
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return '0'
+  }
 }
 
 export const getNameFromAddress = async (address: string) => {
@@ -93,5 +99,18 @@ export const getNameFromAddress = async (address: string) => {
     return name
   } catch (error) {
     console.log(error)
+    return '0'
+  }
+}
+
+export const getExpiry = async (domainName: string) => {
+  try {
+    const FNSInstance = new FNS()
+    await FNSInstance.setProvider(provider)
+    const expiry = await FNSInstance.getExpiry(domainName)
+    return expiry?.expiry
+  } catch (error) {
+    console.log('ERROR:', error)
+    return '0'
   }
 }

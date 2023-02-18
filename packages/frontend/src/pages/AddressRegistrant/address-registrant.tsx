@@ -1,24 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { Web3Context } from '../../context/web3-context'
-import { getNameFromAddress } from '../../services/spheron-fns'
+import { getExpiry, getNameFromAddress } from '../../services/spheron-fns'
 
 const AddressRegistrant = () => {
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [searchQuery] = useOutletContext<[string]>()
   const [domainName, setDomainName] = useState<string>('')
+  const [expiryDate, setExpiryDate] = useState<string>('')
+  const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function getDomainNameFromAddress(address: string) {
       const name = await getNameFromAddress(`${address}`)
-
       setDomainName(name)
     }
 
-    getDomainNameFromAddress(searchQuery)
+    if (searchQuery) getDomainNameFromAddress(searchQuery)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [searchQuery])
+
+  useEffect(() => {
+    async function getExpiryFromDomainName(domainName: string) {
+      setExpiryDateLoading(true)
+      const res = await getExpiry(domainName)
+      const finalDate = String(parseInt((res as any)._hex || '0', 16))
+      setExpiryDate(finalDate)
+      setExpiryDateLoading(false)
+    }
+    if (domainName) getExpiryFromDomainName(domainName)
+  }, [domainName])
 
   return (
     <div>
@@ -36,7 +48,11 @@ const AddressRegistrant = () => {
               {domainName}
             </td>
             <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
-              2025-02-08 at 14:05 (UTC+08:00)
+              {expiryDateLoading ? (
+                <div>Loading..</div>
+              ) : (
+                <div>{expiryDate}</div>
+              )}
             </td>
             <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
               1961
