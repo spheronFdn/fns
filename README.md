@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  🧰 fnslib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
+  🧰 FNSlib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
   <br>
   It is built with
   <a href="https://github.com/ethers-io/ethers.js">ethers.js</a>
