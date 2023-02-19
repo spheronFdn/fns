@@ -7,11 +7,15 @@
 </p>
 
 <p align="center">
-  🧰 fnslib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron. 
+  🧰 fnslib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
+  <br>
+  It is built with
+  <a href="https://github.com/ethers-io/ethers.js">ethers.js</a>
+  at its core, and inspired by and modelled on the
+  <a href="https://github.com/ensdomains/ensjs-v3">ENS Package</a>.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/static/v1?label=npm&message=v14.0.0&color=green" />
   <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
   <a href="https://discord.com/invite/ahxuCtm" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=community&message=discord&color=blue" />
@@ -20,9 +24,6 @@
     <img src="https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40SpheronFdn" />
   </a>
 </p>
-
-
-fnslib is built with [ethers.js](https://github.com/ethers-io/ethers.js) at its core and inspired by and modelled on the [ENS Package](https://github.com/ensdomains/ensjs-v3)
 
 ## NOTE!!!
 
