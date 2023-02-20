@@ -51,7 +51,9 @@ const AddressRegistrant = () => {
               {expiryDateLoading ? (
                 <div>Loading..</div>
               ) : (
-                <div>{expiryDate}</div>
+                <div>
+                  {new Date(Number(expiryDate) * 1000) as unknown as string}
+                </div>
               )}
             </td>
             <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">

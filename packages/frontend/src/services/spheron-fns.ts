@@ -1,5 +1,5 @@
 import { FNS } from '@spheron/fnslib'
-import { ethers } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
 
 const providerUrl = 'https://api.hyperspace.node.glif.io/rpc/v1'
@@ -38,15 +38,15 @@ export const registerDomain = async (
 ) => {
   try {
     const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
-    console.log('PRICE: ', price)
-
     const res = await FNSInstance.registerName(name, {
       owner: address,
       duration: getSecondsFromYear(duration),
       secret: process.env.REACT_APP_SPHERON_SECRET || '',
-      value: ethers.BigNumber.from(price).pow(18),
+      value: ethers.utils.parseUnits(price, 18),
     })
+
     return res
   } catch (error) {
     console.log(error)

@@ -51,6 +51,8 @@ const DomainDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDomainAvailable, searchQuery])
 
+  let expirationDate = String(dayjs(Number(expiryDate) * 1000))
+
   return (
     <>
       {loading ? (
@@ -104,7 +106,7 @@ const DomainDetail = () => {
                   {expiryDateLoading ? (
                     <div>Loading...</div>
                   ) : (
-                    <div>{expiryDate}</div>
+                    <div>{expirationDate}</div>
                   )}
                 </div>
               </div>
