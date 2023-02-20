@@ -16,7 +16,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
+  <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
+    <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
+  </a>
   <a href="https://discord.com/invite/ahxuCtm" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=community&message=discord&color=blue" />
   </a>
