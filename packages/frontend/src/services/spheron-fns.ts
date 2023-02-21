@@ -46,6 +46,8 @@ export const registerDomain = async (
       secret: process.env.REACT_APP_SPHERON_SECRET || '',
       value: ethers.utils.parseUnits(price, 18),
     })
+    res.wait()
+    console.log("Res", res.hash)
 
     return res
   } catch (error) {
