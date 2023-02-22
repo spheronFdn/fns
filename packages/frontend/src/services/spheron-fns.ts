@@ -119,33 +119,27 @@ export const getExpiry = async (domainName: string) => {
     return { error: true, response: (error as Error).message }
   }
 }
-//  Set Content Hah
-// export const setRecord = async (domainName: string, value: string) => {
-//   console.log(
-//     'DOmAIN NAME:',
-//     domainName,
-//     value,
-//     process.env.REACT_APP_RESOLVER_ADDRESS,
-//   )
-//   try {
-//     const FNSInstance = new FNS()
-//     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-//     await FNSInstance.setProvider(provider)
-//     const res = await FNSInstance.setContentHash(domainName, value)
-//     return { error: false, response: res }
-//   } catch (error) {
-//     console.log('ERROR: ', error)
-//     return { error: true, response: (error as Error).message }
-//   }
-// }
-//  Set Addr
-export const setRecord = async (domainName: string, value: string) => {
+//  Set Content Hash
+export const setContentHash = async (domainName: string, value: string) => {
   console.log(
     'DOmAIN NAME:',
     domainName,
     value,
     process.env.REACT_APP_RESOLVER_ADDRESS,
   )
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.setContentHash(domainName, value)
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+//  Set Addr
+export const setAddr = async (domainName: string, value: string) => {
   try {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)

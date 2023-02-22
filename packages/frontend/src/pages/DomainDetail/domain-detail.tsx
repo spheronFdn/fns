@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setRecord } from '../../services/spheron-fns'
+import { setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
@@ -48,7 +48,7 @@ const DomainDetail = () => {
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
     try {
-      const res = await setRecord(params.domainName || '', contentHashQuery)
+      const res = await setContentHash(params.domainName || '', contentHashQuery)
       if (!res.error) {
         setSettingContentHash(false)
         toast({
