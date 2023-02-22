@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setContentHash } from '../../services/spheron-fns'
+import { setAddr, setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
@@ -15,6 +15,8 @@ const DomainDetail = () => {
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
+  const [addrQuery, setAddrQuery] = useState<string>('')
+  const [settingAddr, setSettingAddr] = useState<boolean>(false)
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,10 +47,37 @@ const DomainDetail = () => {
   let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
+  const handleSetYear = async () => {
+    try {
+      const res = await setAddr(params.domainName || '', addrQuery)
+      if (!res.error) {
+        toast({
+          title: 'Success',
+          description: 'Please wait for 3-5 minutes',
+        })
+      } else {
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+        })
+      }
+      setSettingAddr(false)
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+      setSettingAddr(false)
+    }
+  }
+
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
     try {
-      const res = await setContentHash(params.domainName || '', contentHashQuery)
+      const res = await setContentHash(
+        params.domainName || '',
+        contentHashQuery,
+      )
       if (!res.error) {
         setSettingContentHash(false)
         toast({
@@ -93,7 +122,34 @@ const DomainDetail = () => {
                 <div className="w-[800px] flex items-center justify-between">
                   <span className="text-base text-slate-600">Controller:</span>
                   <div>
-                    {ownerLoading ? <InfoLoader /> : <div>{ownerAddress}</div>}
+                    {ownerLoading || settingAddr ? (
+                      <InfoLoader />
+                    ) : (
+                      <>
+                        {ownerAddress ? (
+                          <div>{ownerAddress}</div>
+                        ) : (
+                          <>
+                            <div className="flex items-center space-x-3">
+                              <Input
+                                className="h-10 w-11/12 text-lg"
+                                value={addrQuery}
+                                onChange={(e) => {
+                                  setAddrQuery(e.target.value)
+                                }}
+                              />
+                              <Button
+                                onClick={handleSetYear}
+                                className="bg-blue-600"
+                                disabled={settingContentHash}
+                              >
+                                Set
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               )}
