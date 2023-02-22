@@ -1,10 +1,21 @@
-import React from 'react'
-import { useOutletContext } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { useOutletContext, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import InfoLoader from '../../components/Loader/info-loader'
 import Loader from '../../components/Loader/loader'
+import { Input } from '../../components/UI/input'
+import { Button } from '../../components/UI/button'
+import { Web3Context } from '../../context/web3-context'
+import { setContentHash } from '../../services/spheron-fns'
+import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
+  const params = useParams()
+  const { toast } = useToast()
+  const Web3Cntx = useContext<any>(Web3Context)
+  const { currentAccount } = Web3Cntx
+  const [contentHashQuery, setContentHashQuery] = useState<string>('')
+  const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -31,7 +42,37 @@ const DomainDetail = () => {
       ]
     >()
 
+  let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
+
+  const handleSetContentHash = async () => {
+    setSettingContentHash(true)
+    try {
+      const res = await setContentHash(
+        params.domainName || '',
+        contentHashQuery,
+      )
+      if (!res.error) {
+        setSettingContentHash(false)
+        toast({
+          title: 'Success',
+          description: 'Please wait for 3-5 minutes',
+        })
+      } else {
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+        })
+        setSettingContentHash(false)
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+      setSettingContentHash(false)
+    }
+  }
 
   return (
     <>
@@ -44,8 +85,8 @@ const DomainDetail = () => {
           <div className="py-10 border-b border-slate-200">
             <div className="w-full flex items-start flex-col space-y-12">
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Period:</span>
-                <div>1 year</div>
+                <span className="text-base text-slate-600">Year:</span>
+                <div>{expirationYear}</div>
               </div>
               <div className="w-[800px] flex items-center justify-between">
                 <span className="text-base text-slate-600">Parent:</span>
@@ -69,17 +110,43 @@ const DomainDetail = () => {
                     Content Hash:
                   </span>
                   <div>
-                    {contentHashLoading ? (
+                    {settingContentHash || contentHashLoading ? (
                       <InfoLoader />
                     ) : (
-                      <a
-                        href={contentHash}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-500"
-                      >
-                        {contentHash}
-                      </a>
+                      <>
+                        {contentHash ? (
+                          <>
+                            <a
+                              href={contentHash}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-blue-500"
+                            >
+                              {contentHash}
+                            </a>
+                          </>
+                        ) : (
+                          <>
+                            {ownerAddress === currentAccount && (
+                              <div className="flex items-center space-x-3">
+                                <Input
+                                  className="h-10 w-11/12 text-lg"
+                                  value={contentHashQuery}
+                                  onChange={(e) => {
+                                    setContentHashQuery(e.target.value)
+                                  }}
+                                />
+                                <Button
+                                  onClick={handleSetContentHash}
+                                  disabled={settingContentHash}
+                                >
+                                  Search
+                                </Button>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

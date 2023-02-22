@@ -81,7 +81,12 @@ export const getContentHash = async (domainName: string) => {
     const FNSInstance = new FNS()
     await FNSInstance.setProvider(provider)
     const contentHash = await FNSInstance.getContent(domainName)
-    console.log('CONTENT: ', contentHash)
+    if (!contentHash?.protocolType || !contentHash?.decoded) {
+      return {
+        error: false,
+        response: '',
+      }
+    }
     return {
       error: false,
       response: `${contentHash?.protocolType}://${contentHash?.decoded}`,
@@ -110,6 +115,25 @@ export const getExpiry = async (domainName: string) => {
     await FNSInstance.setProvider(provider)
     const expiry = await FNSInstance.getExpiry(domainName)
     return { error: false, response: expiry?.expiry }
+  } catch (error) {
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const setContentHash = async (
+  domainName: string,
+  contentHash: string,
+) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.setRecord(domainName, {
+      type: 'contentHash',
+      record: contentHash,
+      resolverAddress: '0x032666197A5d9329e717800FC90E8C951bA12290',
+    })
+    return { error: false, response: res }
   } catch (error) {
     return { error: true, response: (error as Error).message }
   }

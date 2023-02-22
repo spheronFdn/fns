@@ -53,6 +53,7 @@ const AddressRegistrant = () => {
     if (domainName) getExpiryFromDomainName(domainName)
   }, [domainName])
 
+  let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   return (
@@ -86,7 +87,7 @@ const AddressRegistrant = () => {
                     {expiryDateLoading ? (
                       <InfoLoader />
                     ) : (
-                      <div>{expirationDate}</div>
+                      <div>{expirationYear}</div>
                     )}
                   </td>
                 </tr>

@@ -37,13 +37,13 @@ const Domain = () => {
     try {
       const res = await getAddress(domainName)
       setOwnerAddress(res.response || '')
-      setOwnerLoading(false)
     } catch (error) {
       toast({
         title: 'Error',
         description: (error as Error).message,
       })
     }
+    setOwnerLoading(false)
   }
 
   async function getContentHashFromDomainName(domainName: string) {
@@ -80,7 +80,7 @@ const Domain = () => {
     if (Boolean(params.domainName)) {
       setSearchQuery(params.domainName || '')
     } else {
-      navigate('/lol')
+      navigate('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.domainName])
@@ -103,14 +103,13 @@ const Domain = () => {
   }, [params.domainName])
 
   useEffect(() => {
-    if (!isDomainAvailable) {
-      console.log('HERE I AMh')
+    if (!isDomainAvailable && params.domainName) {
       getAddressFromDomainName(params.domainName || '')
       getContentHashFromDomainName(params.domainName || '')
       getExpiryFromDomainName(params.domainName || '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDomainAvailable])
+  }, [isDomainAvailable, params.domainName])
 
   const navItems = [
     {
