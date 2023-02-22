@@ -1,36 +1,59 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
-import { Web3Context } from '../../context/web3-context'
+import dayjs from 'dayjs'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import InfoLoader from '../../components/Loader/info-loader'
+import { useToast } from '../../hooks/useToast'
 import { getExpiry, getNameFromAddress } from '../../services/spheron-fns'
 
 const AddressRegistrant = () => {
-  const Web3Cntx = useContext<any>(Web3Context)
-  const { currentAccount } = Web3Cntx
-  const [searchQuery] = useOutletContext<[string]>()
+  const { toast } = useToast()
+  const params = useParams()
+  const [domainNameLoading, setDomainNameLoading] = useState<boolean>(true)
   const [domainName, setDomainName] = useState<string>('')
   const [expiryDate, setExpiryDate] = useState<string>('')
   const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function getDomainNameFromAddress(address: string) {
-      const name = await getNameFromAddress(`${address}`)
-      setDomainName(name)
+      setDomainNameLoading(true)
+      try {
+        const res = await getNameFromAddress(`${address}`)
+        if (!res.error) {
+          setDomainName(res.response || '')
+        } else {
+          toast({
+            title: 'Error',
+            variant: 'destructive',
+            description:
+              'Something went wrong, please check the entered address',
+          })
+        }
+      } catch (error) {
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: (error as Error).message,
+        })
+      }
+      setDomainNameLoading(false)
     }
 
-    if (searchQuery) getDomainNameFromAddress(searchQuery)
+    if (params.address) getDomainNameFromAddress(params.address)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery])
+  }, [params.address])
 
   useEffect(() => {
     async function getExpiryFromDomainName(domainName: string) {
       setExpiryDateLoading(true)
       const res = await getExpiry(domainName)
-      const finalDate = String(parseInt((res as any)._hex || '0', 16))
+      const finalDate = String(parseInt((res as any).response._hex || '0', 16))
       setExpiryDate(finalDate)
       setExpiryDateLoading(false)
     }
     if (domainName) getExpiryFromDomainName(domainName)
   }, [domainName])
+
+  let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   return (
     <div>
@@ -43,23 +66,37 @@ const AddressRegistrant = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b border-slate-200 ">
-            <td className="px-4 font-medium text-slate-700 text-sm pt-3 pb-2 text-left">
-              {domainName}
-            </td>
-            <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
-              {expiryDateLoading ? (
-                <div>Loading..</div>
+          {domainNameLoading ? (
+            <tr className="border-b border-slate-200 ">Loading...</tr>
+          ) : (
+            <>
+              {domainName.length ? (
+                <tr className="border-b border-slate-200 ">
+                  <td className="px-4 font-medium text-slate-700 text-sm pt-3 pb-2 text-left">
+                    {domainName}
+                  </td>
+                  <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
+                    {expiryDateLoading ? (
+                      <InfoLoader />
+                    ) : (
+                      <div>{expirationDate}</div>
+                    )}
+                  </td>
+                  <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
+                    {expiryDateLoading ? (
+                      <InfoLoader />
+                    ) : (
+                      <div>{expirationDate}</div>
+                    )}
+                  </td>
+                </tr>
               ) : (
-                <div>
-                  {new Date(Number(expiryDate) * 1000) as unknown as string}
-                </div>
+                <tr className="text-center text-slate-700 font-semibold border-b border-slate-200 ">
+                  No domains are attached to this address
+                </tr>
               )}
-            </td>
-            <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
-              1961
-            </td>
-          </tr>
+            </>
+          )}
         </tbody>
       </table>
     </div>

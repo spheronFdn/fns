@@ -8,19 +8,75 @@ import {
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import { Input } from '../../components/UI/input'
+import { useToast } from '../../hooks/useToast'
 import { isValidAddress } from '../../lib/utils'
-import { isAvailable } from '../../services/spheron-fns'
+import {
+  getAddress,
+  getContentHash,
+  getExpiry,
+  isAvailable,
+} from '../../services/spheron-fns'
 
 const Domain = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { toast } = useToast()
   const [isDomainAvailable, setIsDomainAvailable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
+  const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
+  const [ownerLoading, setOwnerLoading] = useState<boolean>(true)
+  const [ownerAddress, setOwnerAddress] = useState<string>('')
+  const [contentHash, setContentHash] = useState<string>('')
   const params = useParams<{ domainName: string }>()
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [expiryDate, setExpiryDate] = useState<string>('')
+  const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
+
+  async function getAddressFromDomainName(domainName: string) {
+    setOwnerLoading(true)
+    try {
+      const res = await getAddress(domainName)
+      setOwnerAddress(res.response || '')
+      setOwnerLoading(false)
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+  }
+
+  async function getContentHashFromDomainName(domainName: string) {
+    setContentHashLoading(true)
+    try {
+      const res = await getContentHash(domainName)
+      setContentHash(res.response || '')
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+    setContentHashLoading(false)
+  }
+
+  async function getExpiryFromDomainName(domainName: string) {
+    setExpiryDateLoading(true)
+    try {
+      const res = await getExpiry(domainName)
+      const finalDate = String(parseInt((res.response as any)._hex || '0', 16))
+      setExpiryDate(finalDate)
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+
+    setExpiryDateLoading(false)
+  }
 
   useEffect(() => {
-    console.log(params)
     if (Boolean(params.domainName)) {
       setSearchQuery(params.domainName || '')
     } else {
@@ -31,8 +87,11 @@ const Domain = () => {
 
   async function getAvailibility(searchTerm: string) {
     setLoading(true)
-    let response = await isAvailable(searchTerm)
-    setIsDomainAvailable(!!response)
+    try {
+      let response = await isAvailable(searchTerm)
+      setIsDomainAvailable(!!response.response)
+    } catch (error) {}
+
     setLoading(false)
   }
 
@@ -42,6 +101,16 @@ const Domain = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.domainName])
+
+  useEffect(() => {
+    if (!isDomainAvailable) {
+      console.log('HERE I AMh')
+      getAddressFromDomainName(params.domainName || '')
+      getContentHashFromDomainName(params.domainName || '')
+      getExpiryFromDomainName(params.domainName || '')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDomainAvailable])
 
   const navItems = [
     {
@@ -69,8 +138,6 @@ const Domain = () => {
     )
   }
 
-  console.log(searchQuery.slice(searchQuery.length - 3, searchQuery.length))
-
   return (
     <>
       <div className="w-full bg-slate-100 py-4">
@@ -85,9 +152,6 @@ const Domain = () => {
             />
             <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
           </div>
-          <span className="cursor-pointer underline text-sm">
-            View on explorer
-          </span>
         </div>
       </div>
       <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-slate-200">
@@ -106,7 +170,19 @@ const Domain = () => {
         ))}
       </div>
       <div className="w-8/12 mx-auto">
-        <Outlet context={[searchQuery, isDomainAvailable, loading]} />
+        <Outlet
+          context={[
+            searchQuery,
+            isDomainAvailable,
+            loading,
+            ownerLoading,
+            contentHashLoading,
+            expiryDateLoading,
+            ownerAddress,
+            contentHash,
+            expiryDate,
+          ]}
+        />
       </div>
     </>
   )

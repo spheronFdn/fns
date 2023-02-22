@@ -1,12 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import { getPriceOnYear, registerDomain } from '../../services/spheron-fns'
 import { Web3Context } from '../../context/web3-context'
 import { ethers } from 'ethers'
 import { getFee, getUserBalance } from '../../lib/utils'
+import { useToast } from '../../hooks/useToast'
+import Loader from '../../components/Loader/loader'
+import InfoLoader from '../../components/Loader/info-loader'
 
 const DomainRegister = () => {
+  const params = useParams()
+  const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [searchQuery, isDomainAvailable, loading] =
@@ -18,6 +24,7 @@ const DomainRegister = () => {
   const [year, setYear] = useState<number>(1)
   const [registerLoading, setRegisterLoading] = useState<boolean>(false)
   const [gasFee, setGasFee] = useState<string>('')
+  const [hash, setHash] = useState<string>('')
 
   useEffect(() => {
     async function getGasFee() {
@@ -27,10 +34,9 @@ const DomainRegister = () => {
 
     async function getPrice(domainName: string) {
       setPriceLoading(true)
-      const priceHex: any = await getPriceOnYear(domainName, year)
-      console.log('PRICE: ', priceHex)
+      const res: any = await getPriceOnYear(domainName, year)
       const finalPrice = ethers.utils.formatEther(
-        `${parseInt(priceHex.base._hex, 16)}`,
+        `${parseInt(res.response.base._hex, 16)}`,
       )
       setPrice(finalPrice)
       setPriceLoading(false)
@@ -40,7 +46,7 @@ const DomainRegister = () => {
       getGasFee()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, year, isDomainAvailable])
+  }, [params.domainName, year, isDomainAvailable])
 
   useEffect(() => {
     async function getBalance(address: string) {
@@ -56,14 +62,25 @@ const DomainRegister = () => {
     setRegisterLoading(true)
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const response = await registerDomain(
+      const res: any = await registerDomain(
         searchQuery,
         currentAccount,
         year,
         price,
       )
+      if (!res.error) {
+        setHash(res.response)
+      } else {
+        toast({
+          title: 'Error',
+          description: (res.response as Error).message,
+        })
+      }
     } catch (error) {
-      console.log('ERROR: ', error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
     }
     setRegisterLoading(false)
   }
@@ -74,7 +91,9 @@ const DomainRegister = () => {
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <div className="mt-24">
+          <Loader />
+        </div>
       ) : (
         <>
           {isDomainAvailable ? (
@@ -87,7 +106,7 @@ const DomainRegister = () => {
                       <Button
                         onClick={() =>
                           setYear((prevState) =>
-                            prevState > 0 ? prevState - 1 : prevState,
+                            prevState > 1 ? prevState - 1 : prevState,
                           )
                         }
                         variant="outline"
@@ -106,10 +125,16 @@ const DomainRegister = () => {
                       </Button>
                     </div>
                   </div>
-                  <div className="w-56 flex items-center justify-between">
+                  <div className="w-[200px] flex items-center justify-between">
                     <span className="text-base text-slate-600">Price:</span>
-                    <div className="font-semibold">
-                      {priceLoading ? 'Loading..' : `${price} TFIL`}
+                    <div className="ml-12 font-semibold text-left w-[500px]">
+                      {priceLoading ? <InfoLoader /> : `${price} TFIL`}
+                    </div>
+                  </div>
+                  <div className="w-[200px] flex items-center justify-between">
+                    <span className="text-base text-slate-600">Gas fee:</span>
+                    <div className="ml-16 font-semibold text-left w-[500px] ">
+                      {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
                     </div>
                   </div>
                 </div>
@@ -119,9 +144,11 @@ const DomainRegister = () => {
                   <div className="w-56 flex items-center justify-between">
                     <span className="text-base text-slate-600">Total:</span>
                     <div className="font-semibold">
-                      {priceLoading
-                        ? 'Loading..'
-                        : `${totalPrice.toFixed(4)} TFIL`}
+                      {priceLoading ? (
+                        <InfoLoader />
+                      ) : (
+                        `${totalPrice.toFixed(4)} TFIL`
+                      )}
                     </div>
                   </div>
                   {currentAccount && (
@@ -144,14 +171,21 @@ const DomainRegister = () => {
                           isLessBalance ? 'text-red-600' : ''
                         }`}
                       >
-                        {userBalanceLoading
-                          ? 'Loading..'
-                          : `${Number(userBalance).toFixed(4)} TFIL`}
+                        {userBalanceLoading ? (
+                          <InfoLoader />
+                        ) : (
+                          `${Number(userBalance).toFixed(4)} TFIL`
+                        )}
                       </div>
                     </>
                   )}
                 </div>
               </div>
+              {hash && (
+                <div className="font-medium text-base bg-slate-100 px-4 py-2 border border-slate-200 rounded-sm  text-slate-900 mt-8">
+                  <span className="cursor-pointer">{hash}</span>
+                </div>
+              )}
             </>
           ) : (
             <div className="mt-20 text-slate-600 font-semibold">

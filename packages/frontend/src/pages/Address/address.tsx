@@ -17,7 +17,6 @@ const Domain = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
 
   useEffect(() => {
-    console.log('X', params)
     if (Boolean(params.address)) {
       setSearchQuery(params.address || '')
     } else {
@@ -44,6 +43,10 @@ const Domain = () => {
     )
   }
 
+  const handleViewOnExplorer = () => {
+    window.open(`https://hyperspace.filfox.info/en/address/${searchQuery}`)
+  }
+
   return (
     <>
       <div className="w-full bg-slate-100 py-4">
@@ -57,7 +60,10 @@ const Domain = () => {
             <Button onClick={handleSearch}>Search</Button>
           </div>
 
-          <span className="cursor-pointer underline text-sm">
+          <span
+            className="cursor-pointer underline text-sm"
+            onClick={handleViewOnExplorer}
+          >
             View on explorer
           </span>
         </div>

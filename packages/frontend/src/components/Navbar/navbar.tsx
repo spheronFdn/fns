@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { ReactComponent as SpheronLogo } from '../../assets/icons/spheron-logo.svg'
 import { LogOut } from 'lucide-react'
 import makeBlockie from 'ethereum-blockies-base64'
@@ -12,7 +12,6 @@ import {
 import { Web3Context } from '../../context/web3-context'
 import { Button } from '../UI/button'
 import { truncateAddress } from '../../lib/utils'
-import { isAvailable } from '../../services/spheron-fns'
 
 interface IDropdownOption {
   id: number
@@ -23,7 +22,6 @@ interface IDropdownOption {
 
 const Navbar = () => {
   const Web3Cntx = useContext<any>(Web3Context)
-  const [av, setAv] = useState<boolean>(false)
   const { currentAccount, connectWallet, disconnectWallet } = Web3Cntx
   const dropdownOptions: IDropdownOption[] = [
     {
@@ -34,22 +32,17 @@ const Navbar = () => {
     },
   ]
 
-  useEffect(() => {
-    async function getAvailibility() {
-      let response = await isAvailable(currentAccount)
-      setAv(!!response)
-    }
-    if (currentAccount) {
-      getAvailibility()
-    }
-  }, [currentAccount])
-
-  console.log(av)
+  const handleRedirect = () => {
+    window.open(`${window.location.origin}/`, '_self')
+  }
 
   return (
     <nav className="flex items-center justify-between h-16 border-slate-200 border-b border-opacity-50 shadow-sm">
       <div className="flex justify-between items-center w-8/12 mx-auto">
-        <div className="flex items-center justify-start">
+        <div
+          className="flex items-center justify-start cursor-pointer"
+          onClick={handleRedirect}
+        >
           <SpheronLogo />
           <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 dark:border-b-slate-700">
             Spheron
@@ -67,7 +60,7 @@ const Navbar = () => {
                   <Avatar>
                     <AvatarImage
                       src={makeBlockie(currentAccount)}
-                      alt="@shadcn"
+                      alt="@avatar"
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>

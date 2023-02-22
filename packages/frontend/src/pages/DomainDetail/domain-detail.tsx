@@ -1,62 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useOutletContext } from 'react-router-dom'
 import dayjs from 'dayjs'
-import {
-  getAddress,
-  getContentHash,
-  getExpiry,
-} from '../../services/spheron-fns'
+import InfoLoader from '../../components/Loader/info-loader'
+import Loader from '../../components/Loader/loader'
 
 const DomainDetail = () => {
-  const [searchQuery, isDomainAvailable, loading] =
-    useOutletContext<[string, boolean, boolean]>()
-  const [ownerAddress, setOwnerAddress] = useState<string>('')
-  const [contentHash, setContentHash] = useState<string>('')
-  const [expiryDate, setExpiryDate] = useState<string>('')
-  const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
-  const [ownerLoading, setOwnerLoading] = useState<boolean>(true)
-  const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    async function getAddressFromDomainName(domainName: string) {
-      setOwnerLoading(true)
-      const addr = await getAddress(domainName)
-      setOwnerAddress(addr || '')
-      setOwnerLoading(false)
-    }
-
-    async function getContentHashFromDomainName(domainName: string) {
-      setContentHashLoading(true)
-      const hash = await getContentHash(domainName)
-      setContentHash(hash)
-      setContentHashLoading(false)
-    }
-    if (searchQuery) {
-      getAddressFromDomainName(searchQuery)
-      getContentHashFromDomainName(searchQuery)
-    }
-  }, [searchQuery])
-
-  useEffect(() => {
-    async function getExpiryFromDomainName(domainName: string) {
-      setExpiryDateLoading(true)
-      const res = await getExpiry(domainName)
-      const finalDate = String(parseInt((res as any)._hex || '0', 16))
-      setExpiryDate(finalDate)
-      setExpiryDateLoading(false)
-    }
-    if (!isDomainAvailable && searchQuery) {
-      getExpiryFromDomainName(searchQuery)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDomainAvailable, searchQuery])
+  const [
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    searchQuery,
+    isDomainAvailable,
+    loading,
+    ownerLoading,
+    contentHashLoading,
+    expiryDateLoading,
+    ownerAddress,
+    contentHash,
+    expiryDate,
+  ] =
+    useOutletContext<
+      [
+        string,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        string,
+        string,
+        string,
+      ]
+    >()
 
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   return (
     <>
       {loading ? (
-        <div>Loading...</div>
+        <div className="mt-24">
+          <Loader />
+        </div>
       ) : (
         <>
           <div className="py-10 border-b border-slate-200">
@@ -73,11 +55,7 @@ const DomainDetail = () => {
                 <div className="w-[800px] flex items-center justify-between">
                   <span className="text-base text-slate-600">Controller:</span>
                   <div>
-                    {ownerLoading ? (
-                      <div>Loading...</div>
-                    ) : (
-                      <div>{ownerAddress}</div>
-                    )}
+                    {ownerLoading ? <InfoLoader /> : <div>{ownerAddress}</div>}
                   </div>
                 </div>
               )}
@@ -92,9 +70,16 @@ const DomainDetail = () => {
                   </span>
                   <div>
                     {contentHashLoading ? (
-                      <div>Loading...</div>
+                      <InfoLoader />
                     ) : (
-                      <div>{contentHash}</div>
+                      <a
+                        href={contentHash}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-blue-500"
+                      >
+                        {contentHash}
+                      </a>
                     )}
                   </div>
                 </div>
@@ -104,7 +89,7 @@ const DomainDetail = () => {
                 <span className="text-base text-slate-600">Expiration:</span>
                 <div>
                   {expiryDateLoading ? (
-                    <div>Loading...</div>
+                    <InfoLoader />
                   ) : (
                     <div>{expirationDate}</div>
                   )}

@@ -1,4 +1,4 @@
-import { BigNumberish, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -39,10 +39,7 @@ export const getFee = async () => {
     const network = 'https://filecoin-hyperspace.chainstacklabs.com/rpc/v1'
     const provider = new ethers.providers.JsonRpcProvider(network)
     const feeData = await provider.getFeeData()
-    return ethers.utils.formatUnits(
-      feeData.maxFeePerGas as BigNumberish,
-      'gwei',
-    )
+    return ethers.utils.formatUnits(`${parseInt(feeData!.gasPrice!._hex, 16)}`)
   } catch (error) {
     console.log('ERROR: ', error)
     return '0'
