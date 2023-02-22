@@ -2,7 +2,7 @@ import { FNS } from '@spheron/fnslib'
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
 
-const providerUrl = 'https://api.hyperspace.node.glif.io/rpc/v1'
+const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
 
 export const isAvailable = async (name: string) => {

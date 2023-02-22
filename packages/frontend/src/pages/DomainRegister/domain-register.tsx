@@ -25,6 +25,7 @@ const DomainRegister = () => {
   const [registerLoading, setRegisterLoading] = useState<boolean>(false)
   const [gasFee, setGasFee] = useState<string>('')
   const [hash, setHash] = useState<string>('')
+  const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
 
   useEffect(() => {
     async function getGasFee() {
@@ -69,6 +70,11 @@ const DomainRegister = () => {
         price,
       )
       if (!res.error) {
+        setIsSuccessful(true)
+        toast({
+          title: 'Success',
+          description: 'Please wait for 3-5 minutes',
+        })
         setHash(res.response)
       } else {
         toast({
@@ -76,14 +82,15 @@ const DomainRegister = () => {
           variant: 'destructive',
           description: res.response,
         })
+        setRegisterLoading(false)
       }
     } catch (error) {
       toast({
         title: 'Error',
         description: (error as Error).message,
       })
+      setRegisterLoading(false)
     }
-    setRegisterLoading(false)
   }
 
   const totalPrice = Number(gasFee) + Number(price)
@@ -99,89 +106,110 @@ const DomainRegister = () => {
         <>
           {isDomainAvailable ? (
             <>
-              <div className="py-10 border-b border-slate-200">
-                <div className="w-full flex items-start flex-col space-y-12">
-                  <div className="w-5/12 flex items-center justify-between">
-                    <span className="text-base text-slate-600">Period:</span>
-                    <div className="flex items-center space-x-3">
-                      <Button
-                        onClick={() =>
-                          setYear((prevState) =>
-                            prevState > 1 ? prevState - 1 : prevState,
-                          )
-                        }
-                        variant="outline"
-                        className="h-7 w-5 text-xs"
-                      >
-                        -
-                      </Button>
-                      <div>{year} year</div>
+              {registerLoading ? (
+                <>
+                  <Loader />
+                </>
+              ) : (
+                <>
+                  {' '}
+                  <div className="py-10 border-b border-slate-200">
+                    <div className="w-full flex items-start flex-col space-y-12">
+                      <div className="w-5/12 flex items-center justify-between">
+                        <span className="text-base text-slate-600">
+                          Period:
+                        </span>
+                        <div className="flex items-center space-x-3">
+                          <Button
+                            onClick={() =>
+                              setYear((prevState) =>
+                                prevState > 1 ? prevState - 1 : prevState,
+                              )
+                            }
+                            variant="outline"
+                            className="h-7 w-5 text-xs"
+                          >
+                            -
+                          </Button>
+                          <div>{year} year</div>
 
-                      <Button
-                        onClick={() => setYear((prevState) => prevState + 1)}
-                        variant="outline"
-                        className="h-7 w-5 text-xs"
-                      >
-                        +
-                      </Button>
+                          <Button
+                            onClick={() =>
+                              setYear((prevState) => prevState + 1)
+                            }
+                            variant="outline"
+                            className="h-7 w-5 text-xs"
+                          >
+                            +
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="w-5/12 flex items-center justify-between">
+                        <span className="text-base text-slate-600">Price:</span>
+                        <div className="ml-12 font-semibold text-right ">
+                          {priceLoading ? <InfoLoader /> : `${price} TFIL`}
+                        </div>
+                      </div>
+                      <div className="w-5/12 flex items-center justify-between">
+                        <span className="text-base text-slate-600">
+                          Gas fee:
+                        </span>
+                        <div className="ml-16 font-semibold text-right  ">
+                          {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="w-5/12 flex items-center justify-between">
-                    <span className="text-base text-slate-600">Price:</span>
-                    <div className="ml-12 font-semibold text-right ">
-                      {priceLoading ? <InfoLoader /> : `${price} TFIL`}
+                  <div className="mt-10 w-full flex items-start flex-col space-y-12">
+                    <div className="w-full flex items-center justify-between">
+                      <div className="w-5/12 flex items-center justify-between">
+                        <span className="text-base text-slate-600">Total:</span>
+                        <div className="font-semibold">
+                          {priceLoading ? (
+                            <InfoLoader />
+                          ) : (
+                            `${totalPrice.toFixed(4)} TFIL`
+                          )}
+                        </div>
+                      </div>
+                      {currentAccount && (
+                        <Button
+                          disabled={
+                            priceLoading ||
+                            registerLoading ||
+                            !!hash ||
+                            isSuccessful
+                          }
+                          onClick={handleRegister}
+                        >
+                          Register
+                        </Button>
+                      )}
                     </div>
-                  </div>
-                  <div className="w-5/12 flex items-center justify-between">
-                    <span className="text-base text-slate-600">Gas fee:</span>
-                    <div className="ml-16 font-semibold text-right  ">
-                      {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-10 w-full flex items-start flex-col space-y-12">
-                <div className="w-full flex items-center justify-between">
-                  <div className="w-5/12 flex items-center justify-between">
-                    <span className="text-base text-slate-600">Total:</span>
-                    <div className="font-semibold">
-                      {priceLoading ? (
-                        <InfoLoader />
-                      ) : (
-                        `${totalPrice.toFixed(4)} TFIL`
+                    <div className="w-5/12 flex items-center justify-between">
+                      {currentAccount && (
+                        <>
+                          <span className="text-base text-slate-600">
+                            Your Balance:
+                          </span>
+                          <div
+                            className={`font-semibold ${
+                              isLessBalance ? 'text-red-600' : ''
+                            }`}
+                          >
+                            {userBalanceLoading ? (
+                              <InfoLoader />
+                            ) : (
+                              `${Number(userBalance).toFixed(4)} TFIL`
+                            )}
+                          </div>
+                        </>
                       )}
                     </div>
                   </div>
-                  {currentAccount && (
-                    <Button
-                      disabled={priceLoading || registerLoading}
-                      onClick={handleRegister}
-                    >
-                      Register
-                    </Button>
-                  )}
-                </div>
-                <div className="w-5/12 flex items-center justify-between">
-                  {currentAccount && (
-                    <>
-                      <span className="text-base text-slate-600">
-                        Your Balance:
-                      </span>
-                      <div
-                        className={`font-semibold ${
-                          isLessBalance ? 'text-red-600' : ''
-                        }`}
-                      >
-                        {userBalanceLoading ? (
-                          <InfoLoader />
-                        ) : (
-                          `${Number(userBalance).toFixed(4)} TFIL`
-                        )}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
+                </>
+              )}
+
               {hash && (
                 <div className="font-medium text-base bg-slate-100 px-4 py-2 border border-slate-200 rounded-sm  text-slate-900 mt-8">
                   <span className="cursor-pointer">{hash}</span>
