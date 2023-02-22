@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setContentHash } from '../../services/spheron-fns'
+import { setRecord } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
@@ -48,10 +48,7 @@ const DomainDetail = () => {
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
     try {
-      const res = await setContentHash(
-        params.domainName || '',
-        contentHashQuery,
-      )
+      const res = await setRecord(params.domainName || '', contentHashQuery)
       if (!res.error) {
         setSettingContentHash(false)
         toast({
@@ -127,7 +124,7 @@ const DomainDetail = () => {
                           </>
                         ) : (
                           <>
-                            {ownerAddress === currentAccount && (
+                            {ownerAddress !== currentAccount && (
                               <div className="flex items-center space-x-3">
                                 <Input
                                   className="h-10 w-11/12 text-lg"
@@ -140,7 +137,7 @@ const DomainDetail = () => {
                                   onClick={handleSetContentHash}
                                   disabled={settingContentHash}
                                 >
-                                  Search
+                                  Set
                                 </Button>
                               </div>
                             )}

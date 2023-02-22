@@ -1,6 +1,7 @@
 import { FNS } from '@spheron/fnslib'
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
+const contentHash = require('content-hash')
 
 const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
@@ -120,21 +121,25 @@ export const getExpiry = async (domainName: string) => {
   }
 }
 
-export const setContentHash = async (
-  domainName: string,
-  contentHash: string,
-) => {
+export const setRecord = async (domainName: string, value: string) => {
+  console.log(
+    'DOmAIN NAME:',
+    domainName,
+    value,
+    process.env.REACT_APP_RESOLVER_ADDRESS,
+  )
   try {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
     const res = await FNSInstance.setRecord(domainName, {
-      type: 'contentHash',
-      record: contentHash,
-      resolverAddress: '0x032666197A5d9329e717800FC90E8C951bA12290',
+      type: 'addr',
+      record: { key: '460', address: value } as any,
+      resolverAddress: process.env.REACT_APP_RESOLVER_ADDRESS,
     })
     return { error: false, response: res }
   } catch (error) {
+    console.log('ERROR: ', error)
     return { error: true, response: (error as Error).message }
   }
 }
