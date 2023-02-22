@@ -34,11 +34,13 @@ const Domain = () => {
   ]
 
   const handleSearch = () => {
+    const containsFilSubstr =
+      searchQuery.slice(searchQuery.length - 3, searchQuery.length) === 'fil'
     navigate(
       `/${
         isValidAddress(searchQuery)
           ? `address/${searchQuery}/registrant`
-          : `domain/${searchQuery}.fil/register`
+          : `domain/${searchQuery}${containsFilSubstr ? '' : '.fil'}/register`
       }`,
     )
   }

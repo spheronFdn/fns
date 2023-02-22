@@ -73,7 +73,8 @@ const DomainRegister = () => {
       } else {
         toast({
           title: 'Error',
-          description: (res.response as Error).message,
+          variant: 'destructive',
+          description: res.response,
         })
       }
     } catch (error) {
@@ -100,7 +101,7 @@ const DomainRegister = () => {
             <>
               <div className="py-10 border-b border-slate-200">
                 <div className="w-full flex items-start flex-col space-y-12">
-                  <div className="w-56 flex items-center justify-between">
+                  <div className="w-5/12 flex items-center justify-between">
                     <span className="text-base text-slate-600">Period:</span>
                     <div className="flex items-center space-x-3">
                       <Button
@@ -125,15 +126,15 @@ const DomainRegister = () => {
                       </Button>
                     </div>
                   </div>
-                  <div className="w-[200px] flex items-center justify-between">
+                  <div className="w-5/12 flex items-center justify-between">
                     <span className="text-base text-slate-600">Price:</span>
-                    <div className="ml-12 font-semibold text-left w-[500px]">
+                    <div className="ml-12 font-semibold text-right ">
                       {priceLoading ? <InfoLoader /> : `${price} TFIL`}
                     </div>
                   </div>
-                  <div className="w-[200px] flex items-center justify-between">
+                  <div className="w-5/12 flex items-center justify-between">
                     <span className="text-base text-slate-600">Gas fee:</span>
-                    <div className="ml-16 font-semibold text-left w-[500px] ">
+                    <div className="ml-16 font-semibold text-right  ">
                       {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
                     </div>
                   </div>
@@ -141,7 +142,7 @@ const DomainRegister = () => {
               </div>
               <div className="mt-10 w-full flex items-start flex-col space-y-12">
                 <div className="w-full flex items-center justify-between">
-                  <div className="w-56 flex items-center justify-between">
+                  <div className="w-5/12 flex items-center justify-between">
                     <span className="text-base text-slate-600">Total:</span>
                     <div className="font-semibold">
                       {priceLoading ? (
@@ -160,7 +161,7 @@ const DomainRegister = () => {
                     </Button>
                   )}
                 </div>
-                <div className="w-56 flex items-center justify-between">
+                <div className="w-5/12 flex items-center justify-between">
                   {currentAccount && (
                     <>
                       <span className="text-base text-slate-600">
