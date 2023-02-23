@@ -51,7 +51,7 @@ const Domain = () => {
 
   return (
     <>
-      <div className="w-full bg-slate-100 py-4">
+      <div className="w-full bg-gray-bg py-4">
         <div className="w-8/12 mx-auto flex items-center justify-between">
           <div className="mr-auto ml-0 w-6/12 flex space-x-3">
             <Input

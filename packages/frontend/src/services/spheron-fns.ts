@@ -27,6 +27,22 @@ export const getPriceOnYear = async (name: string, duration: number) => {
   }
 }
 
+//  Set Addr
+export const setAddr = async (domainName: string, value: string) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.setAddr(domainName, String(value))
+    await res.wait()
+    localStorage.removeItem('domain-underpurchase')
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
 export const registerDomain = async (
   name: string,
   address: string,
@@ -45,7 +61,12 @@ export const registerDomain = async (
         value: ethers.utils.parseUnits(price, 18),
       })
       await res.wait()
-      return { error: false, response: res.hash }
+      if (res.hash) {
+        const addrRes = await setAddr(name, address)
+        return { error: false, response: addrRes.response }
+      } else {
+        return { error: true, response: 'Something went wrong' }
+      }
     } else {
       return { error: true, response: 'Domain is not available' }
     }
@@ -121,30 +142,11 @@ export const getExpiry = async (domainName: string) => {
 }
 //  Set Content Hash
 export const setContentHash = async (domainName: string, value: string) => {
-  console.log(
-    'DOmAIN NAME:',
-    domainName,
-    value,
-    process.env.REACT_APP_RESOLVER_ADDRESS,
-  )
   try {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
     const res = await FNSInstance.setContentHash(domainName, value)
-    return { error: false, response: res }
-  } catch (error) {
-    console.log('ERROR: ', error)
-    return { error: true, response: (error as Error).message }
-  }
-}
-//  Set Addr
-export const setAddr = async (domainName: string, value: string) => {
-  try {
-    const FNSInstance = new FNS()
-    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-    await FNSInstance.setProvider(provider)
-    const res = await FNSInstance.setAddr(domainName, String(value))
     return { error: false, response: res }
   } catch (error) {
     console.log('ERROR: ', error)

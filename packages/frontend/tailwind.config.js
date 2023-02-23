@@ -6,6 +6,18 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          100: '#1661EB',
+          200: '#2A66F7',
+          300: '#4877F9',
+        },
+        gray: {
+          text: '#979CB4',
+          inactive: '#838ead',
+          bg: '#F9FAFB',
+        },
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },

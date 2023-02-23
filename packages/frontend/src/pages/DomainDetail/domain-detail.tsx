@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setAddr, setContentHash } from '../../services/spheron-fns'
+import { setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
@@ -15,8 +15,6 @@ const DomainDetail = () => {
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
-  const [addrQuery, setAddrQuery] = useState<string>('')
-  const [settingAddr, setSettingAddr] = useState<boolean>(false)
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -46,30 +44,6 @@ const DomainDetail = () => {
 
   let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
-
-  const handleSetYear = async () => {
-    try {
-      const res = await setAddr(params.domainName || '', addrQuery)
-      if (!res.error) {
-        toast({
-          title: 'Success',
-          description: 'Please wait for 3-5 minutes',
-        })
-      } else {
-        toast({
-          title: 'Error',
-          variant: 'destructive',
-        })
-      }
-      setSettingAddr(false)
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: (error as Error).message,
-      })
-      setSettingAddr(false)
-    }
-  }
 
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
@@ -111,43 +85,24 @@ const DomainDetail = () => {
           <div className="py-10 border-b border-slate-200">
             <div className="w-full flex items-start flex-col space-y-12">
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Year:</span>
-                <div>{expirationYear}</div>
+                <span className="text-base text-gray-text">Year:</span>
+                <div className="font-semibold">{expirationYear}</div>
               </div>
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Parent:</span>
-                <div>{process.env.REACT_APP_CONTROLLER_ADDRESS}</div>
+                <span className="text-base text-gray-text">Parent:</span>
+                <div className="font-semibold">
+                  {process.env.REACT_APP_CONTROLLER_ADDRESS}
+                </div>
               </div>
               {!isDomainAvailable && (
                 <div className="w-[800px] flex items-center justify-between">
-                  <span className="text-base text-slate-600">Controller:</span>
+                  <span className="text-base text-gray-text">Controller:</span>
                   <div>
-                    {ownerLoading || settingAddr ? (
+                    {ownerLoading ? (
                       <InfoLoader />
                     ) : (
                       <>
-                        {ownerAddress ? (
-                          <div>{ownerAddress}</div>
-                        ) : (
-                          <>
-                            <div className="flex items-center space-x-3">
-                              <Input
-                                className="h-10 w-11/12 text-lg"
-                                value={addrQuery}
-                                onChange={(e) => {
-                                  setAddrQuery(e.target.value)
-                                }}
-                              />
-                              <Button
-                                onClick={handleSetYear}
-                                className="bg-blue-600"
-                                disabled={settingContentHash}
-                              >
-                                Set
-                              </Button>
-                            </div>
-                          </>
-                        )}
+                        <div className="font-semibold">{ownerAddress}</div>
                       </>
                     )}
                   </div>
@@ -159,7 +114,7 @@ const DomainDetail = () => {
             <div className="mt-10 w-full flex items-start flex-col space-y-12">
               <div className="w-full flex items-center justify-between">
                 <div className="w-[800px] flex items-center justify-between">
-                  <span className="text-base text-slate-600 text-right">
+                  <span className="text-base text-gray-text text-right">
                     Content Hash:
                   </span>
                   <div>
@@ -180,7 +135,7 @@ const DomainDetail = () => {
                           </>
                         ) : (
                           <>
-                            {ownerAddress !== currentAccount && (
+                            {ownerAddress === currentAccount && (
                               <div className="flex items-center space-x-3">
                                 <Input
                                   className="h-10 w-11/12 text-lg"
@@ -191,7 +146,9 @@ const DomainDetail = () => {
                                 />
                                 <Button
                                   onClick={handleSetContentHash}
-                                  disabled={settingContentHash}
+                                  disabled={
+                                    settingContentHash || !contentHashQuery
+                                  }
                                 >
                                   Set
                                 </Button>
@@ -206,12 +163,12 @@ const DomainDetail = () => {
               </div>
 
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Expiration:</span>
+                <span className="text-base text-gray-text">Expiration:</span>
                 <div>
                   {expiryDateLoading ? (
                     <InfoLoader />
                   ) : (
-                    <div>{expirationDate}</div>
+                    <div className="font-semibold">{expirationDate}</div>
                   )}
                 </div>
               </div>

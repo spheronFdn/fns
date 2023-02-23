@@ -139,7 +139,7 @@ const Domain = () => {
 
   return (
     <>
-      <div className="w-full bg-slate-100 py-4">
+      <div className="w-full bg-gray-bg py-4">
         <div className="w-8/12 mx-auto flex items-center justify-between">
           <div className="mr-auto ml-0 w-6/12 flex space-x-3">
             <Input
@@ -149,7 +149,12 @@ const Domain = () => {
                 setSearchQuery(e.target.value)
               }}
             />
-            <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
+            <Button
+              onClick={() => handleSearch(searchQuery)}
+              className="bg-primary-100 hover:bg-primary-200 transition-all ease-in-out"
+            >
+              Search
+            </Button>
           </div>
         </div>
       </div>
@@ -160,8 +165,8 @@ const Domain = () => {
             to={`/domain/${params.domainName}/${navItem.label}`}
             className={`capitalize text-lg ${
               navItem.isActive
-                ? 'font-semibold text-slate-700'
-                : 'text-slate-400'
+                ? 'font-semibold text-primary-100'
+                : 'text-gray-inactive'
             }`}
           >
             {navItem.label}
