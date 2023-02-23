@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { MAX_INT_64 } from '../utils/consts'
 import { labelhash } from '../utils/labels'
 import { namehash } from '../utils/normalise'
@@ -14,7 +14,7 @@ type WrappedProps = {
 }
 
 export async function extendWrappedName(
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   name: string,
   options?: WrappedProps,
 ) {
@@ -32,7 +32,7 @@ export async function extendWrappedName(
 }
 
 export default async function (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   nameOrNames: string | string[],
   { duration, value }: BaseProps,
 ) {

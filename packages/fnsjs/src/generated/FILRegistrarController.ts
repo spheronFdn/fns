@@ -39,7 +39,7 @@ export declare namespace IPriceOracle {
   }
 }
 
-export interface RegistrarControllerInterface extends Interface {
+export interface FILRegistrarControllerInterface extends Interface {
   functions: {
     'MIN_REGISTRATION_DURATION()': FunctionFragment
     'available(string)': FunctionFragment
@@ -278,12 +278,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>
 
-export interface RegistrarController extends BaseContract {
+export interface FILRegistrarController extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this
   attach(addressOrName: string): this
   deployed(): Promise<this>
 
-  interface: RegistrarControllerInterface
+  interface: FILRegistrarControllerInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -453,11 +453,9 @@ export interface RegistrarController extends BaseContract {
     name: PromiseOrValue<string>,
     owner: PromiseOrValue<string>,
     duration: PromiseOrValue<BigNumberish>,
-    secret: PromiseOrValue<BytesLike>,
     resolver: PromiseOrValue<string>,
     data: PromiseOrValue<BytesLike>[],
     reverseRecord: PromiseOrValue<boolean>,
-    ownerControlledFuses: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
   ): Promise<ContractTransaction>
 
@@ -549,11 +547,9 @@ export interface RegistrarController extends BaseContract {
       name: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       duration: PromiseOrValue<BigNumberish>,
-      secret: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
       data: PromiseOrValue<BytesLike>[],
       reverseRecord: PromiseOrValue<boolean>,
-      ownerControlledFuses: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides,
     ): Promise<void>
 
@@ -683,11 +679,9 @@ export interface RegistrarController extends BaseContract {
       name: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       duration: PromiseOrValue<BigNumberish>,
-      secret: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
       data: PromiseOrValue<BytesLike>[],
       reverseRecord: PromiseOrValue<boolean>,
-      ownerControlledFuses: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
     ): Promise<BigNumber>
 
@@ -782,11 +776,9 @@ export interface RegistrarController extends BaseContract {
       name: PromiseOrValue<string>,
       owner: PromiseOrValue<string>,
       duration: PromiseOrValue<BigNumberish>,
-      secret: PromiseOrValue<BytesLike>,
       resolver: PromiseOrValue<string>,
       data: PromiseOrValue<BytesLike>[],
       reverseRecord: PromiseOrValue<boolean>,
-      ownerControlledFuses: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> },
     ): Promise<PopulatedTransaction>
 

@@ -34,7 +34,7 @@ export interface NameWrapperInterface extends Interface {
     'balanceOfBatch(address[],uint256[])': FunctionFragment
     'canModifyName(bytes32,address)': FunctionFragment
     'controllers(address)': FunctionFragment
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'extendExpiry(bytes32,bytes32,uint64)': FunctionFragment
     'getData(uint256)': FunctionFragment
     'isApprovedForAll(address,address)': FunctionFragment
@@ -83,7 +83,7 @@ export interface NameWrapperInterface extends Interface {
       | 'balanceOfBatch'
       | 'canModifyName'
       | 'controllers'
-      | 'ens'
+      | 'fns'
       | 'extendExpiry'
       | 'getData'
       | 'isApprovedForAll'
@@ -148,7 +148,7 @@ export interface NameWrapperInterface extends Interface {
     functionFragment: 'controllers',
     values: [PromiseOrValue<string>],
   ): string
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'extendExpiry',
     values: [
@@ -389,7 +389,7 @@ export interface NameWrapperInterface extends Interface {
     data: BytesLike,
   ): Result
   decodeFunctionResult(functionFragment: 'controllers', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'extendExpiry',
     data: BytesLike,
@@ -694,7 +694,7 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[boolean]>
 
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     extendExpiry(
       parentNode: PromiseOrValue<BytesLike>,
@@ -967,7 +967,7 @@ export interface NameWrapper extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<boolean>
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   extendExpiry(
     parentNode: PromiseOrValue<BytesLike>,
@@ -1240,7 +1240,7 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<boolean>
 
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     extendExpiry(
       parentNode: PromiseOrValue<BytesLike>,
@@ -1621,7 +1621,7 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     extendExpiry(
       parentNode: PromiseOrValue<BytesLike>,
@@ -1889,7 +1889,7 @@ export interface NameWrapper extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>
 
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     extendExpiry(
       parentNode: PromiseOrValue<BytesLike>,

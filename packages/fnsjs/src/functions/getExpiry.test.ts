@@ -1,11 +1,11 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 
 beforeAll(async () => {
-  ;({ ensInstance, revert } = await setup())
+  ;({ fnsInstance, revert } = await setup())
 })
 
 afterAll(async () => {
@@ -14,7 +14,7 @@ afterAll(async () => {
 
 describe('getExpiry', () => {
   it('should get the expiry for a .eth name with no other args', async () => {
-    const result = await ensInstance.getExpiry('with-profile.eth')
+    const result = await fnsInstance.getExpiry('with-profile.eth')
     expect(result).toBeTruthy()
     if (result) {
       const { expiry, gracePeriod } = result
@@ -23,7 +23,7 @@ describe('getExpiry', () => {
     }
   })
   it('should get the expiry for a wrapped name', async () => {
-    const result = await ensInstance.getExpiry('wrapped.eth', {
+    const result = await fnsInstance.getExpiry('wrapped.eth', {
       contract: 'nameWrapper',
     })
 
@@ -36,7 +36,7 @@ describe('getExpiry', () => {
   })
   it('should throw an error for a non .eth name if not wrapped', async () => {
     try {
-      await ensInstance.getExpiry('sub.with-profile.eth')
+      await fnsInstance.getExpiry('sub.with-profile.eth')
       expect(false).toBeTruthy()
     } catch {
       expect(true).toBeTruthy()
@@ -44,7 +44,7 @@ describe('getExpiry', () => {
   })
   it('should throw an error for a non .eth name if registrar is specified', async () => {
     try {
-      await ensInstance.getExpiry('sub.with-profile.eth', {
+      await fnsInstance.getExpiry('sub.with-profile.eth', {
         contract: 'registrar',
       })
       expect(false).toBeTruthy()

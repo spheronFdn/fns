@@ -1,11 +1,11 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 
 beforeAll(async () => {
-  ;({ ensInstance, revert } = await setup())
+  ;({ fnsInstance, revert } = await setup())
 })
 
 afterAll(async () => {
@@ -14,11 +14,11 @@ afterAll(async () => {
 
 describe('getHistory', () => {
   it('should return null for a non-existent name', async () => {
-    const result = await ensInstance.getHistory('test123123cool.eth')
+    const result = await fnsInstance.getHistory('test123123cool.eth')
     expect(result).toBeUndefined()
   })
   it('should return the history of a name', async () => {
-    const result = await ensInstance.getHistory('with-profile.eth')
+    const result = await fnsInstance.getHistory('with-profile.eth')
     expect(result).toBeTruthy()
     if (result) {
       expect(result).toHaveProperty('domain')
@@ -27,7 +27,7 @@ describe('getHistory', () => {
     }
   })
   it('should return the history of a wrapped name', async () => {
-    const result = await ensInstance.getHistory('wrapped.eth')
+    const result = await fnsInstance.getHistory('wrapped.eth')
     expect(result).toBeTruthy()
     if (result) {
       expect(result).toHaveProperty('domain')
@@ -36,7 +36,7 @@ describe('getHistory', () => {
     }
   })
   it('should return the history of a subname', async () => {
-    const result = await ensInstance.getHistory(
+    const result = await fnsInstance.getHistory(
       'test.wrapped-with-subnames.eth',
     )
     expect(result).toBeTruthy()

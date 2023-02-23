@@ -26,7 +26,7 @@ import type {
   TypedListener,
 } from './common'
 
-export interface RegistrarInterface extends Interface {
+export interface BaseRegistrarImplementationInterface extends Interface {
   functions: {
     'GRACE_PERIOD()': FunctionFragment
     'addController(address)': FunctionFragment
@@ -35,7 +35,7 @@ export interface RegistrarInterface extends Interface {
     'balanceOf(address)': FunctionFragment
     'baseNode()': FunctionFragment
     'controllers(address)': FunctionFragment
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'getApproved(uint256)': FunctionFragment
     'isApprovedForAll(address,address)': FunctionFragment
     'isOwner()': FunctionFragment
@@ -66,7 +66,7 @@ export interface RegistrarInterface extends Interface {
       | 'balanceOf'
       | 'baseNode'
       | 'controllers'
-      | 'ens'
+      | 'fns'
       | 'getApproved'
       | 'isApprovedForAll'
       | 'isOwner'
@@ -113,7 +113,7 @@ export interface RegistrarInterface extends Interface {
     functionFragment: 'controllers',
     values: [PromiseOrValue<string>],
   ): string
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'getApproved',
     values: [PromiseOrValue<BigNumberish>],
@@ -219,7 +219,7 @@ export interface RegistrarInterface extends Interface {
   decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'baseNode', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'controllers', data: BytesLike): Result
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'getApproved', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'isApprovedForAll',
@@ -397,12 +397,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>
 
-export interface Registrar extends BaseContract {
+export interface BaseRegistrarImplementation extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this
   attach(addressOrName: string): this
   deployed(): Promise<this>
 
-  interface: RegistrarInterface
+  interface: BaseRegistrarImplementationInterface
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -454,7 +454,7 @@ export interface Registrar extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<[boolean]>
 
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -590,7 +590,7 @@ export interface Registrar extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<boolean>
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -726,7 +726,7 @@ export interface Registrar extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<boolean>
 
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -950,7 +950,7 @@ export interface Registrar extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -1087,7 +1087,7 @@ export interface Registrar extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>
 
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,

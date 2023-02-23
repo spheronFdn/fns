@@ -24,7 +24,7 @@ import type {
 
 export interface BulkRenewalInterface extends Interface {
   functions: {
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'renewAll(string[],uint256)': FunctionFragment
     'rentPrice(string[],uint256)': FunctionFragment
     'supportsInterface(bytes4)': FunctionFragment
@@ -32,13 +32,13 @@ export interface BulkRenewalInterface extends Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | 'ens'
+      | 'fns'
       | 'renewAll'
       | 'rentPrice'
       | 'supportsInterface',
   ): FunctionFragment
 
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'renewAll',
     values: [PromiseOrValue<string>[], PromiseOrValue<BigNumberish>],
@@ -52,7 +52,7 @@ export interface BulkRenewalInterface extends Interface {
     values: [PromiseOrValue<BytesLike>],
   ): string
 
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'renewAll', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'rentPrice', data: BytesLike): Result
   decodeFunctionResult(
@@ -90,7 +90,7 @@ export interface BulkRenewal extends BaseContract {
   removeListener: OnEvent<this>
 
   functions: {
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     renewAll(
       names: PromiseOrValue<string>[],
@@ -110,7 +110,7 @@ export interface BulkRenewal extends BaseContract {
     ): Promise<[boolean]>
   }
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   renewAll(
     names: PromiseOrValue<string>[],
@@ -130,7 +130,7 @@ export interface BulkRenewal extends BaseContract {
   ): Promise<boolean>
 
   callStatic: {
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     renewAll(
       names: PromiseOrValue<string>[],
@@ -153,7 +153,7 @@ export interface BulkRenewal extends BaseContract {
   filters: {}
 
   estimateGas: {
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     renewAll(
       names: PromiseOrValue<string>[],
@@ -174,7 +174,7 @@ export interface BulkRenewal extends BaseContract {
   }
 
   populateTransaction: {
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     renewAll(
       names: PromiseOrValue<string>[],

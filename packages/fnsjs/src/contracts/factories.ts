@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { BaseRegistrarImplementation__factory } from '../generated/factories/Registrar__factory'
+import type { BaseRegistrarImplementation__factory } from '../generated/factories/BaseRegistrarImplementation__factory'
 import type { BulkRenewal__factory } from '../generated/factories/BulkRenewal__factory'
 import type { DefaultReverseResolver__factory } from '../generated/factories/DefaultReverseResolver__factory'
 import type { DNSRegistrar__factory } from '../generated/factories/DNSRegistrar__factory'
 import type { DNSSECImpl__factory } from '../generated/factories/DNSSECImpl__factory'
 import type { ENSRegistry__factory } from '../generated/factories/FNSRegistry__factory'
-import type { ETHRegistrarController__factory } from '../generated/factories/RegistrarController__factory'
+import type { ETHRegistrarController__factory } from '../generated/factories/ETHRegistrarController__factory'
 import type { Multicall__factory } from '../generated/factories/Multicall__factory'
 import type { NameWrapper__factory } from '../generated/factories/NameWrapper__factory'
 import type { P256SHA256Algorithm__factory } from '../generated/factories/P256SHA256Algorithm__factory'

@@ -1,10 +1,10 @@
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { CombinedFuseInput, encodeFuses } from '../utils/fuses'
 import { labelhash } from '../utils/labels'
 import { namehash } from '../utils/normalise'
 
 export async function setChildFuses(
-  { contracts, signer }: ENSArgs<'contracts' | 'signer'>,
+  { contracts, signer }: FNSArgs<'contracts' | 'signer'>,
   name: string,
   {
     fuses,
@@ -31,7 +31,7 @@ export async function setChildFuses(
 }
 
 export default async function (
-  { contracts, signer }: ENSArgs<'contracts' | 'signer'>,
+  { contracts, signer }: FNSArgs<'contracts' | 'signer'>,
   name: string,
   props: CombinedFuseInput['child'],
 ) {

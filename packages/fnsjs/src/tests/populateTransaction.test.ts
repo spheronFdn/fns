@@ -1,11 +1,11 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from './setup'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 
 beforeAll(async () => {
-  ;({ ensInstance, revert } = await setup())
+  ;({ fnsInstance, revert } = await setup())
 })
 
 afterAll(async () => {
@@ -19,7 +19,7 @@ describe('populateTransaction', () => {
     await revert()
   })
   it('should return a transaction successfully', async () => {
-    const tx = await ensInstance.setName('fleek.eth')
+    const tx = await fnsInstance.setName('fleek.eth')
     expect(tx).toBeTruthy()
     if (tx) {
       await tx.wait()
@@ -27,7 +27,7 @@ describe('populateTransaction', () => {
     }
   })
   it('should return a populated transaction successfully', async () => {
-    const tx = await ensInstance.setName.populateTransaction('fleek.eth')
+    const tx = await fnsInstance.setName.populateTransaction('fleek.eth')
     expect(tx).toBeTruthy()
     if (tx) {
       expect(tx).not.toHaveProperty('hash')

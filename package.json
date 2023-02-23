@@ -1,12 +1,9 @@
 {
   "name": "fnsjs-monorepo",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
-    "publish:local:ens-test-env": "yalc publish packages/ens-test-env --push --up",
-    "publish:local:ensjs": "yalc publish packages/ensjs --push --up"
+    "publish:local:fnsjs": "yalc publish packages/fnsjs --push --up"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
@@ -26,7 +23,7 @@
     "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13"
   },
   "dependenciesMeta": {
-    "ens-contracts": {
+    "fns-contracts": {
       "built": false,
       "unplugged": true
     }

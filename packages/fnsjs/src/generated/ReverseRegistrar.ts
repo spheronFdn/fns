@@ -33,7 +33,7 @@ export interface ReverseRegistrarInterface extends Interface {
     'claimWithResolver(address,address)': FunctionFragment
     'controllers(address)': FunctionFragment
     'defaultResolver()': FunctionFragment
-    'ens()': FunctionFragment
+    'fns()': FunctionFragment
     'node(address)': FunctionFragment
     'owner()': FunctionFragment
     'renounceOwnership()': FunctionFragment
@@ -51,7 +51,7 @@ export interface ReverseRegistrarInterface extends Interface {
       | 'claimWithResolver'
       | 'controllers'
       | 'defaultResolver'
-      | 'ens'
+      | 'fns'
       | 'node'
       | 'owner'
       | 'renounceOwnership'
@@ -86,7 +86,7 @@ export interface ReverseRegistrarInterface extends Interface {
     functionFragment: 'defaultResolver',
     values?: undefined,
   ): string
-  encodeFunctionData(functionFragment: 'ens', values?: undefined): string
+  encodeFunctionData(functionFragment: 'fns', values?: undefined): string
   encodeFunctionData(
     functionFragment: 'node',
     values: [PromiseOrValue<string>],
@@ -136,7 +136,7 @@ export interface ReverseRegistrarInterface extends Interface {
     functionFragment: 'defaultResolver',
     data: BytesLike,
   ): Result
-  decodeFunctionResult(functionFragment: 'ens', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'fns', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'node', data: BytesLike): Result
   decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result
   decodeFunctionResult(
@@ -272,7 +272,7 @@ export interface ReverseRegistrar extends BaseContract {
 
     defaultResolver(overrides?: CallOverrides): Promise<[string]>
 
-    ens(overrides?: CallOverrides): Promise<[string]>
+    fns(overrides?: CallOverrides): Promise<[string]>
 
     node(
       addr: PromiseOrValue<string>,
@@ -340,7 +340,7 @@ export interface ReverseRegistrar extends BaseContract {
 
   defaultResolver(overrides?: CallOverrides): Promise<string>
 
-  ens(overrides?: CallOverrides): Promise<string>
+  fns(overrides?: CallOverrides): Promise<string>
 
   node(addr: PromiseOrValue<string>, overrides?: CallOverrides): Promise<string>
 
@@ -405,7 +405,7 @@ export interface ReverseRegistrar extends BaseContract {
 
     defaultResolver(overrides?: CallOverrides): Promise<string>
 
-    ens(overrides?: CallOverrides): Promise<string>
+    fns(overrides?: CallOverrides): Promise<string>
 
     node(
       addr: PromiseOrValue<string>,
@@ -508,7 +508,7 @@ export interface ReverseRegistrar extends BaseContract {
 
     defaultResolver(overrides?: CallOverrides): Promise<BigNumber>
 
-    ens(overrides?: CallOverrides): Promise<BigNumber>
+    fns(overrides?: CallOverrides): Promise<BigNumber>
 
     node(
       addr: PromiseOrValue<string>,
@@ -577,7 +577,7 @@ export interface ReverseRegistrar extends BaseContract {
 
     defaultResolver(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
-    ens(overrides?: CallOverrides): Promise<PopulatedTransaction>
+    fns(overrides?: CallOverrides): Promise<PopulatedTransaction>
 
     node(
       addr: PromiseOrValue<string>,

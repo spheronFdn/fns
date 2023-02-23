@@ -1,11 +1,12 @@
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 import { Name } from './getNames'
+import { names as wrappedNames } from '../../deploy/00_register_wrapped'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 
 beforeAll(async () => {
-  ;({ ensInstance } = await setup())
+  ;({ fnsInstance } = await setup())
 })
 
 const testProperties = (obj: object, ...properties: string[]) =>
@@ -51,7 +52,7 @@ describe('getNames', () => {
   let totalRegistrations: number = 0
   let totalOwnedNames: number = 0
   it('should get the registrations for an address', async () => {
-    const result = await ensInstance.getNames({
+    const result = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'registrant',
     })
@@ -71,7 +72,7 @@ describe('getNames', () => {
     )
   })
   it('should get the owned names for an address', async () => {
-    const result = await ensInstance.getNames({
+    const result = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
     })
@@ -90,7 +91,7 @@ describe('getNames', () => {
     testNotProperties(result[0], 'expiryDate', 'registrationDate')
   })
   it('should get wrapped domains for an address', async () => {
-    const result = await ensInstance.getNames({
+    const result = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'wrappedOwner',
     })
@@ -109,25 +110,25 @@ describe('getNames', () => {
     )
   })
   it('should get the registrations for an address with pagination', async () => {
-    const pageOne = await ensInstance.getNames({
+    const pageOne = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'registrant',
       page: 0,
     })
     expect(pageOne).toHaveLength(10)
-    const pageTwo = await ensInstance.getNames({
+    const pageTwo = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'registrant',
       page: 1,
     })
     expect(pageTwo).toHaveLength(10)
-    const pageThree = await ensInstance.getNames({
+    const pageThree = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'registrant',
       page: 2,
     })
     expect(pageThree).toHaveLength(10)
-    const pageFour = await ensInstance.getNames({
+    const pageFour = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'registrant',
       page: 3,
@@ -135,49 +136,61 @@ describe('getNames', () => {
     expect(pageFour).toHaveLength(totalRegistrations % 10)
   })
   it('should get the owned names for an address with pagination', async () => {
-    const pageOne = await ensInstance.getNames({
+    const pageOne = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
       page: 0,
     })
     expect(pageOne).toHaveLength(10)
-    const pageTwo = await ensInstance.getNames({
+    const pageTwo = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
       page: 1,
     })
     expect(pageTwo).toHaveLength(10)
-    const pageThree = await ensInstance.getNames({
+    const pageThree = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
       page: 2,
     })
     expect(pageThree).toHaveLength(10)
-    const pageFour = await ensInstance.getNames({
+    const pageFour = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
       page: 3,
     })
     expect(pageFour).toHaveLength(10)
-    const pageFive = await ensInstance.getNames({
+    const pageFive = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'owner',
       page: 4,
     })
     expect(pageFive).toHaveLength(totalOwnedNames % 10)
   })
-  it('should get wrapped domains for an address with pagination', async () => {
-    const pageOne = await ensInstance.getNames({
+  it('should get wrapped domains for an address with pagination, and filter out pcc expired names', async () => {
+    const pageOne = await fnsInstance.getNames({
       address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       type: 'wrappedOwner',
       page: 0,
     })
-    expect(pageOne).toHaveLength(2)
+
+    const nameCout = wrappedNames.reduce<number>((count, name) => {
+      if (name.namedOwner === 'owner2') count += 1
+      ;(name.subnames || []).forEach((subname: any) => {
+        if (subname.namedOwner === 'owner2') count += 1
+      })
+      return count
+    }, 0)
+
+    // length of page one should be all the names on 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC
+    // minus 1 for the PCC expired name.
+    // the result here implies that the PCC expired name is not returned
+    expect(pageOne).toHaveLength(nameCout - 1)
   })
   describe('orderBy', () => {
     describe('registrations', () => {
       it('descending registrationDate', async () => {
-        const registrationDateOrderedDesc = (await ensInstance.getNames({
+        const registrationDateOrderedDesc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'registrationDate',
@@ -191,7 +204,7 @@ describe('getNames', () => {
         })
       })
       it('ascending registrationDate', async () => {
-        const registrationDateOrderedAsc = (await ensInstance.getNames({
+        const registrationDateOrderedAsc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'registrationDate',
@@ -205,7 +218,7 @@ describe('getNames', () => {
         })
       })
       it('descending expiryDate', async () => {
-        const expiryDateOrderedDesc = (await ensInstance.getNames({
+        const expiryDateOrderedDesc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'expiryDate',
@@ -219,7 +232,7 @@ describe('getNames', () => {
         })
       })
       it('ascending expiryDate', async () => {
-        const expiryDateOrderedAsc = (await ensInstance.getNames({
+        const expiryDateOrderedAsc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'expiryDate',
@@ -233,7 +246,7 @@ describe('getNames', () => {
         })
       })
       it('descending labelName', async () => {
-        const labelNameOrderedDesc = (await ensInstance.getNames({
+        const labelNameOrderedDesc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'labelName',
@@ -244,7 +257,7 @@ describe('getNames', () => {
         )
       })
       it('ascending labelName', async () => {
-        const labelNameOrderedAsc = (await ensInstance.getNames({
+        const labelNameOrderedAsc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'registrant',
           orderBy: 'labelName',
@@ -257,7 +270,7 @@ describe('getNames', () => {
     })
     describe('owned names', () => {
       it('descending createdAt', async () => {
-        const createdAtOrderedDesc = (await ensInstance.getNames({
+        const createdAtOrderedDesc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'owner',
           orderBy: 'createdAt',
@@ -271,7 +284,7 @@ describe('getNames', () => {
         })
       })
       it('ascending createdAt', async () => {
-        const createdAtOrderedAsc = (await ensInstance.getNames({
+        const createdAtOrderedAsc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'owner',
           orderBy: 'createdAt',
@@ -285,7 +298,7 @@ describe('getNames', () => {
         })
       })
       it('descending labelName', async () => {
-        const labelNameOrderedDesc = (await ensInstance.getNames({
+        const labelNameOrderedDesc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'owner',
           orderBy: 'labelName',
@@ -296,7 +309,7 @@ describe('getNames', () => {
         )
       })
       it('ascending labelName', async () => {
-        const labelNameOrderedAsc = (await ensInstance.getNames({
+        const labelNameOrderedAsc = (await fnsInstance.getNames({
           address: '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
           type: 'owner',
           orderBy: 'labelName',

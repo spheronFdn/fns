@@ -2,18 +2,18 @@ import { decodeFirst } from 'cbor'
 import { BigNumber } from 'ethers'
 import { arrayify, toUtf8String } from 'ethers/lib/utils'
 import { inflate } from 'pako'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 import { decodeContenthash } from '../utils/contentHash'
 import { hexEncodeName } from '../utils/hexEncodedName'
 import { namehash } from '../utils/normalise'
 import { generateABIInput } from '../utils/recordHelpers'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 
 beforeAll(async () => {
-  ;({ ensInstance, revert } = await setup())
+  ;({ fnsInstance, revert } = await setup())
 })
 
 afterEach(async () => {
@@ -42,7 +42,7 @@ const dummyABI = [
 
 describe('setRecord', () => {
   it('should allow a text record set', async () => {
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'text',
       record: { key: 'foo', value: 'bar' },
       addressOrIndex: 1,
@@ -51,8 +51,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedText = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('text', [
@@ -67,7 +67,7 @@ describe('setRecord', () => {
     expect(resultText).toBe('bar')
   })
   it('should allow an address record set', async () => {
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'addr',
       record: {
         key: 'ETC_LEGACY',
@@ -79,8 +79,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedAddr = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('addr(bytes32,uint256)', [
@@ -97,7 +97,7 @@ describe('setRecord', () => {
     )
   })
   it('should allow a contenthash record set', async () => {
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'contentHash',
       record:
         'ipns://k51qzi5uqu5dgox2z23r6e99oqency055a6xt92xzmyvpz8mwz5ycjavm0u150',
@@ -107,8 +107,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedContent = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('contenthash', [
@@ -126,7 +126,7 @@ describe('setRecord', () => {
     expect(content.protocolType).toBe('ipns')
   })
   it('should allow an abi record to be set from an object', async () => {
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'abi',
       record: {
         data: dummyABI,
@@ -137,8 +137,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('ABI', [
@@ -157,7 +157,7 @@ describe('setRecord', () => {
   })
   it('should allow a zlib encoded abi record to be set', async () => {
     const encodedInput = await generateABIInput('zlib', dummyABI)
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -166,8 +166,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('ABI', [
@@ -188,7 +188,7 @@ describe('setRecord', () => {
   })
   it('should allow a cbor encoded abi record to be set', async () => {
     const encodedInput = await generateABIInput('cbor', dummyABI)
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -197,8 +197,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('ABI', [
@@ -219,7 +219,7 @@ describe('setRecord', () => {
   })
   it('should allow a uri abi record to be set', async () => {
     const encodedInput = await generateABIInput('uri', 'https://example.com')
-    const tx = await ensInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.eth', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -228,8 +228,8 @@ describe('setRecord', () => {
     await tx.wait()
 
     const universalResolver =
-      await ensInstance.contracts!.getUniversalResolver()!
-    const publicResolver = await ensInstance.contracts!.getPublicResolver()!
+      await fnsInstance.contracts!.getUniversalResolver()!
+    const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
       hexEncodeName('test123.eth'),
       publicResolver.interface.encodeFunctionData('ABI', [

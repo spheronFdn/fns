@@ -2,11 +2,16 @@ import type { Interface } from '@ethersproject/abi'
 import type { Signer } from '@ethersproject/abstract-signer'
 import type { BaseContract } from '@ethersproject/contracts'
 import type { Provider } from '@ethersproject/providers'
-import type { Registrar } from '../generated/Registrar'
+import type { BaseRegistrarImplementation } from '../generated/BaseRegistrarImplementation'
+import type { BulkRenewal } from '../generated/BulkRenewal'
+import type { DNSRegistrar } from '../generated/DNSRegistrar'
 import type { FNSRegistry } from '../generated/FNSRegistry'
-import type { RegistrarController } from '../generated/RegistrarController'
+import type { FILRegistrarController } from '../generated/FILRegistrarController'
+import type { Multicall } from '../generated/Multicall'
+import type { NameWrapper } from '../generated/NameWrapper'
 import type { PublicResolver } from '../generated/PublicResolver'
 import type { ReverseRegistrar } from '../generated/ReverseRegistrar'
+import type { UniversalResolver } from '../generated/UniversalResolver'
 import { ContractAddressFetch } from './getContractAddress'
 import { ContractName } from './types'
 
@@ -25,7 +30,7 @@ export default class ContractManager {
   protected getModule = async (name: string) => {
     const mod = await import(
       /* webpackMode: "lazy", webpackChunkName: "[request]", webpackPreload: true, webpackExclude: /.*\.ts$/ */
-      `../generated/factories/${name}__factory`
+      `../generated/factories/${name}__factory.mjs`
     )
     return mod[`${name}__factory`] as BaseFactory
   }
@@ -56,13 +61,32 @@ export default class ContractManager {
   public getPublicResolver =
     this.generateContractGetter<PublicResolver>('PublicResolver')
 
-  public getRegistry = this.generateContractGetter<FNSRegistry>('FNSRegistry')
+  public getUniversalResolver =
+    this.generateContractGetter<UniversalResolver>('UniversalResolver')
+
+  public getRegistry = this.generateContractGetter<FNSRegistry>('ENSRegistry')
 
   public getReverseRegistrar =
     this.generateContractGetter<ReverseRegistrar>('ReverseRegistrar')
 
-  public getBaseRegistrar = this.generateContractGetter<Registrar>('Registrar')
+  public getNameWrapper =
+    this.generateContractGetter<NameWrapper>('NameWrapper')
+
+  public getDNSRegistrar =
+    this.generateContractGetter<DNSRegistrar>('DNSRegistrar')
+
+  public getBaseRegistrar =
+    this.generateContractGetter<BaseRegistrarImplementation>(
+      'BaseRegistrarImplementation',
+    )
 
   public getEthRegistrarController =
-    this.generateContractGetter<RegistrarController>('RegistrarController')
+    this.generateContractGetter<FILRegistrarController>(
+      'ETHRegistrarController',
+    )
+
+  public getMulticall = this.generateContractGetter<Multicall>('Multicall')
+
+  public getBulkRenewal =
+    this.generateContractGetter<BulkRenewal>('BulkRenewal')
 }

@@ -1,9 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ENSArgs } from '../index'
-import {
-  BaseRegistrationParams,
-  makeRegistrationData,
-} from '../utils/registerHelpers'
+import { FNSArgs } from '../index'
+import { BaseRegistrationParams } from '../utils/registerHelpers'
 import { wrappedLabelLengthCheck } from '../utils/wrapper'
 
 type Params = BaseRegistrationParams & {
@@ -11,28 +8,30 @@ type Params = BaseRegistrationParams & {
 }
 
 export default async function (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   name: string,
-  { resolverAddress, value, ...params }: Params,
+  address: string,
+  duration: number,
+  { value }: Params,
 ) {
   const labels = name.split('.')
-  if (labels.length !== 2 || labels[1] !== 'eth')
-    throw new Error('Currently only .eth TLD registrations are supported')
+  if (labels.length !== 2 || labels[1] !== 'fil')
+    throw new Error('Currently only .fil TLD registrations are supported')
 
   wrappedLabelLengthCheck(labels[0])
 
   const controller = await contracts!.getEthRegistrarController()
-  const _resolver = await contracts!.getPublicResolver(
-    undefined,
-    resolverAddress,
-  )
-  const generatedParams = makeRegistrationData({
-    name,
-    resolver: _resolver,
-    ...params,
-  })
+  const resolver = await contracts?.getPublicResolver()!
 
-  return controller.populateTransaction.register(...generatedParams, {
-    value,
-  })
+  return controller.populateTransaction.register(
+    name,
+    address,
+    duration,
+    resolver.address,
+    [],
+    true,
+    {
+      value,
+    },
+  )
 }

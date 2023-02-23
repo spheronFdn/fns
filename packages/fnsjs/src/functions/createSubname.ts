@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { CombinedFuseInput, encodeFuses } from '../utils/fuses'
 import { namehash } from '../utils/normalise'
 import { Expiry, makeExpiry, wrappedLabelLengthCheck } from '../utils/wrapper'
@@ -24,14 +24,14 @@ export default async function (
     contracts,
     signer,
     getExpiry,
-  }: ENSArgs<'contracts' | 'signer' | 'getExpiry'>,
+  }: FNSArgs<'contracts' | 'signer' | 'getExpiry'>,
   name: string,
   { owner, resolverAddress, contract, ...wrapperArgs }: Args,
 ) {
   const labels = name.split('.')
 
   if (labels.length === 1) {
-    throw new Error('Subnames in ENS.js can only be created for 2LDs, not TLDs')
+    throw new Error('Subnames in FNS.js can only be created for 2LDs, not TLDs')
   }
 
   if ('fuses' in wrapperArgs && contract === 'registry') {

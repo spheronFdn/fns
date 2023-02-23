@@ -75,7 +75,7 @@ export interface PublicResolverInterface extends Interface {
       | 'isApprovedForAll'
       | 'multicall'
       | 'multicallWithNodeCheck'
-      | 'name(bytes32)'
+      | 'name'
       | 'pubkey'
       | 'recordVersions'
       | 'setABI'
@@ -159,7 +159,7 @@ export interface PublicResolverInterface extends Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<BytesLike>[]],
   ): string
   encodeFunctionData(
-    functionFragment: 'name(bytes32)',
+    functionFragment: 'name',
     values: [PromiseOrValue<BytesLike>],
   ): string
   encodeFunctionData(
@@ -250,10 +250,6 @@ export interface PublicResolverInterface extends Interface {
   decodeFunctionResult(functionFragment: 'ABI', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'addr(bytes32)',
-    data: BytesLike,
-  ): Result
-  decodeFunctionResult(
-    functionFragment: 'name(bytes32)',
     data: BytesLike,
   ): Result
   decodeFunctionResult(

@@ -1,6 +1,6 @@
 import { formatsByCoinType } from '@ensdomains/address-encoder'
 import { hexStripZeros } from '@ethersproject/bytes'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { decodeContenthash } from '../utils/contentHash'
 import { namehash } from '../utils/normalise'
 import {
@@ -149,7 +149,7 @@ const mapEvents = <T extends EventTypes>(eventArray: any[], type: T) =>
   )
 
 export async function getHistory(
-  { gqlInstance }: ENSArgs<'gqlInstance'>,
+  { gqlInstance }: FNSArgs<'gqlInstance'>,
   name: string,
 ) {
   const { client } = gqlInstance

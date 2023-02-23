@@ -1,7 +1,7 @@
 import { formatsByName } from '@ensdomains/address-encoder'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { hexStripZeros, isBytesLike } from '@ethersproject/bytes'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { decodeContenthash, DecodedContentHash } from '../utils/contentHash'
 import { hexEncodeName } from '../utils/hexEncodedName'
 import { namehash } from '../utils/normalise'
@@ -64,7 +64,7 @@ const makeMulticallData = async (
     _getAddr,
     _getContentHash,
     _getText,
-  }: ENSArgs<'_getText' | '_getAddr' | '_getContentHash'>,
+  }: FNSArgs<'_getText' | '_getAddr' | '_getContentHash'>,
   name: string,
   options: InternalProfileOptions,
 ) => {
@@ -113,7 +113,7 @@ const makeMulticallData = async (
 }
 
 const fetchWithoutResolverMulticall = async (
-  { multicallWrapper }: ENSArgs<'multicallWrapper'>,
+  { multicallWrapper }: FNSArgs<'multicallWrapper'>,
   calls: {
     key: string | number
     data: {
@@ -141,7 +141,7 @@ const formatRecords = async (
     _getText,
     _getAddr,
     _getContentHash,
-  }: ENSArgs<'_getText' | '_getAddr' | '_getContentHash'>,
+  }: FNSArgs<'_getText' | '_getAddr' | '_getContentHash'>,
   data: any[],
   calls: any[],
   options: InternalProfileOptions,
@@ -253,7 +253,7 @@ const getDataForName = async (
     _getContentHash,
     _getText,
     multicallWrapper,
-  }: ENSArgs<
+  }: FNSArgs<
     | 'contracts'
     | '_getText'
     | '_getAddr'
@@ -353,7 +353,7 @@ const getDataForName = async (
 }
 
 const graphFetch = async (
-  { gqlInstance }: ENSArgs<'gqlInstance'>,
+  { gqlInstance }: FNSArgs<'gqlInstance'>,
   name: string,
   wantedRecords?: ProfileOptions,
   resolverAddress?: string,
@@ -463,7 +463,7 @@ const getProfileFromName = async (
     _getText,
     resolverMulticallWrapper,
     multicallWrapper,
-  }: ENSArgs<
+  }: FNSArgs<
     | 'contracts'
     | 'gqlInstance'
     | '_getText'
@@ -569,7 +569,7 @@ const getProfileFromAddress = async (
     _getText,
     resolverMulticallWrapper,
     multicallWrapper,
-  }: ENSArgs<
+  }: FNSArgs<
     | 'contracts'
     | 'gqlInstance'
     | 'getName'
@@ -629,7 +629,7 @@ export default async function (
     _getText,
     resolverMulticallWrapper,
     multicallWrapper,
-  }: ENSArgs<
+  }: FNSArgs<
     | 'contracts'
     | 'gqlInstance'
     | 'getName'

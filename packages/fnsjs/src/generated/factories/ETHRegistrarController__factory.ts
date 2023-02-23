@@ -7,9 +7,9 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { Contract } from '@ethersproject/contracts'
 import type { Provider } from '@ethersproject/providers'
 import type {
-  RegistrarController,
-  RegistrarControllerInterface,
-} from '../RegistrarController'
+  FILRegistrarController,
+  FILRegistrarControllerInterface,
+} from '../FILRegistrarController'
 
 const _abi = [
   {
@@ -604,19 +604,19 @@ const _abi = [
   },
 ]
 
-export class RegistrarController__factory {
+export class ETHRegistrarController__factory {
   static readonly abi = _abi
-  static createInterface(): RegistrarControllerInterface {
-    return new Interface(_abi) as RegistrarControllerInterface
+  static createInterface(): FILRegistrarControllerInterface {
+    return new Interface(_abi) as FILRegistrarControllerInterface
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider,
-  ): RegistrarController {
+  ): FILRegistrarController {
     return new Contract(
       address,
       _abi,
       signerOrProvider,
-    ) as RegistrarController
+    ) as FILRegistrarController
   }
 }

@@ -1,21 +1,21 @@
 import type { StaticJsonRpcProvider } from '@ethersproject/providers'
 import { gql, GraphQLClient } from 'graphql-request'
-import { parse, print, visit } from 'graphql/language'
-import traverse from 'traverse'
+// import { parse, print, visit } from 'graphql/language'
+// import traverse from 'traverse'
 import ContractManager from './contracts/index'
 import { SupportedNetworkId } from './contracts/types'
-import { ENS, FunctionSubtype, graphURIEndpoints } from './index'
+import { FNS, FunctionSubtype } from './index'
 
 import type Factories from './contracts/factories'
 import type FunctionTypes from './functions/types'
-import { requestMiddleware, responseMiddleware } from './GqlManager'
+// import { requestMiddleware, responseMiddleware } from './GqlManager'
 
-type Options = ConstructorParameters<typeof ENS>[0] & {
+type Options = ConstructorParameters<typeof FNS>[0] & {
   functions: Partial<FunctionTypes>
   contracts: Partial<Factories>
 }
 
-class StaticENS extends ENS {
+class StaticFNS extends FNS {
   private functions: Partial<FunctionTypes>
 
   private contractsObject: Partial<Factories>
@@ -43,22 +43,22 @@ class StaticENS extends ENS {
   public setStaticProvider = (provider: StaticJsonRpcProvider) => {
     this.provider = provider
     const network = provider.network.chainId
-    if (this.options && this.options.graphURI) {
-      this.graphURI = this.options.graphURI
-    } else {
-      this.graphURI = graphURIEndpoints[network]
-    }
-    if (this.graphURI) {
-      const client = new GraphQLClient(this.graphURI, {
-        requestMiddleware: requestMiddleware(visit, parse, print),
-        responseMiddleware: responseMiddleware(traverse),
-      })
-      this.gqlInstance = {
-        client,
-        setUrl: () => Promise.resolve(),
-        gql,
-      }
-    }
+    // if (this.options && this.options.graphURI) {
+    //   this.graphURI = this.options.graphURI
+    // } else {
+    //   this.graphURI = graphURIEndpoints[network]
+    // }
+    // if (this.graphURI) {
+    //   const client = new GraphQLClient(this.graphURI, {
+    //     requestMiddleware: requestMiddleware(visit, parse, print),
+    //     responseMiddleware: responseMiddleware(traverse),
+    //   })
+    //   this.gqlInstance = {
+    //     client,
+    //     setUrl: () => Promise.resolve(),
+    //     gql,
+    //   }
+    // }
     this.contracts = new ContractManager(
       provider,
       this.getContractAddress(String(network) as SupportedNetworkId),
@@ -91,4 +91,4 @@ class StaticENS extends ENS {
   }
 }
 
-export default StaticENS
+export default StaticFNS

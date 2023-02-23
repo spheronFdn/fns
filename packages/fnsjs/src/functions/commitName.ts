@@ -1,4 +1,4 @@
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { CommitmentParams, makeCommitment } from '../utils/registerHelpers'
 import { wrappedLabelLengthCheck } from '../utils/wrapper'
 
@@ -7,7 +7,7 @@ type Params = Omit<CommitmentParams, 'resolver' | 'name'> & {
 }
 
 export default async function (
-  { contracts }: ENSArgs<'contracts'>,
+  { contracts }: FNSArgs<'contracts'>,
   name: string,
   { resolverAddress, ...params }: Params,
 ) {

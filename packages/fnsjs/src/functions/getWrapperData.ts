@@ -1,9 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import { decodeFuses } from '../utils/fuses'
 import { namehash } from '../utils/normalise'
 
-const raw = async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
+const raw = async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
   const nameWrapper = await contracts?.getNameWrapper()!
   return {
     to: nameWrapper.address,
@@ -11,7 +11,7 @@ const raw = async ({ contracts }: ENSArgs<'contracts'>, name: string) => {
   }
 }
 
-const decode = async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+const decode = async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
   const nameWrapper = await contracts?.getNameWrapper()!
   try {
     const [owner, fuses, expiry] = nameWrapper.interface.decodeFunctionResult(

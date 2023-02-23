@@ -12,7 +12,7 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '_old',
         type: 'address',
       },
@@ -160,7 +160,7 @@ const _abi = [
     name: 'old',
     outputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '',
         type: 'address',
       },
@@ -431,7 +431,7 @@ const _abi = [
   },
 ]
 
-export class FNSRegistry__factory {
+export class ENSRegistry__factory {
   static readonly abi = _abi
   static createInterface(): FNSRegistryInterface {
     return new Interface(_abi) as FNSRegistryInterface

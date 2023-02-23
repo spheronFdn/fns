@@ -1,9 +1,9 @@
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
 
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 
 export default async function (
-  { contracts, signer }: ENSArgs<'contracts' | 'signer'>,
+  { contracts, signer }: FNSArgs<'contracts' | 'signer'>,
   name: string,
   {
     newOwner,

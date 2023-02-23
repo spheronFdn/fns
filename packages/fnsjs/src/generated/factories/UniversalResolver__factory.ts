@@ -183,7 +183,7 @@ const _abi = [
     name: 'registry',
     outputs: [
       {
-        internalType: 'contract ENS',
+        internalType: 'contract FNS',
         name: '',
         type: 'address',
       },

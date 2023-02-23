@@ -1,15 +1,15 @@
 import { ethers } from 'ethers'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import setup from '../tests/setup'
 import { labelhash } from '../utils/labels'
 
-let ensInstance: ENS
+let fnsInstance: FNS
 let revert: Awaited<ReturnType<typeof setup>>['revert']
 let provider: ethers.providers.JsonRpcProvider
 let accounts: string[]
 
 beforeAll(async () => {
-  ;({ ensInstance, revert, provider } = await setup())
+  ;({ fnsInstance, revert, provider } = await setup())
   accounts = await provider.listAccounts()
 })
 
@@ -25,13 +25,13 @@ describe('renewNames', () => {
     const name = 'to-be-renewed.eth'
     const label = name.split('.')[0]
     const duration = 31536000
-    const baseRegistrar = await ensInstance.contracts!.getBaseRegistrar()!
+    const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
     const oldExpiry = await baseRegistrar.nameExpires(labelhash(label))
 
-    const controller = await ensInstance.contracts!.getEthRegistrarController()!
+    const controller = await fnsInstance.contracts!.getEthRegistrarController()!
     const [price] = await controller.rentPrice(label, duration)
 
-    const tx = await ensInstance.renewNames(name, {
+    const tx = await fnsInstance.renewNames(name, {
       value: price.mul(2),
       duration,
       addressOrIndex: accounts[0],
@@ -46,12 +46,12 @@ describe('renewNames', () => {
     const names = ['to-be-renewed.eth', 'test123.eth']
     const label = names[0].split('.')[0]
     const duration = 31536000
-    const baseRegistrar = await ensInstance.contracts!.getBaseRegistrar()!
+    const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
     const oldExpiry = await baseRegistrar.nameExpires(labelhash(label))
-    const bulkRenewal = await ensInstance.contracts!.getBulkRenewal()!
+    const bulkRenewal = await fnsInstance.contracts!.getBulkRenewal()!
     const price = await bulkRenewal.rentPrice(names, duration)
 
-    const tx = await ensInstance.renewNames(names, {
+    const tx = await fnsInstance.renewNames(names, {
       value: price.mul(4),
       duration,
       addressOrIndex: accounts[1],

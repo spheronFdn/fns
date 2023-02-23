@@ -1,9 +1,9 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { BigNumber } from '@ethersproject/bignumber'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 
 const raw = async (
-  { contracts, multicallWrapper }: ENSArgs<'contracts' | 'multicallWrapper'>,
+  { contracts, multicallWrapper }: FNSArgs<'contracts' | 'multicallWrapper'>,
   nameOrNames: string | string[],
   duration: number,
   legacy?: boolean,
@@ -62,7 +62,7 @@ const raw = async (
 }
 
 const decode = async (
-  { contracts, multicallWrapper }: ENSArgs<'contracts' | 'multicallWrapper'>,
+  { contracts, multicallWrapper }: FNSArgs<'contracts' | 'multicallWrapper'>,
   data: string,
   _nameOrNames: string | string[],
   _duration: number,

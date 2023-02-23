@@ -1,11 +1,11 @@
 import type { TransactionRequest } from '@ethersproject/providers'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 import ccipLookup from '../utils/ccip'
 import { hexEncodeName } from '../utils/hexEncodedName'
 
 export const universalWrapper = {
   raw: async (
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     name: string,
     data: string,
   ) => {
@@ -18,7 +18,7 @@ export const universalWrapper = {
       ),
     }
   },
-  decode: async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+  decode: async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
     const universalResolver = await contracts?.getUniversalResolver()!
     const response = universalResolver.interface.decodeFunctionResult(
       'resolve(bytes,bytes)',
@@ -33,7 +33,7 @@ export const universalWrapper = {
 
 export const resolverMulticallWrapper = {
   raw: async (
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     data: { to: string; data: string }[],
   ) => {
     const publicResolver = await contracts?.getPublicResolver()!
@@ -45,7 +45,7 @@ export const resolverMulticallWrapper = {
       ]),
     }
   },
-  decode: async ({ contracts }: ENSArgs<'contracts'>, data: string) => {
+  decode: async ({ contracts }: FNSArgs<'contracts'>, data: string) => {
     const publicResolver = await contracts?.getPublicResolver()!
     const response = publicResolver.interface.decodeFunctionResult(
       'multicall',
@@ -60,7 +60,7 @@ export const resolverMulticallWrapper = {
 
 export const multicallWrapper = {
   async raw(
-    { contracts }: ENSArgs<'contracts'>,
+    { contracts }: FNSArgs<'contracts'>,
     transactions: TransactionRequest[],
     requireSuccess: boolean = false,
   ) {
@@ -77,7 +77,7 @@ export const multicallWrapper = {
     }
   },
   async decode(
-    { contracts, provider }: ENSArgs<'contracts' | 'provider'>,
+    { contracts, provider }: FNSArgs<'contracts' | 'provider'>,
     data: string,
     transactions: TransactionRequest[],
   ) {

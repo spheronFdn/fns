@@ -1,5 +1,5 @@
 import { DNSRegistrar__factory } from '../generated/factories/DNSRegistrar__factory'
-import { ENSArgs } from '../index'
+import { FNSArgs } from '../index'
 
 /*
  * 0x2f435428 -> interfaceId for latest IDNSRegistrar
@@ -8,7 +8,7 @@ import { ENSArgs } from '../index'
 const DNSSEC_CLAIM_INTERFACE_IDS = ['0x2f435428', '0x17d8f49b', '0x1aa2e641']
 
 export default async function (
-  { getOwner, provider }: ENSArgs<'getOwner' | 'provider'>,
+  { getOwner, provider }: FNSArgs<'getOwner' | 'provider'>,
   name: string,
 ): Promise<boolean> {
   try {

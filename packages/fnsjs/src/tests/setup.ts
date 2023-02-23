@@ -2,9 +2,9 @@
 import { config } from 'dotenv'
 import { ethers } from 'ethers'
 import { resolve } from 'path'
-import { ENS } from '../index'
+import { FNS } from '../index'
 import { ContractName } from '../contracts/types'
-import StaticENS from '../static'
+import StaticFNS from '../static'
 import contracts from './contract-imports'
 import functions from './func-imports'
 
@@ -22,23 +22,23 @@ export const deploymentAddresses = JSON.parse(
 
 const IS_STATIC = !!process.env.STATIC_ENS
 
-const createENS = async (
+const createFNS = async (
   provider: ethers.providers.StaticJsonRpcProvider,
   graphURI: string,
   useReal?: boolean,
 ) => {
-  const options: ConstructorParameters<typeof ENS>[0] = {
+  const options: ConstructorParameters<typeof FNS>[0] = {
     graphURI,
     getContractAddress: useReal
       ? undefined
       : () => (contractName) => deploymentAddresses[contractName],
   }
   if (!IS_STATIC) {
-    const ensInstance = new ENS(options)
-    await ensInstance.setProvider(provider)
-    return ensInstance
+    const fnsInstance = new FNS(options)
+    await fnsInstance.setProvider(provider)
+    return fnsInstance
   }
-  return new StaticENS(provider, { ...options, functions, contracts })
+  return new StaticFNS(provider, { ...options, functions, contracts })
 }
 
 export default async (useReal?: boolean) => {
@@ -59,10 +59,10 @@ export default async (useReal?: boolean) => {
     chainId,
   )
 
-  let ensInstance = await createENS(provider, graphURI, useReal)
+  let fnsInstance = await createFNS(provider, graphURI, useReal)
 
   if (useReal) {
-    return { ensInstance, revert: () => {}, createSnapshot: () => {}, provider }
+    return { fnsInstance, revert: () => {}, createSnapshot: () => {}, provider }
   }
 
   let snapshot = await provider.send('evm_snapshot', [])
@@ -74,11 +74,11 @@ export default async (useReal?: boolean) => {
       snapshot = await provider.send('evm_snapshot', [])
     }
 
-    ensInstance = await createENS(provider, graphURI)
+    fnsInstance = await createFNS(provider, graphURI)
     return
   }
 
   const createSnapshot = async () => provider.send('evm_snapshot', [])
 
-  return { ensInstance, revert, createSnapshot, provider }
+  return { fnsInstance, revert, createSnapshot, provider }
 }
