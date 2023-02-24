@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
-import { getPriceOnYear, registerDomain } from '../../services/spheron-fns'
+import {
+  getPriceOnYear,
+  registerDomain,
+  setAddr,
+} from '../../services/spheron-fns'
 import { Web3Context } from '../../context/web3-context'
 import { ethers } from 'ethers'
 import { getFee, getUserBalance } from '../../lib/utils'
@@ -26,6 +30,7 @@ const DomainRegister = () => {
   const [gasFee, setGasFee] = useState<string>('')
   const [hash, setHash] = useState<string>('')
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
+  const [step, setStep] = useState<number>(0)
 
   useEffect(() => {
     async function getGasFee() {
@@ -69,6 +74,7 @@ const DomainRegister = () => {
   const handleRegister = async () => {
     setRegisterLoading(true)
     localStorage.setItem('domain-underpurchase', searchQuery)
+    setStep(1)
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res: any = await registerDomain(
@@ -78,13 +84,18 @@ const DomainRegister = () => {
         price,
       )
       if (!res.error) {
-        setIsSuccessful(true)
-        setRegisterLoading(false)
-        toast({
-          title: 'Success',
-          description: 'Please wait for 3-5 minutes',
-        })
-        setHash(res.response)
+        setStep(2)
+        const addrRes = await setAddr(searchQuery, currentAccount)
+        if (!addrRes.error) {
+          setStep(0)
+          setIsSuccessful(true)
+          setRegisterLoading(false)
+          toast({
+            title: 'Success',
+            description: 'Please wait for 3-5 minutes',
+          })
+          setHash(res.response)
+        }
       } else {
         toast({
           title: 'Error',
@@ -104,6 +115,26 @@ const DomainRegister = () => {
 
   const totalPrice = Number(gasFee) + Number(price)
   const isLessBalance = totalPrice > Number(userBalance)
+
+  if (step === 1) {
+    return (
+      <>
+        <div className="mt-20 text-slate-600 font-semibold space-x-6">
+          Registering the domain <Loader />
+        </div>
+      </>
+    )
+  }
+
+  if (step === 2) {
+    return (
+      <>
+        <div className="mt-20 text-slate-600 font-semibold space-x-6">
+          Attaching the user <Loader />
+        </div>
+      </>
+    )
+  }
 
   if (isSuccessful) {
     return (

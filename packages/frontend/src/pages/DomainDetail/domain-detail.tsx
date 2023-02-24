@@ -42,7 +42,6 @@ const DomainDetail = () => {
       ]
     >()
 
-  let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   const handleSetContentHash = async () => {
@@ -84,10 +83,6 @@ const DomainDetail = () => {
         <>
           <div className="py-10 border-b border-slate-200">
             <div className="w-full flex items-start flex-col space-y-12">
-              <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-gray-text">Year:</span>
-                <div className="font-semibold">{expirationYear}</div>
-              </div>
               <div className="w-[800px] flex items-center justify-between">
                 <span className="text-base text-gray-text">Parent:</span>
                 <div className="font-semibold">
