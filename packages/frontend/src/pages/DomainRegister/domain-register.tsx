@@ -3,14 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
-import {
-  getPriceOnYear,
-  registerDomain,
-  setAddr,
-} from '../../services/spheron-fns'
+import { registerDomain, setAddr } from '../../services/spheron-fns'
 import { Web3Context } from '../../context/web3-context'
-import { ethers } from 'ethers'
-import { getFee, getUserBalance } from '../../lib/utils'
 import { useToast } from '../../hooks/useToast'
 import Loader from '../../components/Loader/loader'
 import InfoLoader from '../../components/Loader/info-loader'
@@ -39,6 +33,8 @@ const DomainRegister = () => {
     userBalanceLoading,
     year,
     setYear,
+    isSuccessful,
+    setIsSuccessful,
   ] =
     useOutletContext<
       [
@@ -60,11 +56,12 @@ const DomainRegister = () => {
         boolean,
         number,
         (year: number) => void,
+        boolean,
+        (succes: boolean) => void,
       ]
     >()
   const [registerLoading, setRegisterLoading] = useState<boolean>(false)
   const [hash, setHash] = useState<string>('')
-  const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
 
   const processInformation = [
     {
@@ -78,10 +75,6 @@ const DomainRegister = () => {
       description: `The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.`,
     },
   ]
-
-  useEffect(() => {
-    return () => setIsSuccessful(false)
-  }, [params.domainName])
 
   const handleRegister = async () => {
     setRegisterLoading(true)
@@ -112,6 +105,8 @@ const DomainRegister = () => {
           })
           setHash(res.response)
         } else {
+          setStep(0)
+          setRegisterLoading(false)
           toast({
             title: 'Error',
             variant: 'destructive',
@@ -119,6 +114,7 @@ const DomainRegister = () => {
           })
         }
       } else {
+        setRegisterLoading(false)
         toast({
           title: 'Error',
           variant: 'destructive',
@@ -141,8 +137,11 @@ const DomainRegister = () => {
   if (step === 1) {
     return (
       <>
-        <div className="mt-20 flex flex-col items-center justify-center text-primary-text font-semibold space-x-6">
-          Registering the domain, please wait <Loader />
+        <div className="mt-20 flex flex-col items-center justify-center text-primary-text font-semibold space-y-10">
+          Registering the domain, please wait{' '}
+          <div className="mt-4">
+            <Loader />
+          </div>
         </div>
       </>
     )
@@ -151,9 +150,9 @@ const DomainRegister = () => {
   if (step === 2) {
     return (
       <>
-        <div className="mt-20 flex flex-col space-y-6 items-center justify-center text-primary-text font-semibold space-x-6">
+        <div className="mt-20 flex flex-col items-center justify-center text-primary-text font-semibold space-y-10">
           Attaching the user, please wait
-          <div className="text-red-600">Do not cancel the transaction</div>
+          <div className="text-red-600 my-4">Do not cancel the transaction</div>
           <Loader />
         </div>
       </>

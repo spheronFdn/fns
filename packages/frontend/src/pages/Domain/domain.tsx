@@ -43,6 +43,7 @@ const Domain = () => {
   const [userBalance, setUserBalance] = useState<string>('')
   const [gasFee, setGasFee] = useState<string>('')
   const [year, setYear] = useState<number>(1)
+  const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
 
   async function getAddressFromDomainName(domainName: string) {
     setOwnerLoading(true)
@@ -125,6 +126,7 @@ const Domain = () => {
   }, [isDomainAvailable, params.domainName])
 
   useEffect(() => {
+    setIsSuccessful(false)
     async function getGasFee() {
       const fees = await getFee()
       setGasFee(fees)
@@ -234,6 +236,8 @@ const Domain = () => {
             userBalanceLoading,
             year,
             setYear,
+            isSuccessful,
+            setIsSuccessful,
           ]}
         />
       </div>
