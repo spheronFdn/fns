@@ -16,6 +16,7 @@ const DomainDetail = () => {
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
+  const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -53,11 +54,13 @@ const DomainDetail = () => {
       )
       if (!res.error) {
         setSettingContentHash(false)
+        setIsSuccesful(true)
         toast({
           title: 'Success',
           description: 'Please wait for 3-5 minutes',
         })
       } else {
+        setIsSuccesful(false)
         toast({
           title: 'Error',
           variant: 'destructive',
@@ -65,6 +68,7 @@ const DomainDetail = () => {
         setSettingContentHash(false)
       }
     } catch (error) {
+      setIsSuccesful(false)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -144,7 +148,9 @@ const DomainDetail = () => {
                                 <Button
                                   onClick={handleSetContentHash}
                                   disabled={
-                                    settingContentHash || !contentHashQuery
+                                    settingContentHash ||
+                                    !contentHashQuery ||
+                                    isSuccesful
                                   }
                                 >
                                   Set
