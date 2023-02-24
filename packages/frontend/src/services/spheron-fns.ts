@@ -62,8 +62,7 @@ export const registerDomain = async (
       })
       await res.wait()
       if (res.hash) {
-        const addrRes = await setAddr(name, address)
-        return { error: false, response: addrRes.response }
+        return { error: false, response: res.hash }
       } else {
         return { error: true, response: 'Something went wrong' }
       }
@@ -123,6 +122,7 @@ export const getNameFromAddress = async (address: string) => {
     await FNSInstance.setProvider(provider)
     const node = await FNSInstance.getNameNode(address)
     const name = await FNSInstance.getAddrName(node)
+    console.log('NAME: ', name, address)
     return { error: false, response: name }
   } catch (error) {
     console.log(error)
