@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/navbar'
 import Address from './pages/Address'
 import AddressRegistrant from './pages/AddressRegistrant'
@@ -11,7 +11,7 @@ import Home from './pages/Home'
 const Router = () => {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -23,7 +23,7 @@ const Router = () => {
             <Route index path="registrant" element={<AddressRegistrant />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }
