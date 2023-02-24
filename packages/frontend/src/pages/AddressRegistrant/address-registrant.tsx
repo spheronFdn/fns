@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import InfoLoader from '../../components/Loader/info-loader'
+import Loader from '../../components/Loader/loader'
 import { useToast } from '../../hooks/useToast'
 import { getExpiry, getNameFromAddress } from '../../services/spheron-fns'
 
@@ -65,11 +66,14 @@ const AddressRegistrant = () => {
             <th className="pt-6 pb-2 text-left text-white">Expiration Time</th>
           </tr>
         </thead>
-        <tbody>
-          {domainNameLoading ? (
-            <tr className="border-b border-gray-border ">Loading...</tr>
-          ) : (
-            <>
+
+        {domainNameLoading ? (
+          <div className="w-full border-gray-border pt-6 pb-2 text-center flex items-center justify-end">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <tbody>
               {domainName.length ? (
                 <tr className="border-b border-gray-border ">
                   <td className="px-4 font-medium text-gray-text text-sm pt-3 pb-2 text-left">
@@ -88,9 +92,9 @@ const AddressRegistrant = () => {
                   No domains are attached to this address
                 </tr>
               )}
-            </>
-          )}
-        </tbody>
+            </tbody>
+          </>
+        )}
       </table>
     </div>
   )

@@ -32,6 +32,13 @@ const DomainRegister = () => {
     expiryDate,
     step,
     setStep,
+    price,
+    userBalance,
+    gasFee,
+    priceLoading,
+    userBalanceLoading,
+    year,
+    setYear,
   ] =
     useOutletContext<
       [
@@ -46,16 +53,16 @@ const DomainRegister = () => {
         string,
         number,
         (step: number) => void,
+        string,
+        string,
+        string,
+        boolean,
+        boolean,
+        number,
+        (year: number) => void,
       ]
     >()
-
-  const [priceLoading, setPriceLoading] = useState<boolean>(true)
-  const [price, setPrice] = useState<string>('')
-  const [userBalanceLoading, setUserBalanceLoading] = useState<boolean>(true)
-  const [userBalance, setUserBalance] = useState<string>('')
-  const [year, setYear] = useState<number>(1)
   const [registerLoading, setRegisterLoading] = useState<boolean>(false)
-  const [gasFee, setGasFee] = useState<string>('')
   const [hash, setHash] = useState<string>('')
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
 
@@ -71,38 +78,6 @@ const DomainRegister = () => {
       description: `The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.`,
     },
   ]
-
-  useEffect(() => {
-    async function getGasFee() {
-      const fees = await getFee()
-      setGasFee(fees)
-    }
-
-    async function getPrice(domainName: string) {
-      setPriceLoading(true)
-      const res: any = await getPriceOnYear(domainName, year)
-      const finalPrice = ethers.utils.formatEther(
-        `${parseInt(res.response.base._hex, 16)}`,
-      )
-      setPrice(finalPrice)
-      setPriceLoading(false)
-    }
-    if (searchQuery && isDomainAvailable) {
-      getPrice(searchQuery)
-      getGasFee()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.domainName, year, isDomainAvailable])
-
-  useEffect(() => {
-    async function getBalance(address: string) {
-      setUserBalanceLoading(true)
-      const balance = await getUserBalance(address)
-      setUserBalance(balance)
-      setUserBalanceLoading(false)
-    }
-    if (currentAccount) getBalance(currentAccount)
-  }, [currentAccount])
 
   useEffect(() => {
     return () => setIsSuccessful(false)
@@ -220,11 +195,7 @@ const DomainRegister = () => {
                         </span>
                         <div className="flex items-center space-x-3">
                           <Button
-                            onClick={() =>
-                              setYear((prevState) =>
-                                prevState > 1 ? prevState - 1 : prevState,
-                              )
-                            }
+                            onClick={() => setYear(year > 1 ? year - 1 : year)}
                             variant="outline"
                             className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-white"
                           >
@@ -233,9 +204,7 @@ const DomainRegister = () => {
                           <div className="text-primary-text">{year} year</div>
 
                           <Button
-                            onClick={() =>
-                              setYear((prevState) => prevState + 1)
-                            }
+                            onClick={() => setYear(year + 1)}
                             variant="outline"
                             className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-white"
                           >

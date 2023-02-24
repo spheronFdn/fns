@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   useParams,
   useLocation,
@@ -8,12 +9,14 @@ import {
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import { Input } from '../../components/UI/input'
+import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
-import { isValidAddress } from '../../lib/utils'
+import { getFee, getUserBalance, isValidAddress } from '../../lib/utils'
 import {
   getAddress,
   getContentHash,
   getExpiry,
+  getPriceOnYear,
   isAvailable,
 } from '../../services/spheron-fns'
 
@@ -21,6 +24,8 @@ const Domain = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { toast } = useToast()
+  const Web3Cntx = useContext<any>(Web3Context)
+  const { currentAccount } = Web3Cntx
   const [isDomainAvailable, setIsDomainAvailable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
@@ -32,6 +37,12 @@ const Domain = () => {
   const [expiryDate, setExpiryDate] = useState<string>('')
   const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
   const [step, setStep] = useState<number>(0)
+  const [priceLoading, setPriceLoading] = useState<boolean>(true)
+  const [price, setPrice] = useState<string>('')
+  const [userBalanceLoading, setUserBalanceLoading] = useState<boolean>(true)
+  const [userBalance, setUserBalance] = useState<string>('')
+  const [gasFee, setGasFee] = useState<string>('')
+  const [year, setYear] = useState<number>(1)
 
   async function getAddressFromDomainName(domainName: string) {
     setOwnerLoading(true)
@@ -97,6 +108,7 @@ const Domain = () => {
   }
 
   useEffect(() => {
+    setYear(1)
     if (params.domainName) {
       getAvailibility(params.domainName)
     }
@@ -111,6 +123,38 @@ const Domain = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDomainAvailable, params.domainName])
+
+  useEffect(() => {
+    async function getGasFee() {
+      const fees = await getFee()
+      setGasFee(fees)
+    }
+
+    async function getPrice(domainName: string) {
+      setPriceLoading(true)
+      const res: any = await getPriceOnYear(domainName, year)
+      const finalPrice = ethers.utils.formatEther(
+        `${parseInt(res.response.base._hex, 16)}`,
+      )
+      setPrice(finalPrice)
+      setPriceLoading(false)
+    }
+    if (searchQuery && isDomainAvailable) {
+      getPrice(searchQuery)
+      getGasFee()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.domainName, year, isDomainAvailable])
+
+  useEffect(() => {
+    async function getBalance(address: string) {
+      setUserBalanceLoading(true)
+      const balance = await getUserBalance(address)
+      setUserBalance(balance)
+      setUserBalanceLoading(false)
+    }
+    if (currentAccount) getBalance(currentAccount)
+  }, [currentAccount])
 
   const navItems = [
     {
@@ -183,6 +227,13 @@ const Domain = () => {
             expiryDate,
             step,
             setStep,
+            price,
+            userBalance,
+            gasFee,
+            priceLoading,
+            userBalanceLoading,
+            year,
+            setYear,
           ]}
         />
       </div>
