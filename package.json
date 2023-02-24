@@ -1,9 +1,12 @@
 {
-  "name": "fnsjs-monorepo",
+  "name": "fns",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "publish:local:fnsjs": "yalc publish packages/fnsjs --push --up"
+    "publish:local:fnsjs": "yalc publish packages/fnsjs --push --up",
+    "build:frontend": "yarn workspace @fns/frontend build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.15.0",
