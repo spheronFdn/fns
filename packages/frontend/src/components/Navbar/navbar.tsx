@@ -37,13 +37,13 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex items-center justify-between h-16 border-slate-200 border-b border-opacity-50 shadow-sm">
+    <nav className="flex items-center justify-between h-20 border-gray-border border-b border-opacity-50 shadow-sm">
       <div className="flex justify-between items-center w-8/12 mx-auto">
         <div
           className="flex items-center justify-start cursor-pointer"
           onClick={handleRedirect}
         >
-          <SpheronLogo />
+          <SpheronLogo className="h-16 w-auto" />
           <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 dark:border-b-slate-700">
             Spheron
           </h2>
@@ -51,7 +51,7 @@ const Navbar = () => {
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
-              <div className="bg-slate-100 rounded-md py-1.5 px-2 text-xs font-normal">
+              <div className="bg-gray-100 bg-opacity-5 text-gray-text rounded-md py-1.5 px-2 text-xs font-normal">
                 {truncateAddress(currentAccount)}
               </div>
 

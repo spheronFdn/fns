@@ -1,12 +1,12 @@
 .App {
   text-align: center;
   height: 100vh;
-  /* background: linear-gradient(
+  background: linear-gradient(
     180deg,
     #000000 0%,
     #190840 66.12%,
-    #7862c2 119.98%
-  ); */
+    #143193 119.98%
+  );
 }
 
 .hero__text {

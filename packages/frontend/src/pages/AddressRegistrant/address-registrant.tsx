@@ -59,23 +59,23 @@ const AddressRegistrant = () => {
   return (
     <div>
       <table className="table-auto w-full">
-        <thead className=" bg-slate-100 w-full">
+        <thead className="bg-blue-bg bg-opacity-30 w-full">
           <tr className="text-md font-semibold text-slate-500">
-            <th className="px-4 pt-5 pb-2 text-left w-7/12">Name</th>
-            <th className="pt-6 pb-2 text-left">Expiration Time</th>
+            <th className="px-4 pt-5 pb-2 text-left text-white w-7/12">Name</th>
+            <th className="pt-6 pb-2 text-left text-white">Expiration Time</th>
           </tr>
         </thead>
         <tbody>
           {domainNameLoading ? (
-            <tr className="border-b border-slate-200 ">Loading...</tr>
+            <tr className="border-b border-gray-border ">Loading...</tr>
           ) : (
             <>
               {domainName.length ? (
-                <tr className="border-b border-slate-200 ">
-                  <td className="px-4 font-medium text-slate-700 text-sm pt-3 pb-2 text-left">
+                <tr className="border-b border-gray-border ">
+                  <td className="px-4 font-medium text-gray-text text-sm pt-3 pb-2 text-left">
                     {domainName}
                   </td>
-                  <td className="pt-3 font-medium text-slate-700 text-sm pb-2 text-left">
+                  <td className="pt-3 font-medium text-gray-text text-sm pb-2 text-left">
                     {expiryDateLoading ? (
                       <InfoLoader />
                     ) : (
@@ -84,7 +84,7 @@ const AddressRegistrant = () => {
                   </td>
                 </tr>
               ) : (
-                <tr className="text-center text-slate-700 font-semibold border-b border-slate-200 ">
+                <tr className="text-center text-primary-text font-semibold border-b border-gray-border ">
                   No domains are attached to this address
                 </tr>
               )}

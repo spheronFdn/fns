@@ -81,11 +81,11 @@ const DomainDetail = () => {
         </div>
       ) : (
         <>
-          <div className="py-10 border-b border-slate-200">
+          <div className="py-10 border-b border-gray-border">
             <div className="w-full flex items-start flex-col space-y-12">
               <div className="w-[800px] flex items-center justify-between">
                 <span className="text-base text-gray-text">Parent:</span>
-                <div className="font-semibold">
+                <div className="font-semibold text-primary-text">
                   {process.env.REACT_APP_CONTROLLER_ADDRESS}
                 </div>
               </div>
@@ -97,7 +97,9 @@ const DomainDetail = () => {
                       <InfoLoader />
                     ) : (
                       <>
-                        <div className="font-semibold">{ownerAddress}</div>
+                        <div className="font-semibold text-primary-text">
+                          {ownerAddress}
+                        </div>
                       </>
                     )}
                   </div>
@@ -163,7 +165,9 @@ const DomainDetail = () => {
                   {expiryDateLoading ? (
                     <InfoLoader />
                   ) : (
-                    <div className="font-semibold">{expirationDate}</div>
+                    <div className="font-semibold text-primary-text">
+                      {expirationDate}
+                    </div>
                   )}
                 </div>
               </div>

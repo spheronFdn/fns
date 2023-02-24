@@ -31,6 +31,7 @@ const Domain = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [expiryDate, setExpiryDate] = useState<string>('')
   const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
+  const [step, setStep] = useState<number>(0)
 
   async function getAddressFromDomainName(domainName: string) {
     setOwnerLoading(true)
@@ -139,7 +140,7 @@ const Domain = () => {
 
   return (
     <>
-      <div className="w-full bg-gray-bg py-4">
+      <div className="w-full bg-blue-bg bg-opacity-30 py-4">
         <div className="w-8/12 mx-auto flex items-center justify-between">
           <div className="mr-auto ml-0 w-6/12 flex space-x-3">
             <Input
@@ -149,23 +150,18 @@ const Domain = () => {
                 setSearchQuery(e.target.value)
               }}
             />
-            <Button
-              onClick={() => handleSearch(searchQuery)}
-              className="bg-primary-100 hover:bg-primary-200 transition-all ease-in-out"
-            >
-              Search
-            </Button>
+            <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
           </div>
         </div>
       </div>
-      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-slate-200">
+      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
         {navItems.map((navItem) => (
           <Link
             key={navItem.id}
             to={`/domain/${params.domainName}/${navItem.label}`}
             className={`capitalize text-lg ${
               navItem.isActive
-                ? 'font-semibold text-primary-100'
+                ? 'font-semibold text-primary-button'
                 : 'text-gray-inactive'
             }`}
           >
@@ -185,6 +181,8 @@ const Domain = () => {
             ownerAddress,
             contentHash,
             expiryDate,
+            step,
+            setStep,
           ]}
         />
       </div>
