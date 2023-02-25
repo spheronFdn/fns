@@ -22,7 +22,8 @@ interface IDropdownOption {
 
 const Navbar = () => {
   const Web3Cntx = useContext<any>(Web3Context)
-  const { currentAccount, connectWallet, disconnectWallet } = Web3Cntx
+  const { currentAccount, connectWallet, disconnectWallet, userBalance } =
+    Web3Cntx
   const dropdownOptions: IDropdownOption[] = [
     {
       id: 1,
@@ -48,8 +49,13 @@ const Navbar = () => {
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
-              <div className="bg-gray-100 bg-opacity-5 text-gray-text rounded-md py-1.5 px-2 text-xs font-normal">
-                {truncateAddress(currentAccount)}
+              <div className="bg-gray-100 bg-opacity-5  text-white text-sm font-bold flex items-center justify-start rounded-xl">
+                <div className="rounded-xl pl-3">
+                  {Number(userBalance).toFixed(2)} tFIL
+                </div>
+                <div className="py-2 px-3 rounded-xl ml-2.5 bg-gray-100 bg-opacity-10">
+                  {truncateAddress(currentAccount)}
+                </div>
               </div>
 
               <DropdownMenu>

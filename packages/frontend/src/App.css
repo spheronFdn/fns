@@ -23,4 +23,14 @@
     #418ff8 99.99%,
     #5cc4ff 100%
   );
+  transition: all 150ms ease-in-out;
+}
+
+.button__bg:hover {
+  background: radial-gradient(
+    130.89% 130.89% at 47.98% 7.11%,
+    #0049a2d8 0%,
+    #418ff8 99.99%,
+    #5cc4ff 100%
+  );
 }

@@ -196,7 +196,7 @@ const DomainRegister = () => {
                           <Button
                             onClick={() => setYear(year > 1 ? year - 1 : year)}
                             variant="outline"
-                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-white"
+                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-blue-bg"
                           >
                             -
                           </Button>
@@ -205,7 +205,7 @@ const DomainRegister = () => {
                           <Button
                             onClick={() => setYear(year + 1)}
                             variant="outline"
-                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-white"
+                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-blue-bg"
                           >
                             +
                           </Button>

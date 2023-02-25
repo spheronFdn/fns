@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import InfoLoader from '../../components/Loader/info-loader'
@@ -17,6 +17,7 @@ const DomainDetail = () => {
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -77,6 +78,17 @@ const DomainDetail = () => {
     }
   }
 
+  useEffect(() => {
+    if (isEditMode && contentHash) {
+      setContentHashQuery(contentHash)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode])
+
+  useEffect(() => {
+    setIsEditMode(false)
+  }, [currentAccount])
+
   return (
     <>
       {loading ? (
@@ -123,20 +135,30 @@ const DomainDetail = () => {
                       <InfoLoader />
                     ) : (
                       <>
-                        {contentHash ? (
+                        {contentHash && !isEditMode ? (
                           <>
                             <a
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-blue-500"
+                              className="text-blue-500 mr-2"
                             >
                               {contentHash}
                             </a>
+                            {ownerAddress === currentAccount && (
+                              <>
+                                <Button
+                                  onClick={() => setIsEditMode(!isEditMode)}
+                                >
+                                  Edit
+                                </Button>
+                              </>
+                            )}
                           </>
                         ) : (
                           <>
-                            {ownerAddress === currentAccount && (
+                            {(ownerAddress === currentAccount ||
+                              isEditMode) && (
                               <div className="flex items-center space-x-3">
                                 <Input
                                   className="h-10 w-11/12 text-lg"
@@ -148,12 +170,14 @@ const DomainDetail = () => {
                                 <Button
                                   onClick={handleSetContentHash}
                                   disabled={
+                                    (isEditMode &&
+                                      contentHash === contentHashQuery) ||
                                     settingContentHash ||
                                     !contentHashQuery ||
                                     isSuccesful
                                   }
                                 >
-                                  Set
+                                  {isEditMode ? 'Update' : 'Add'}
                                 </Button>
                               </div>
                             )}

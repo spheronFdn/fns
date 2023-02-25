@@ -76,9 +76,7 @@ const Domain = () => {
             key={navItem.id}
             to={`/address/${params.address}/${navItem.label}`}
             className={`capitalize text-lg ${
-              navItem.isActive
-                ? 'font-semibold text-primary-button'
-                : 'text-slate-400'
+              navItem.isActive ? 'font-semibold text-white' : 'text-slate-400'
             }`}
           >
             {navItem.label}
