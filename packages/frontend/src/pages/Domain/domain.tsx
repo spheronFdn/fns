@@ -89,6 +89,8 @@ const Domain = () => {
     setExpiryDateLoading(false)
   }
 
+  console.log('ENV: ', process.env.REACT_APP_RPC_URL)
+
   useEffect(() => {
     if (Boolean(params.domainName)) {
       setSearchQuery(params.domainName || '')
@@ -135,6 +137,7 @@ const Domain = () => {
     async function getPrice(domainName: string) {
       setPriceLoading(true)
       const res: any = await getPriceOnYear(domainName, year)
+      console.log('PRICE RESPONSE:', res)
       const finalPrice = ethers.utils.formatEther(
         `${parseInt(res.response.base._hex, 16)}`,
       )
@@ -207,7 +210,7 @@ const Domain = () => {
             to={`/domain/${params.domainName}/${navItem.label}`}
             className={`capitalize text-lg ${
               navItem.isActive
-                ? 'font-semibold text-primary-button'
+                ? 'font-semibold text-white'
                 : 'text-gray-inactive'
             }`}
           >

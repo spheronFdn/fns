@@ -63,7 +63,7 @@ const Domain = () => {
           </div>
 
           <span
-            className="cursor-pointer underline text-sm"
+            className="cursor-pointer underline text-sm text-primary-text"
             onClick={handleViewOnExplorer}
           >
             View on explorer

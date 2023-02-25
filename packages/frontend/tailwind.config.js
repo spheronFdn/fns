@@ -8,18 +8,18 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          text: '#03D3FF',
+          text: '#FFF',
           button: '#1D4AE0',
           buttonHover: '#133eca',
         },
         gray: {
-          text: '#B3B6C2',
+          text: '#FFFFFFB2',
           inactive: '#838ead',
           bg: '#F9FAFB',
           border: '#ffffff2b',
         },
         blue: {
-          bg: '#071132',
+          bg: '#040E31',
         },
       },
       keyframes: {

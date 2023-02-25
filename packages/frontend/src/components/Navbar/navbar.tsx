@@ -44,9 +44,6 @@ const Navbar = () => {
           onClick={handleRedirect}
         >
           <SpheronLogo className="h-16 w-auto" />
-          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 dark:border-b-slate-700">
-            Spheron
-          </h2>
         </div>
         <div className="flex items-center space-x-3">
           {currentAccount ? (

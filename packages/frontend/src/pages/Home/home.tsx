@@ -29,10 +29,10 @@ const Home = () => {
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-11/12 mr-4 h-16 text-lg"
+          className="w-11/12 mr-4 h-16 text-xl"
           placeholder="Search for address or domain"
         />
-        <Button onClick={handleSearch} className="h-16 w-28">
+        <Button onClick={handleSearch} className="h-16 w-28 text-lg">
           Search
         </Button>
       </div>
