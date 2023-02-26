@@ -52,13 +52,28 @@ const DomainDetail = () => {
       const res = await setContentHash(
         params.domainName || '',
         contentHashQuery,
+        (step: string) => {
+          if (step === 'tx-confirm')
+            toast({
+              title: 'Confirm Transaction',
+              description: 'Please confirm the transaction in the metamask',
+              variant: 'info',
+            })
+          if (step === 'tx-started')
+            toast({
+              title: 'Transaction initiated',
+              description:
+                'Please wait for 3-5 minutes to mine the transaction',
+              variant: 'info',
+            })
+        },
       )
       if (!res.error) {
         setSettingContentHash(false)
         setIsSuccesful(true)
         toast({
           title: 'Success',
-          description: 'Please wait for 3-5 minutes',
+          description: 'Transaction is successful',
         })
       } else {
         setIsSuccesful(false)
@@ -81,7 +96,7 @@ const DomainDetail = () => {
 
   useEffect(() => {
     if (isEditMode && contentHash) {
-      setContentHashQuery(contentHash)
+      setContentHashQuery(contentHash.split('//')[1])
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode])

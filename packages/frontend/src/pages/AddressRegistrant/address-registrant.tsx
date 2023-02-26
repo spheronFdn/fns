@@ -30,7 +30,7 @@ const AddressRegistrant = () => {
           })
         }
       } catch (error) {
-        console.log('Error in getting domain name -> ', error)
+        console.log('ERROR in getDomainNameFromAddress: ', error)
         toast({
           title: 'Error',
           variant: 'destructive',

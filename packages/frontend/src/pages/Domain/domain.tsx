@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { utils } from 'ethers'
 import React, { useContext, useEffect, useState } from 'react'
 import {
   useParams,
@@ -51,7 +51,8 @@ const Domain = () => {
       const res = await getAddress(domainName)
       setOwnerAddress(res.response || '')
     } catch (error) {
-      console.log('Error in getting address ->', error)
+      console.log('Error in getAddressFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -66,7 +67,8 @@ const Domain = () => {
       const res = await getContentHash(domainName)
       setContentHash(res.response || '')
     } catch (error) {
-      console.log('Error in getting content hash ->', error)
+      console.log('Error in getContentHashFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -82,7 +84,8 @@ const Domain = () => {
       const finalDate = String(parseInt((res.response as any)._hex || '0', 16))
       setExpiryDate(finalDate)
     } catch (error) {
-      console.log('Error in domain expiry ->', error)
+      console.log('Error in getExpiryFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -106,7 +109,10 @@ const Domain = () => {
     try {
       let response = await isAvailable(searchTerm)
       setIsDomainAvailable(!!response.response)
-    } catch (error) {}
+    } catch (error) {
+      console.log('Error in getAvailibility: ')
+      console.log(error)
+    }
 
     setLoading(false)
   }
@@ -140,7 +146,7 @@ const Domain = () => {
       try {
         const res: any = await getPriceOnYear(domainName, year)
 
-        const finalPrice = ethers.utils.formatEther(
+        const finalPrice = utils.formatEther(
           `${parseInt(res.response.base._hex, 16)}`,
         )
         setPrice(finalPrice)
