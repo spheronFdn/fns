@@ -22,7 +22,8 @@ interface IDropdownOption {
 
 const Navbar = () => {
   const Web3Cntx = useContext<any>(Web3Context)
-  const { currentAccount, connectWallet, disconnectWallet } = Web3Cntx
+  const { currentAccount, connectWallet, disconnectWallet, userBalance } =
+    Web3Cntx
   const dropdownOptions: IDropdownOption[] = [
     {
       id: 1,
@@ -37,22 +38,24 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex items-center justify-between h-16 border-slate-200 border-b border-opacity-50 shadow-sm">
+    <nav className="flex items-center justify-between h-20 border-gray-border border-b border-opacity-50 shadow-sm">
       <div className="flex justify-between items-center w-8/12 mx-auto">
         <div
           className="flex items-center justify-start cursor-pointer"
           onClick={handleRedirect}
         >
-          <SpheronLogo />
-          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 dark:border-b-slate-700">
-            Spheron
-          </h2>
+          <SpheronLogo className="h-16 w-auto" />
         </div>
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
-              <div className="bg-slate-100 rounded-md py-1.5 px-2 text-xs font-normal">
-                {truncateAddress(currentAccount)}
+              <div className="bg-gray-100 bg-opacity-5  text-white text-sm font-bold flex items-center justify-start rounded-xl">
+                <div className="rounded-xl pl-3">
+                  {Number(userBalance).toFixed(2)} tFIL
+                </div>
+                <div className="py-2 px-3 rounded-xl ml-2.5 bg-gray-100 bg-opacity-10">
+                  {truncateAddress(currentAccount)}
+                </div>
               </div>
 
               <DropdownMenu>

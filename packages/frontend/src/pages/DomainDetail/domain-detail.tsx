@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import InfoLoader from '../../components/Loader/info-loader'
@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setAddr, setContentHash } from '../../services/spheron-fns'
+import { setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 
 const DomainDetail = () => {
@@ -15,9 +15,9 @@ const DomainDetail = () => {
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
-  const [addrQuery, setAddrQuery] = useState<string>('')
-  const [settingAddr, setSettingAddr] = useState<boolean>(false)
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
+  const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
+  const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -44,32 +44,7 @@ const DomainDetail = () => {
       ]
     >()
 
-  let expirationYear = String(dayjs(Number(expiryDate) * 1000).year())
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
-
-  const handleSetYear = async () => {
-    try {
-      const res = await setAddr(params.domainName || '', addrQuery)
-      if (!res.error) {
-        toast({
-          title: 'Success',
-          description: 'Please wait for 3-5 minutes',
-        })
-      } else {
-        toast({
-          title: 'Error',
-          variant: 'destructive',
-        })
-      }
-      setSettingAddr(false)
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: (error as Error).message,
-      })
-      setSettingAddr(false)
-    }
-  }
 
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
@@ -77,14 +52,31 @@ const DomainDetail = () => {
       const res = await setContentHash(
         params.domainName || '',
         contentHashQuery,
+        (step: string) => {
+          if (step === 'tx-confirm')
+            toast({
+              title: 'Confirm Transaction',
+              description: 'Please confirm the transaction in the metamask',
+              variant: 'info',
+            })
+          if (step === 'tx-started')
+            toast({
+              title: 'Transaction initiated',
+              description:
+                'Please wait for 3-5 minutes to mine the transaction',
+              variant: 'info',
+            })
+        },
       )
       if (!res.error) {
         setSettingContentHash(false)
+        setIsSuccesful(true)
         toast({
           title: 'Success',
-          description: 'Please wait for 3-5 minutes',
+          description: 'Transaction is successful',
         })
       } else {
+        setIsSuccesful(false)
         toast({
           title: 'Error',
           variant: 'destructive',
@@ -92,6 +84,7 @@ const DomainDetail = () => {
         setSettingContentHash(false)
       }
     } catch (error) {
+      setIsSuccesful(false)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -99,6 +92,17 @@ const DomainDetail = () => {
       setSettingContentHash(false)
     }
   }
+
+  useEffect(() => {
+    if (isEditMode && contentHash) {
+      setContentHashQuery(contentHash.split('//')[1])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode])
+
+  useEffect(() => {
+    setIsEditMode(false)
+  }, [currentAccount])
 
   return (
     <>
@@ -108,46 +112,25 @@ const DomainDetail = () => {
         </div>
       ) : (
         <>
-          <div className="py-10 border-b border-slate-200">
+          <div className="py-10 border-b border-gray-border">
             <div className="w-full flex items-start flex-col space-y-12">
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Year:</span>
-                <div>{expirationYear}</div>
-              </div>
-              <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Parent:</span>
-                <div>{process.env.REACT_APP_CONTROLLER_ADDRESS}</div>
+                <span className="text-base text-gray-text">Parent:</span>
+                <div className="font-semibold text-primary-text">
+                  {process.env.REACT_APP_CONTROLLER_ADDRESS}
+                </div>
               </div>
               {!isDomainAvailable && (
                 <div className="w-[800px] flex items-center justify-between">
-                  <span className="text-base text-slate-600">Controller:</span>
+                  <span className="text-base text-gray-text">Controller:</span>
                   <div>
-                    {ownerLoading || settingAddr ? (
+                    {ownerLoading ? (
                       <InfoLoader />
                     ) : (
                       <>
-                        {ownerAddress ? (
-                          <div>{ownerAddress}</div>
-                        ) : (
-                          <>
-                            <div className="flex items-center space-x-3">
-                              <Input
-                                className="h-10 w-11/12 text-lg"
-                                value={addrQuery}
-                                onChange={(e) => {
-                                  setAddrQuery(e.target.value)
-                                }}
-                              />
-                              <Button
-                                onClick={handleSetYear}
-                                className="bg-blue-600"
-                                disabled={settingContentHash}
-                              >
-                                Set
-                              </Button>
-                            </div>
-                          </>
-                        )}
+                        <div className="font-semibold text-primary-text">
+                          {ownerAddress}
+                        </div>
                       </>
                     )}
                   </div>
@@ -159,7 +142,7 @@ const DomainDetail = () => {
             <div className="mt-10 w-full flex items-start flex-col space-y-12">
               <div className="w-full flex items-center justify-between">
                 <div className="w-[800px] flex items-center justify-between">
-                  <span className="text-base text-slate-600 text-right">
+                  <span className="text-base text-gray-text text-right">
                     Content Hash:
                   </span>
                   <div>
@@ -167,20 +150,30 @@ const DomainDetail = () => {
                       <InfoLoader />
                     ) : (
                       <>
-                        {contentHash ? (
+                        {contentHash && !isEditMode ? (
                           <>
                             <a
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-blue-500"
+                              className="text-blue-500 mr-2"
                             >
                               {contentHash}
                             </a>
+                            {ownerAddress === currentAccount && (
+                              <>
+                                <Button
+                                  onClick={() => setIsEditMode(!isEditMode)}
+                                >
+                                  Edit
+                                </Button>
+                              </>
+                            )}
                           </>
                         ) : (
                           <>
-                            {ownerAddress !== currentAccount && (
+                            {(ownerAddress === currentAccount ||
+                              isEditMode) && (
                               <div className="flex items-center space-x-3">
                                 <Input
                                   className="h-10 w-11/12 text-lg"
@@ -191,9 +184,15 @@ const DomainDetail = () => {
                                 />
                                 <Button
                                   onClick={handleSetContentHash}
-                                  disabled={settingContentHash}
+                                  disabled={
+                                    (isEditMode &&
+                                      contentHash === contentHashQuery) ||
+                                    settingContentHash ||
+                                    !contentHashQuery ||
+                                    isSuccesful
+                                  }
                                 >
-                                  Set
+                                  {isEditMode ? 'Update' : 'Add'}
                                 </Button>
                               </div>
                             )}
@@ -206,12 +205,14 @@ const DomainDetail = () => {
               </div>
 
               <div className="w-[800px] flex items-center justify-between">
-                <span className="text-base text-slate-600">Expiration:</span>
+                <span className="text-base text-gray-text">Expiration:</span>
                 <div>
                   {expiryDateLoading ? (
                     <InfoLoader />
                   ) : (
-                    <div>{expirationDate}</div>
+                    <div className="font-semibold text-primary-text">
+                      {expirationDate}
+                    </div>
                   )}
                 </div>
               </div>

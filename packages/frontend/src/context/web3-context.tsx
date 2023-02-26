@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import { getUserBalance } from '../lib/utils'
 
 export const Web3Context: any = createContext<any>({} as any)
 
@@ -6,6 +7,7 @@ const { ethereum } = window as any
 
 const Web3ContextProvider: any = ({ children }: any) => {
   const [currentAccount, setCurrentAccount] = useState(null)
+  const [userBalance, setUserBalance] = useState('')
 
   const disconnectWallet = async () => {
     try {
@@ -49,6 +51,8 @@ const Web3ContextProvider: any = ({ children }: any) => {
         method: 'eth_requestAccounts',
       })
       setCurrentAccount(accounts[0])
+      const userBalanceRes = await getUserBalance(accounts[0])
+      setUserBalance(userBalanceRes)
     } catch (error) {
       console.log(error)
       throw new Error('No Ethereum Object')
@@ -82,6 +86,7 @@ const Web3ContextProvider: any = ({ children }: any) => {
         disconnectWallet,
         currentAccount,
         setCurrentAccount,
+        userBalance,
       }}
     >
       {children}

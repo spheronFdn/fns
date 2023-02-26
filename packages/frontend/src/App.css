@@ -1,10 +1,36 @@
 .App {
   text-align: center;
   height: 100vh;
-  /* background: linear-gradient(
-    180deg,
-    #000000 0%,
-    #190840 66.12%,
-    #7862c2 119.98%
-  ); */
+  background: linear-gradient(
+      129.58deg,
+      rgba(44, 218, 255, 0.29) -1.47%,
+      rgba(0, 107, 233, 0) 41.44%
+    ),
+    #030928;
+}
+
+.hero__text {
+  background: -webkit-linear-gradient(180deg, #2cdaff, #0052ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.button__bg {
+  background: radial-gradient(
+    130.89% 130.89% at 47.98% 7.11%,
+    #004aa2 0%,
+    #418ff8 99.99%,
+    #5cc4ff 100%
+  );
+  transition: all 150ms ease-in-out;
+}
+
+.button__bg:hover {
+  background: radial-gradient(
+    130.89% 130.89% at 47.98% 7.11%,
+    #0049a2d8 0%,
+    #418ff8 99.99%,
+    #5cc4ff 100%
+  );
 }

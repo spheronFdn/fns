@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { utils } from 'ethers'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   useParams,
   useLocation,
@@ -8,12 +9,14 @@ import {
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import { Input } from '../../components/UI/input'
+import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
-import { isValidAddress } from '../../lib/utils'
+import { getFee, getUserBalance, isValidAddress } from '../../lib/utils'
 import {
   getAddress,
   getContentHash,
   getExpiry,
+  getPriceOnYear,
   isAvailable,
 } from '../../services/spheron-fns'
 
@@ -21,6 +24,8 @@ const Domain = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { toast } = useToast()
+  const Web3Cntx = useContext<any>(Web3Context)
+  const { currentAccount } = Web3Cntx
   const [isDomainAvailable, setIsDomainAvailable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
@@ -31,6 +36,14 @@ const Domain = () => {
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [expiryDate, setExpiryDate] = useState<string>('')
   const [expiryDateLoading, setExpiryDateLoading] = useState<boolean>(true)
+  const [step, setStep] = useState<number>(0)
+  const [priceLoading, setPriceLoading] = useState<boolean>(true)
+  const [price, setPrice] = useState<string>('')
+  const [userBalanceLoading, setUserBalanceLoading] = useState<boolean>(true)
+  const [userBalance, setUserBalance] = useState<string>('')
+  const [gasFee, setGasFee] = useState<string>('')
+  const [year, setYear] = useState<number>(1)
+  const [isSuccessful, setIsSuccessful] = useState<boolean>(false)
 
   async function getAddressFromDomainName(domainName: string) {
     setOwnerLoading(true)
@@ -38,6 +51,8 @@ const Domain = () => {
       const res = await getAddress(domainName)
       setOwnerAddress(res.response || '')
     } catch (error) {
+      console.log('Error in getAddressFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -52,6 +67,8 @@ const Domain = () => {
       const res = await getContentHash(domainName)
       setContentHash(res.response || '')
     } catch (error) {
+      console.log('Error in getContentHashFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -67,6 +84,8 @@ const Domain = () => {
       const finalDate = String(parseInt((res.response as any)._hex || '0', 16))
       setExpiryDate(finalDate)
     } catch (error) {
+      console.log('Error in getExpiryFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -90,12 +109,16 @@ const Domain = () => {
     try {
       let response = await isAvailable(searchTerm)
       setIsDomainAvailable(!!response.response)
-    } catch (error) {}
+    } catch (error) {
+      console.log('Error in getAvailibility: ')
+      console.log(error)
+    }
 
     setLoading(false)
   }
 
   useEffect(() => {
+    setYear(1)
     if (params.domainName) {
       getAvailibility(params.domainName)
     }
@@ -110,6 +133,40 @@ const Domain = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDomainAvailable, params.domainName])
+
+  useEffect(() => {
+    setIsSuccessful(false)
+    async function getGasFee() {
+      const fees = await getFee()
+      setGasFee(fees)
+    }
+
+    async function getPrice(domainName: string) {
+      setPriceLoading(true)
+      const res: any = await getPriceOnYear(domainName, year)
+      console.log('PRICE RESPONSE:', res)
+      const finalPrice = utils.formatEther(
+        `${parseInt(res.response.base._hex, 16)}`,
+      )
+      setPrice(finalPrice)
+      setPriceLoading(false)
+    }
+    if (searchQuery && isDomainAvailable) {
+      getPrice(searchQuery)
+      getGasFee()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.domainName, year, isDomainAvailable])
+
+  useEffect(() => {
+    async function getBalance(address: string) {
+      setUserBalanceLoading(true)
+      const balance = await getUserBalance(address)
+      setUserBalance(balance)
+      setUserBalanceLoading(false)
+    }
+    if (currentAccount) getBalance(currentAccount)
+  }, [currentAccount])
 
   const navItems = [
     {
@@ -139,7 +196,7 @@ const Domain = () => {
 
   return (
     <>
-      <div className="w-full bg-slate-100 py-4">
+      <div className="w-full bg-blue-bg bg-opacity-30 py-4">
         <div className="w-8/12 mx-auto flex items-center justify-between">
           <div className="mr-auto ml-0 w-6/12 flex space-x-3">
             <Input
@@ -153,15 +210,15 @@ const Domain = () => {
           </div>
         </div>
       </div>
-      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-slate-200">
+      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
         {navItems.map((navItem) => (
           <Link
             key={navItem.id}
             to={`/domain/${params.domainName}/${navItem.label}`}
             className={`capitalize text-lg ${
               navItem.isActive
-                ? 'font-semibold text-slate-700'
-                : 'text-slate-400'
+                ? 'font-semibold text-white'
+                : 'text-gray-inactive'
             }`}
           >
             {navItem.label}
@@ -180,6 +237,17 @@ const Domain = () => {
             ownerAddress,
             contentHash,
             expiryDate,
+            step,
+            setStep,
+            price,
+            userBalance,
+            gasFee,
+            priceLoading,
+            userBalanceLoading,
+            year,
+            setYear,
+            isSuccessful,
+            setIsSuccessful,
           ]}
         />
       </div>

@@ -51,7 +51,7 @@ const Domain = () => {
 
   return (
     <>
-      <div className="w-full bg-slate-100 py-4">
+      <div className="w-full bg-blue-bg bg-opacity-30 py-4">
         <div className="w-8/12 mx-auto flex items-center justify-between">
           <div className="mr-auto ml-0 w-6/12 flex space-x-3">
             <Input
@@ -63,22 +63,20 @@ const Domain = () => {
           </div>
 
           <span
-            className="cursor-pointer underline text-sm"
+            className="cursor-pointer underline text-sm text-primary-text"
             onClick={handleViewOnExplorer}
           >
             View on explorer
           </span>
         </div>
       </div>
-      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-slate-200">
+      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
         {navItems.map((navItem) => (
           <Link
             key={navItem.id}
             to={`/address/${params.address}/${navItem.label}`}
             className={`capitalize text-lg ${
-              navItem.isActive
-                ? 'font-semibold text-slate-700'
-                : 'text-slate-400'
+              navItem.isActive ? 'font-semibold text-white' : 'text-slate-400'
             }`}
           >
             {navItem.label}

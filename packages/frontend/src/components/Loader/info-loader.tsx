@@ -4,7 +4,7 @@ import { ClipLoader } from 'react-spinners'
 const InfoLoader = () => {
   return (
     <ClipLoader
-      color="#334155"
+      color="#2A66F7"
       loading
       size={15}
       aria-label="Loading Spinner"
