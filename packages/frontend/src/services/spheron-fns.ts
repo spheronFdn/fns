@@ -141,12 +141,19 @@ export const getExpiry = async (domainName: string) => {
   }
 }
 //  Set Content Hash
-export const setContentHash = async (domainName: string, value: string) => {
+export const setContentHash = async (
+  domainName: string,
+  value: string,
+  callback: (step: string) => void,
+) => {
   try {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
+    callback('tx-confirm')
     const res = await FNSInstance.setContentHash(domainName, value)
+    callback('tx-started')
+    await res.wait()
     return { error: false, response: res }
   } catch (error) {
     console.log('ERROR: ', error)
