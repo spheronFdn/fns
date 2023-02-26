@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
@@ -123,6 +123,7 @@ const DomainRegister = () => {
         setRegisterLoading(false)
       }
     } catch (error) {
+      console.log('Error in registering domain ->', error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -278,7 +279,7 @@ const DomainRegister = () => {
                       )}
                     </div>
                   </div>
-                  <div className="border-t border-gray-border pt-10">
+                  <div className="border-t border-gray-border py-10">
                     <div className="grid grid-cols-2 w-9/12">
                       {processInformation.map((information) => (
                         <div className="flex items-start justify-start space-x-4">

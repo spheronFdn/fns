@@ -47,12 +47,25 @@ const AddressRegistrant = () => {
   useEffect(() => {
     async function getExpiryFromDomainName(domainName: string) {
       setExpiryDateLoading(true)
-      const res = await getExpiry(domainName)
-      const finalDate = String(parseInt((res as any).response._hex || '0', 16))
-      setExpiryDate(finalDate)
+      try {
+        const res = await getExpiry(domainName)
+        const finalDate = String(
+          parseInt((res as any).response._hex || '0', 16),
+        )
+        setExpiryDate(finalDate)
+      } catch (error) {
+        console.log('Error in getting domain expiry -> ', error)
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: (error as Error).message,
+        })
+      }
       setExpiryDateLoading(false)
     }
+
     if (domainName) getExpiryFromDomainName(domainName)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domainName])
 
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))

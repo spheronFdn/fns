@@ -143,12 +143,21 @@ const Domain = () => {
 
     async function getPrice(domainName: string) {
       setPriceLoading(true)
-      const res: any = await getPriceOnYear(domainName, year)
-      console.log('PRICE RESPONSE:', res)
-      const finalPrice = utils.formatEther(
-        `${parseInt(res.response.base._hex, 16)}`,
-      )
-      setPrice(finalPrice)
+      try {
+        const res: any = await getPriceOnYear(domainName, year)
+
+        const finalPrice = utils.formatEther(
+          `${parseInt(res.response.base._hex, 16)}`,
+        )
+        setPrice(finalPrice)
+      } catch (error) {
+        console.log('Error in get price  ->', error)
+        toast({
+          title: 'Error',
+          description: (error as Error).message,
+        })
+      }
+
       setPriceLoading(false)
     }
     if (searchQuery && isDomainAvailable) {
