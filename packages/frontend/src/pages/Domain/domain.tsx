@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { utils } from 'ethers'
 import React, { useContext, useEffect, useState } from 'react'
 import {
   useParams,
@@ -51,6 +51,8 @@ const Domain = () => {
       const res = await getAddress(domainName)
       setOwnerAddress(res.response || '')
     } catch (error) {
+      console.log('Error in getAddressFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -65,6 +67,8 @@ const Domain = () => {
       const res = await getContentHash(domainName)
       setContentHash(res.response || '')
     } catch (error) {
+      console.log('Error in getContentHashFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -80,6 +84,8 @@ const Domain = () => {
       const finalDate = String(parseInt((res.response as any)._hex || '0', 16))
       setExpiryDate(finalDate)
     } catch (error) {
+      console.log('Error in getExpiryFromDomainName: ')
+      console.log(error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -88,8 +94,6 @@ const Domain = () => {
 
     setExpiryDateLoading(false)
   }
-
-  console.log('ENV: ', process.env.REACT_APP_RPC_URL)
 
   useEffect(() => {
     if (Boolean(params.domainName)) {
@@ -105,7 +109,10 @@ const Domain = () => {
     try {
       let response = await isAvailable(searchTerm)
       setIsDomainAvailable(!!response.response)
-    } catch (error) {}
+    } catch (error) {
+      console.log('Error in getAvailibility: ')
+      console.log(error)
+    }
 
     setLoading(false)
   }
@@ -138,7 +145,7 @@ const Domain = () => {
       setPriceLoading(true)
       const res: any = await getPriceOnYear(domainName, year)
       console.log('PRICE RESPONSE:', res)
-      const finalPrice = ethers.utils.formatEther(
+      const finalPrice = utils.formatEther(
         `${parseInt(res.response.base._hex, 16)}`,
       )
       setPrice(finalPrice)
