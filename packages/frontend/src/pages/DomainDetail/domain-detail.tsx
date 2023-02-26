@@ -70,6 +70,7 @@ const DomainDetail = () => {
       }
     } catch (error) {
       setIsSuccesful(false)
+      console.log('Error in setting content hash -> ', error)
       toast({
         title: 'Error',
         description: (error as Error).message,

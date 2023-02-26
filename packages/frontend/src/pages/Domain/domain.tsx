@@ -51,6 +51,7 @@ const Domain = () => {
       const res = await getAddress(domainName)
       setOwnerAddress(res.response || '')
     } catch (error) {
+      console.log('Error in getting address ->', error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -65,6 +66,7 @@ const Domain = () => {
       const res = await getContentHash(domainName)
       setContentHash(res.response || '')
     } catch (error) {
+      console.log('Error in getting content hash ->', error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -80,6 +82,7 @@ const Domain = () => {
       const finalDate = String(parseInt((res.response as any)._hex || '0', 16))
       setExpiryDate(finalDate)
     } catch (error) {
+      console.log('Error in domain expiry ->', error)
       toast({
         title: 'Error',
         description: (error as Error).message,
@@ -88,8 +91,6 @@ const Domain = () => {
 
     setExpiryDateLoading(false)
   }
-
-  console.log('ENV: ', process.env.REACT_APP_RPC_URL)
 
   useEffect(() => {
     if (Boolean(params.domainName)) {
@@ -136,12 +137,21 @@ const Domain = () => {
 
     async function getPrice(domainName: string) {
       setPriceLoading(true)
-      const res: any = await getPriceOnYear(domainName, year)
-      console.log('PRICE RESPONSE:', res)
-      const finalPrice = ethers.utils.formatEther(
-        `${parseInt(res.response.base._hex, 16)}`,
-      )
-      setPrice(finalPrice)
+      try {
+        const res: any = await getPriceOnYear(domainName, year)
+
+        const finalPrice = ethers.utils.formatEther(
+          `${parseInt(res.response.base._hex, 16)}`,
+        )
+        setPrice(finalPrice)
+      } catch (error) {
+        console.log('Error in get price  ->', error)
+        toast({
+          title: 'Error',
+          description: (error as Error).message,
+        })
+      }
+
       setPriceLoading(false)
     }
     if (searchQuery && isDomainAvailable) {
