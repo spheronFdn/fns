@@ -15,7 +15,6 @@ const Web3ContextProvider: any = ({ children }: any) => {
         method: 'eth_requestAccounts',
         params: [{ eth_accounts: {} }],
       })
-      console.log(accounts)
       setCurrentAccount(null)
     } catch (error) {}
   }
@@ -59,30 +58,10 @@ const Web3ContextProvider: any = ({ children }: any) => {
     }
   }
 
-  const checkIfWalletIsConnect = async () => {
-    if (!ethereum) {
-      alert('Please install MetaMask to use this application')
-      return
-    }
-    try {
-      const accounts = await ethereum.request({
-        method: 'eth_accounts',
-      })
-      if (accounts.length === 0) {
-        return false
-      }
-      setCurrentAccount(accounts[0])
-      return true
-    } catch (error) {
-      throw new Error('No Ethereum Object')
-    }
-  }
-
   return (
     <Web3Context.Provider
       value={{
         connectWallet,
-        checkIfWalletIsConnect,
         disconnectWallet,
         currentAccount,
         setCurrentAccount,
