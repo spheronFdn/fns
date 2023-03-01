@@ -30,7 +30,7 @@ async function main() {
   // We get the contract to deploy
   const deployer = (await ethers.getSigners())[0];
   const provider = new ethers.providers.JsonRpcProvider(
-    "https://filecoin-hyperspace.chainstacklabs.com/rpc/v1"
+    "https://api.hyperspace.node.glif.io/rpc/v1"
   );
   const overrides = txParams(provider.getGasPrice());
   const Contract = await hre.ethers.getContractFactory("FNSRegistry");
