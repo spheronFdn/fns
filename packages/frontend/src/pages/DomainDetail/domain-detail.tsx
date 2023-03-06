@@ -162,13 +162,13 @@ const DomainDetail = () => {
                               {contentHash}
                             </a>
                             {ownerAddress === currentAccount && (
-                              <>
+                              <div className="flex justify-start lg:ml-0 ml-4 lg:block">
                                 <Button
                                   onClick={() => setIsEditMode(!isEditMode)}
                                 >
                                   Edit
                                 </Button>
-                              </>
+                              </div>
                             )}
                           </>
                         ) : (
@@ -177,7 +177,7 @@ const DomainDetail = () => {
                               isEditMode) && (
                               <div className="flex items-center space-x-3">
                                 <Input
-                                  className="h-10 w-11/12 text-lg"
+                                  className="h-10 w-11/12 text-base lg:text-lg"
                                   value={contentHashQuery}
                                   onChange={(e) => {
                                     setContentHashQuery(e.target.value)
