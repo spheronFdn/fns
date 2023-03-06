@@ -113,23 +113,23 @@ const DomainDetail = () => {
         </div>
       ) : (
         <>
-          <div className="py-10 border-b border-gray-border">
+          <div className="lg:overflow-hidden overflow-x-scroll py-6 lg:py-10 border-b border-gray-border">
             <div className="w-full flex items-start flex-col space-y-12">
-              <div className="w-[800px] flex items-center justify-between">
+              <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
                 <span className="text-base text-gray-text">Parent:</span>
-                <div className="font-semibold text-primary-text">
+                <div className="font-semibold text-primary-text lg:ml-0 ml-4">
                   {process.env.REACT_APP_CONTROLLER_ADDRESS}
                 </div>
               </div>
               {!isDomainAvailable && (
-                <div className="w-[800px] flex items-center justify-between">
+                <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
                   <span className="text-base text-gray-text">Controller:</span>
                   <div>
                     {ownerLoading ? (
                       <InfoLoader />
                     ) : (
                       <>
-                        <div className="font-semibold text-primary-text">
+                        <div className="font-semibold text-primary-text lg:ml-0 ml-4">
                           {ownerAddress}
                         </div>
                       </>
@@ -140,10 +140,10 @@ const DomainDetail = () => {
             </div>
           </div>
           {!isDomainAvailable && (
-            <div className="mt-10 w-full flex items-start flex-col space-y-12">
+            <div className="lg:overflow-hidden overflow-x-scroll mt-6 lg:mt-10 w-full flex items-start flex-col space-y-12">
               <div className="w-full flex items-center justify-between">
-                <div className="w-[800px] flex items-center justify-between">
-                  <span className="text-base text-gray-text text-right">
+                <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
+                  <span className="text-base text-gray-text text-left lg:text-right">
                     Content Hash:
                   </span>
                   <div>
@@ -157,7 +157,7 @@ const DomainDetail = () => {
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-blue-500 mr-2"
+                              className="text-blue-500 lg:ml-0 ml-4 lg:mr-2"
                             >
                               {contentHash}
                             </a>
@@ -205,13 +205,13 @@ const DomainDetail = () => {
                 </div>
               </div>
 
-              <div className="w-[800px] flex items-center justify-between">
+              <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
                 <span className="text-base text-gray-text">Expiration:</span>
                 <div>
                   {expiryDateLoading ? (
                     <InfoLoader />
                   ) : (
-                    <div className="font-semibold text-primary-text">
+                    <div className="lg:ml-0 ml-4 lg:text-base text-sm font-semibold text-primary-text">
                       {expirationDate}
                     </div>
                   )}

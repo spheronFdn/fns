@@ -74,29 +74,33 @@ const AddressRegistrant = () => {
     <div>
       <table className="table-auto w-full">
         <thead className="bg-blue-bg bg-opacity-30 w-full">
-          <tr className="text-md font-semibold text-slate-500">
+          <tr className="text-md font-semibold text-slate-500 lg:w-full w-11/12 mx-auto">
             <th className="px-4 pt-5 pb-2 text-left text-white w-7/12">Name</th>
-            <th className="pt-6 pb-2 text-left text-white">Expiration Time</th>
+            <th className="pt-4 lg:pt-6 pb-2 text-left text-white">
+              Expiration Time
+            </th>
           </tr>
         </thead>
 
         {domainNameLoading ? (
-          <div className="w-full border-gray-border pt-6 pb-2 text-center flex items-center justify-end">
+          <div className="w-full border-gray-border pt-4 lg:pt-6 pb-2 text-center flex items-center justify-end">
             <Loader />
           </div>
         ) : (
           <>
-            <tbody>
+            <tbody className="border-b border-gray-border w-full">
               {domainName.length ? (
-                <tr className="border-b border-gray-border ">
-                  <td className="px-4 font-medium text-gray-text text-sm pt-3 pb-2 text-left">
+                <tr className="lg:border-b border-gray-border ">
+                  <td className="px-4 font-medium text-gray-text text-sm pt-1.5 lg:pt-3 pb-2 text-left">
                     {domainName}
                   </td>
-                  <td className="pt-3 font-medium text-gray-text text-sm pb-2 text-left">
+                  <td className="pt-1.5 lg:pt-3 font-medium text-gray-text text-sm pb-2 text-left">
                     {expiryDateLoading ? (
                       <InfoLoader />
                     ) : (
-                      <div>{expirationDate}</div>
+                      <div className="lg:text-base text-sm">
+                        {expirationDate}
+                      </div>
                     )}
                   </td>
                 </tr>

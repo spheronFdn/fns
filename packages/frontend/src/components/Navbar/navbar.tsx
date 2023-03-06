@@ -38,22 +38,22 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex items-center justify-between h-20 border-gray-border border-b border-opacity-50 shadow-sm">
-      <div className="flex justify-between items-center w-8/12 mx-auto">
+    <nav className="flex items-center justify-between h-14 lg:h-20 border-gray-border border-b border-opacity-50 shadow-sm">
+      <div className="flex justify-between items-center w-11/12 lg:w-8/12 mx-auto">
         <div
           className="flex items-center justify-start cursor-pointer"
           onClick={handleRedirect}
         >
-          <SpheronLogo className="h-16 w-auto" />
+          <SpheronLogo className="h-11 lg:h-16 w-auto" />
         </div>
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
               <div className="bg-gray-100 bg-opacity-5  text-white text-sm font-bold flex items-center justify-start rounded-xl">
-                <div className="rounded-xl pl-3">
+                <div className="rounded-xl pl-2.5 lg:pl-3 text-xs lg:text-base">
                   {Number(userBalance).toFixed(2)} tFIL
                 </div>
-                <div className="py-2 px-3 rounded-xl ml-2.5 bg-gray-100 bg-opacity-10">
+                <div className="py-1.5 px-2 lg:py-2 lg:px-3 rounded-xl ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base">
                   {truncateAddress(currentAccount)}
                 </div>
               </div>

@@ -206,10 +206,10 @@ const Domain = () => {
   return (
     <>
       <div className="w-full bg-blue-bg bg-opacity-30 py-4">
-        <div className="w-8/12 mx-auto flex items-center justify-between">
-          <div className="mr-auto ml-0 w-6/12 flex space-x-3">
+        <div className="w-10/12 lg:w-8/12 mx-auto flex items-center justify-between">
+          <div className="mr-auto ml-0 w-full md:w-9/12 lg:w-6/12 flex space-x-3">
             <Input
-              className="h-10 w-11/12 text-lg"
+              className="h-10 w-11/12 text-base lg:text-lg"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value)
@@ -219,7 +219,7 @@ const Domain = () => {
           </div>
         </div>
       </div>
-      <div className="w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
+      <div className="w-10/12 lg:w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
         {navItems.map((navItem) => (
           <Link
             key={navItem.id}
@@ -234,7 +234,7 @@ const Domain = () => {
           </Link>
         ))}
       </div>
-      <div className="w-8/12 mx-auto">
+      <div className="w-10/12 lg:w-8/12 mx-auto">
         <Outlet
           context={[
             searchQuery,
