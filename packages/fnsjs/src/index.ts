@@ -507,7 +507,7 @@ export class FNS {
 
   public getExpiry = this.generateRawFunction<FunctionTypes['getExpiry']>(
     'initialGetters',
-    ['contracts', 'multicallWrapper'],
+    ['contracts'],
     'getExpiry',
   )
 
@@ -646,6 +646,15 @@ export class FNS {
 
   public commitName = this.generateWriteFunction<FunctionTypes['commitName']>(
     'commitName',
+    ['contracts'],
+  )
+
+  public setContentHash = this.generateWriteFunction<
+    FunctionTypes['setContentHash']
+  >('setContentHash', ['contracts'])
+
+  public setAddr = this.generateWriteFunction<FunctionTypes['setAddr']>(
+    'setAddr',
     ['contracts'],
   )
 

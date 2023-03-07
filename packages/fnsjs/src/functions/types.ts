@@ -37,6 +37,8 @@ import type getSubnames from './getSubnames'
 import type getWrapperData from './getWrapperData'
 import type importDNSSECName from './importDNSSECName'
 import type registerName from './registerName'
+import type setContentHash from './setContentHash'
+import type setAddr from './setAddr'
 import type {
   // eslint-disable-next-line import/no-named-default
   default as renewNames,
@@ -93,6 +95,8 @@ type Function = {
   getWrapperData: typeof getWrapperData
   importDNSSECName: typeof importDNSSECName
   registerName: typeof registerName
+  setContentHash: typeof setContentHash
+  setAddr: typeof setAddr
   renewNames: typeof renewNames
   extendWrappedName: typeof extendWrappedName
   setName: typeof setName
