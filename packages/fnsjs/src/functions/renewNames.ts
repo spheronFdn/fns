@@ -39,8 +39,8 @@ export default async function (
   const names = Array.isArray(nameOrNames) ? nameOrNames : [nameOrNames]
   const labels = names.map((name) => {
     const label = name.split('.')
-    if (label.length !== 2 || label[1] !== 'eth') {
-      throw new Error('Currently only .eth TLD renewals are supported')
+    if (label.length !== 2 || label[1] !== 'fil') {
+      throw new Error('Currently only .fil TLD renewals are supported')
     }
     return label[0]
   })

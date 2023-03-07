@@ -14,11 +14,11 @@ afterAll(async () => {
 
 describe('getHistory', () => {
   it('should return null for a non-existent name', async () => {
-    const result = await fnsInstance.getHistory('test123123cool.eth')
+    const result = await fnsInstance.getHistory('test123123cool.fil')
     expect(result).toBeUndefined()
   })
   it('should return the history of a name', async () => {
-    const result = await fnsInstance.getHistory('with-profile.eth')
+    const result = await fnsInstance.getHistory('with-profile.fil')
     expect(result).toBeTruthy()
     if (result) {
       expect(result).toHaveProperty('domain')
@@ -27,7 +27,7 @@ describe('getHistory', () => {
     }
   })
   it('should return the history of a wrapped name', async () => {
-    const result = await fnsInstance.getHistory('wrapped.eth')
+    const result = await fnsInstance.getHistory('wrapped.fil')
     expect(result).toBeTruthy()
     if (result) {
       expect(result).toHaveProperty('domain')
@@ -37,7 +37,7 @@ describe('getHistory', () => {
   })
   it('should return the history of a subname', async () => {
     const result = await fnsInstance.getHistory(
-      'test.wrapped-with-subnames.eth',
+      'test.wrapped-with-subnames.fil',
     )
     expect(result).toBeTruthy()
     if (result) {

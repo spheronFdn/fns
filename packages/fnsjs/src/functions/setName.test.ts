@@ -22,7 +22,7 @@ describe('setName', () => {
     await revert()
   })
   it('should return a transaction for a name and set successfully', async () => {
-    const tx = await fnsInstance.setName('test123.eth', { addressOrIndex: 1 })
+    const tx = await fnsInstance.setName('test123.fil', { addressOrIndex: 1 })
     expect(tx).toBeTruthy()
     await tx?.wait()
 
@@ -32,7 +32,7 @@ describe('setName', () => {
     const result = await universalResolver['reverse(bytes)'](
       hexEncodeName(reverseNode),
     )
-    expect(result[0]).toBe('test123.eth')
+    expect(result[0]).toBe('test123.fil')
   })
   it("should return a transaction for setting another address' name", async () => {
     const registry = (await fnsInstance.contracts!.getRegistry()!).connect(
@@ -44,7 +44,7 @@ describe('setName', () => {
     )
     await setApprovedForAllTx?.wait()
 
-    const tx = await fnsInstance.setName('test123.eth', {
+    const tx = await fnsInstance.setName('test123.fil', {
       address: accounts[1],
       addressOrIndex: 2,
     })
@@ -57,6 +57,6 @@ describe('setName', () => {
     const result = await universalResolver['reverse(bytes)'](
       hexEncodeName(reverseNode),
     )
-    expect(result[0]).toBe('test123.eth')
+    expect(result[0]).toBe('test123.fil')
   })
 })

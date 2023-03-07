@@ -13,8 +13,8 @@ afterAll(async () => {
 })
 
 describe('supportsTLD', () => {
-  it('should return true for .eth tld', async () => {
-    const result = await fnsInstance.supportsTLD('eth')
+  it('should return true for .fil tld', async () => {
+    const result = await fnsInstance.supportsTLD('fil')
     expect(result).toBeTruthy()
   })
 
@@ -28,8 +28,8 @@ describe('supportsTLD', () => {
     expect(result).toBeFalsy()
   })
 
-  it('should return true for .eth name', async () => {
-    const result = await fnsInstance.supportsTLD('test123.eth')
+  it('should return true for .fil name', async () => {
+    const result = await fnsInstance.supportsTLD('test123.fil')
     expect(result).toBeTruthy()
   })
 

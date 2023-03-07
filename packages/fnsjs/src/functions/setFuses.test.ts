@@ -73,7 +73,7 @@ describe('setFuses', () => {
   })
   describe('Array', () => {
     it('should return a setFuses transaction from a named fuse array and succeed', async () => {
-      const tx = await fnsInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.fil', {
         named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
         addressOrIndex: accounts[1],
       })
@@ -81,7 +81,7 @@ describe('setFuses', () => {
       await tx.wait()
 
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-      const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
+      const [, fuses] = await nameWrapper.getData(namehash('wrapped.fil'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
         'CANNOT_CREATE_SUBDOMAIN',
@@ -90,14 +90,14 @@ describe('setFuses', () => {
       ])
     })
     it('should return a setFuses transaction from an unnamed fuse array and succeed', async () => {
-      const tx0 = await fnsInstance.setFuses('wrapped.eth', {
+      const tx0 = await fnsInstance.setFuses('wrapped.fil', {
         named: ['CANNOT_UNWRAP'],
         addressOrIndex: accounts[1],
       })
       expect(tx0).toBeTruthy()
       await tx0.wait()
 
-      const tx = await fnsInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.fil', {
         unnamed: [128, 256, 512],
         addressOrIndex: accounts[1],
       })
@@ -105,11 +105,11 @@ describe('setFuses', () => {
       await tx.wait()
 
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-      const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
+      const [, fuses] = await nameWrapper.getData(namehash('wrapped.fil'))
       checkUnnamedFuses(fuses, [128, 256, 512])
     })
     it('should return a setFuses transaction from both an unnamed and named fuse array and succeed', async () => {
-      const tx = await fnsInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.fil', {
         named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
         unnamed: [128, 256, 512],
         addressOrIndex: accounts[1],
@@ -118,7 +118,7 @@ describe('setFuses', () => {
       await tx.wait()
 
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-      const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
+      const [, fuses] = await nameWrapper.getData(namehash('wrapped.fil'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
         'CANNOT_CREATE_SUBDOMAIN',
@@ -129,7 +129,7 @@ describe('setFuses', () => {
     })
     it('should throw an error when trying to burn a named fuse in an unnamed fuse array', async () => {
       try {
-        await fnsInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.fil', {
           unnamed: [32] as any,
           addressOrIndex: accounts[1],
         })
@@ -142,7 +142,7 @@ describe('setFuses', () => {
     })
     it('should throw an error when trying to burn an unnamed fuse in a named fuse array', async () => {
       try {
-        await fnsInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.fil', {
           named: ['COOL_SWAG_FUSE'] as any,
         })
         expect(false).toBeTruthy()
@@ -153,7 +153,7 @@ describe('setFuses', () => {
   })
   describe('Number', () => {
     it('should return a setFuses transaction from a number and succeed', async () => {
-      const tx = await fnsInstance.setFuses('wrapped.eth', {
+      const tx = await fnsInstance.setFuses('wrapped.fil', {
         number: 49,
         addressOrIndex: accounts[1],
       })
@@ -161,7 +161,7 @@ describe('setFuses', () => {
       await tx.wait()
 
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-      const [, fuses] = await nameWrapper.getData(namehash('wrapped.eth'))
+      const [, fuses] = await nameWrapper.getData(namehash('wrapped.fil'))
       checkFuses(fuses, [
         'CANNOT_UNWRAP',
         'CANNOT_CREATE_SUBDOMAIN',
@@ -171,7 +171,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is too high', async () => {
       try {
-        await fnsInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.fil', {
           number: 4294967297,
           addressOrIndex: accounts[1],
         })
@@ -184,7 +184,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is too low', async () => {
       try {
-        await fnsInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.fil', {
           number: -1,
           addressOrIndex: accounts[1],
         })
@@ -197,7 +197,7 @@ describe('setFuses', () => {
     })
     it('should throw an error if the number is not an integer', async () => {
       try {
-        await fnsInstance.setFuses('wrapped.eth', {
+        await fnsInstance.setFuses('wrapped.fil', {
           number: 7.5,
         })
         expect(false).toBeTruthy()
@@ -212,7 +212,7 @@ describe('setChildFuses', () => {
   it('should return a setChildFuses transaction and succeed', async () => {
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
     const setParentTx = await fnsInstance.setFuses(
-      'wrapped-with-subnames.eth',
+      'wrapped-with-subnames.fil',
       {
         named: ['CANNOT_UNWRAP'],
         addressOrIndex: accounts[1],
@@ -222,7 +222,7 @@ describe('setChildFuses', () => {
     await setParentTx.wait()
 
     const tx = await fnsInstance.setChildFuses(
-      'test.wrapped-with-subnames.eth',
+      'test.wrapped-with-subnames.fil',
       {
         fuses: 65537,
         addressOrIndex: accounts[1],
@@ -232,7 +232,7 @@ describe('setChildFuses', () => {
     await tx.wait()
 
     const [, fuses] = await nameWrapper.getData(
-      namehash('test.wrapped-with-subnames.eth'),
+      namehash('test.wrapped-with-subnames.fil'),
     )
 
     checkFuses(fuses, ['CANNOT_UNWRAP', 'PARENT_CANNOT_CONTROL'])

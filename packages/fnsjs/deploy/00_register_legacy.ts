@@ -349,7 +349,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const _controller = controller.connect(await ethers.getSigner(registrant))
     const commitTx = await _controller.commit(commitment)
     console.log(
-      `Committing commitment for ${label}.eth (tx: ${commitTx.hash})...`,
+      `Committing commitment for ${label}.fil (tx: ${commitTx.hash})...`,
     )
     await commitTx.wait()
 
@@ -368,7 +368,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         value: price,
       },
     )
-    console.log(`Registering name ${label}.eth (tx: ${registerTx.hash})...`)
+    console.log(`Registering name ${label}.fil (tx: ${registerTx.hash})...`)
     await registerTx.wait()
 
     if (records) {
@@ -376,8 +376,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         await ethers.getSigner(registrant),
       )
 
-      const hash = namehash(`${label}.eth`)
-      console.log(`Setting records for ${label}.eth...`)
+      const hash = namehash(`${label}.fil`)
+      console.log(`Setting records for ${label}.fil...`)
       if (records.text) {
         console.log('TEXT')
         for (const { key, value } of records.text) {
@@ -431,7 +431,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     }
 
     if (subnames) {
-      console.log(`Setting subnames for ${label}.eth...`)
+      console.log(`Setting subnames for ${label}.fil...`)
       const registry = await ethers.getContract('ENSRegistry')
       for (const {
         label: subnameLabel,
@@ -440,7 +440,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         const owner = allNamedAccts[subnameOwner]
         const _registry = registry.connect(await ethers.getSigner(registrant))
         const setSubnameTx = await _registry.setSubnodeRecord(
-          namehash(`${label}.eth`),
+          namehash(`${label}.fil`),
           labelhash(subnameLabel),
           owner,
           resolver,

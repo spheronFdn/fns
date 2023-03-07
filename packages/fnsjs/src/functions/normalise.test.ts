@@ -14,7 +14,7 @@ describe('normalise', () => {
     )
   })
   it('should namehash a 2LD', () => {
-    const hash = namehash('foo.eth')
+    const hash = namehash('foo.fil')
     expect(hash).toEqual(
       '0xde9b09fd7c5f901e23a3f19fecc54828e9c848539801e86591bd9801b019f84f',
     )

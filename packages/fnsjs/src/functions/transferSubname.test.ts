@@ -23,7 +23,7 @@ beforeEach(async () => {
 
 describe('transferSubname', () => {
   it('should allow transferring a subname on the registry', async () => {
-    const tx = await fnsInstance.transferSubname('test.with-subnames.eth', {
+    const tx = await fnsInstance.transferSubname('test.with-subnames.fil', {
       contract: 'registry',
       owner: accounts[1],
       addressOrIndex: 1,
@@ -32,7 +32,7 @@ describe('transferSubname', () => {
     await tx.wait()
 
     const registry = await fnsInstance.contracts!.getRegistry()!
-    const result = await registry.owner(namehash('test.with-subnames.eth'))
+    const result = await registry.owner(namehash('test.with-subnames.fil'))
     expect(result).toBe(accounts[1])
   })
 
@@ -40,7 +40,7 @@ describe('transferSubname', () => {
     it('should NOT allow transferring a subname by name owner', async () => {
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       await expect(
-        fnsInstance.transferSubname('test.wrapped-with-subnames.eth', {
+        fnsInstance.transferSubname('test.wrapped-with-subnames.fil', {
           contract: 'nameWrapper',
           owner: accounts[1],
           addressOrIndex: 2,
@@ -48,14 +48,14 @@ describe('transferSubname', () => {
       ).rejects.toThrow()
 
       const result = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(result).toBe(accounts[2])
     })
 
     it('should allow transferring a subname by parent owner', async () => {
       const tx = await fnsInstance.transferSubname(
-        'test.wrapped-with-subnames.eth',
+        'test.wrapped-with-subnames.fil',
         {
           contract: 'nameWrapper',
           owner: accounts[1],
@@ -67,7 +67,7 @@ describe('transferSubname', () => {
 
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
       const result = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(result).toBe(accounts[1])
     })
@@ -75,7 +75,7 @@ describe('transferSubname', () => {
 
   describe('wrapped name with PCC burned', () => {
     beforeEach(async () => {
-      const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.eth', {
+      const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.fil', {
         named: ['CANNOT_UNWRAP'],
         addressOrIndex: 1,
       })
@@ -87,7 +87,7 @@ describe('transferSubname', () => {
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
       const tx1 = await fnsInstance.setChildFuses(
-        'test.wrapped-with-subnames.eth',
+        'test.wrapped-with-subnames.fil',
         {
           fuses: {
             parent: {
@@ -101,19 +101,19 @@ describe('transferSubname', () => {
       await tx1.wait()
 
       const checkOwner = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(checkOwner).toBe(accounts[2])
 
       await expect(
-        fnsInstance.transferSubname('test.wrapped-with-subnames.eth', {
+        fnsInstance.transferSubname('test.wrapped-with-subnames.fil', {
           contract: 'nameWrapper',
           owner: accounts[1],
           addressOrIndex: 2,
         }),
       ).rejects.toThrow()
       const result = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(result).toBe(accounts[2])
     })
@@ -122,7 +122,7 @@ describe('transferSubname', () => {
       const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
       const tx1 = await fnsInstance.setChildFuses(
-        'test.wrapped-with-subnames.eth',
+        'test.wrapped-with-subnames.fil',
         {
           fuses: {
             parent: {
@@ -136,12 +136,12 @@ describe('transferSubname', () => {
       await tx1.wait()
 
       const checkOwner = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(checkOwner).toBe(accounts[2])
 
       await expect(
-        fnsInstance.transferSubname('test.wrapped-with-subnames.eth', {
+        fnsInstance.transferSubname('test.wrapped-with-subnames.fil', {
           contract: 'nameWrapper',
           owner: accounts[1],
           addressOrIndex: 1,
@@ -149,7 +149,7 @@ describe('transferSubname', () => {
       ).rejects.toThrow()
 
       const result = await nameWrapper.ownerOf(
-        namehash('test.wrapped-with-subnames.eth'),
+        namehash('test.wrapped-with-subnames.fil'),
       )
       expect(result).toBe(accounts[2])
     })

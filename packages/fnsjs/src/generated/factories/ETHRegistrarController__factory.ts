@@ -440,11 +440,6 @@ const _abi = [
         type: 'uint256',
       },
       {
-        internalType: 'bytes32',
-        name: 'secret',
-        type: 'bytes32',
-      },
-      {
         internalType: 'address',
         name: 'resolver',
         type: 'address',
@@ -458,11 +453,6 @@ const _abi = [
         internalType: 'bool',
         name: 'reverseRecord',
         type: 'bool',
-      },
-      {
-        internalType: 'uint16',
-        name: 'ownerControlledFuses',
-        type: 'uint16',
       },
     ],
     name: 'register',
@@ -530,6 +520,38 @@ const _abi = [
     ],
     stateMutability: 'view',
     type: 'function',
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      }
+    ],
+    "name": "nameExpires",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     inputs: [],

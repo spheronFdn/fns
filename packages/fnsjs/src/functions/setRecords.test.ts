@@ -16,7 +16,7 @@ afterAll(async () => {
 
 describe('setRecords', () => {
   it('should return a transaction to the resolver and set successfully', async () => {
-    const tx = await fnsInstance.setRecords('test123.eth', {
+    const tx = await fnsInstance.setRecords('test123.fil', {
       records: {
         coinTypes: [
           {
@@ -35,16 +35,16 @@ describe('setRecords', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedText = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('text', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         'foo',
       ]),
     )
     const encodedAddr = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('addr(bytes32,uint256)', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '61',
       ]),
     )

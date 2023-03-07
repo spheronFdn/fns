@@ -1,7 +1,7 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { keccak256 } from '@ethersproject/keccak256'
 import type { PublicResolver } from '../generated/index'
-import { CombinedFuseInput, encodeFuses, hasFuses } from './fuses'
+import { CombinedFuseInput } from './fuses'
 import { labelhash } from './labels'
 import { namehash } from './normalise'
 import { generateRecordCallArray, RecordOptions } from './recordHelpers'
@@ -32,11 +32,9 @@ export type RegistrationTuple = [
   name: string,
   owner: string,
   duration: number,
-  secret: string,
   resolver: string,
   data: string[],
   reverseRecord: boolean,
-  ownerControlledFuses: number,
 ]
 
 export const randomSecret = () => {
@@ -51,37 +49,25 @@ export const makeCommitmentData = ({
   resolver,
   records,
   reverseRecord,
-  fuses,
-  secret,
 }: CommitmentParams & {
   secret: string
 }): RegistrationTuple => {
   const labelHash = labelhash(name.split('.')[0])
   const hash = namehash(name)
   const resolverAddress = resolver.address
-  const fuseData = hasFuses(fuses) ? encodeFuses(fuses!, 'child') : 0
 
   if (reverseRecord) {
     if (!records) {
-      records = { coinTypes: [{ key: 'ETH', value: owner }] }
-    } else if (!records.coinTypes?.find((c) => c.key === 'ETH')) {
+      records = { coinTypes: [{ key: 'FIL', value: owner }] }
+    } else if (!records.coinTypes?.find((c) => c.key === 'FIL')) {
       if (!records.coinTypes) records.coinTypes = []
-      records.coinTypes.push({ key: 'ETH', value: owner })
+      records.coinTypes.push({ key: 'FIL', value: owner })
     }
   }
 
   const data = records ? generateRecordCallArray(hash, records, resolver) : []
-
-  return [
-    labelHash,
-    owner,
-    duration,
-    secret,
-    resolverAddress,
-    data,
-    !!reverseRecord,
-    fuseData,
-  ]
+  
+  return [labelHash, owner, duration, resolverAddress, data, true]
 }
 
 export const makeRegistrationData = (
