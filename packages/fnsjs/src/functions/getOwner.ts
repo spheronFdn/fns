@@ -155,7 +155,7 @@ const decode = async (
     expired?: boolean
   } = {}
 
-  // check for only .eth names
+  // check for only .fil names
   if (labels[labels.length - 1] === 'eth') {
     // if there is no registrar owner, the name is expired
     // but we still want to get the registrar owner prior to expiry
@@ -200,7 +200,7 @@ const decode = async (
       }
     }
     if (hexStripZeros(registryOwner) !== '0x') {
-      // if there is no registrar owner, but the label length is two, then the domain is an expired 2LD .eth
+      // if there is no registrar owner, but the label length is two, then the domain is an expired 2LD .fil
       // so we still want to return the ownership values
       if (labels.length === 2) {
         return {
@@ -227,12 +227,12 @@ const decode = async (
         ownershipLevel: 'registry',
       }
     }
-    // .eth names with no registrar owner are either unregistered or expired
+    // .fil names with no registrar owner are either unregistered or expired
     return
   }
 
-  // non .eth names inherit the owner from the registry
-  // there will only ever be an owner for non .eth names, not a registrant
+  // non .fil names inherit the owner from the registry
+  // there will only ever be an owner for non .fil names, not a registrant
   // this is because for unwrapped names, there is no associated NFT
   // and for wrapped names, owner and registrant are the same thing
   if (
@@ -246,7 +246,7 @@ const decode = async (
     }
   }
 
-  // for unwrapped non .eth names, the owner is the registry owner
+  // for unwrapped non .fil names, the owner is the registry owner
   if (hexStripZeros(registryOwner) !== '0x') {
     return {
       owner: registryOwner,
