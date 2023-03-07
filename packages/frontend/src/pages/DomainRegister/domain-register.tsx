@@ -114,13 +114,13 @@ const DomainRegister = () => {
           })
         }
       } else {
+        setStep(0)
         setRegisterLoading(false)
         toast({
           title: 'Error',
           variant: 'destructive',
           description: res.response,
         })
-        setRegisterLoading(false)
       }
     } catch (error) {
       console.log('Error in registering domain ->', error)
@@ -187,9 +187,9 @@ const DomainRegister = () => {
               ) : (
                 <>
                   {' '}
-                  <div className="py-10 border-b border-gray-border">
+                  <div className="py-6 lg:py-10 border-b border-gray-border">
                     <div className="w-full flex items-start flex-col space-y-12">
-                      <div className="w-5/12 flex items-center justify-between">
+                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
                         <span className="text-base text-gray-text">
                           Period:
                         </span>
@@ -212,13 +212,13 @@ const DomainRegister = () => {
                           </Button>
                         </div>
                       </div>
-                      <div className="w-5/12 flex items-center justify-between">
+                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
                         <span className="text-base text-gray-text">Price:</span>
                         <div className="ml-12 font-semibold text-primary-text text-right ">
                           {priceLoading ? <InfoLoader /> : `${price} TFIL`}
                         </div>
                       </div>
-                      <div className="w-5/12 flex items-center justify-between">
+                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
                         <span className="text-base text-gray-text">
                           Gas fee:
                         </span>
@@ -228,9 +228,9 @@ const DomainRegister = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-10 w-full flex items-start flex-col space-y-12">
+                  <div className="mt-6 lg:mt-10 w-full flex items-start flex-col space-y-12">
                     <div className="w-full flex items-center justify-between">
-                      <div className="w-5/12 flex items-center justify-between">
+                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
                         <span className="text-base text-gray-text">Total:</span>
                         <div className="font-semibold text-primary-text">
                           {priceLoading ? (
@@ -252,11 +252,12 @@ const DomainRegister = () => {
                         onClick={
                           currentAccount ? handleRegister : connectWallet
                         }
+                        className="hidden lg:block"
                       >
                         Register
                       </Button>
                     </div>
-                    <div className="w-5/12 flex pb-10 items-center justify-between">
+                    <div className="w-11/12 lg:w-5/12 flex lg:pb-10 items-center justify-between">
                       {currentAccount && (
                         <>
                           <span className="text-base text-gray-text">
@@ -278,19 +279,32 @@ const DomainRegister = () => {
                         </>
                       )}
                     </div>
+                    <Button
+                      disabled={
+                        priceLoading ||
+                        registerLoading ||
+                        !!hash ||
+                        isSuccessful ||
+                        isLessBalance
+                      }
+                      onClick={currentAccount ? handleRegister : connectWallet}
+                      className="w-full lg:hidden"
+                    >
+                      Register
+                    </Button>
                   </div>
                   <div className="border-t border-gray-border py-10">
-                    <div className="grid grid-cols-2 w-9/12">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 w-11/12 lg:w-9/12 gap-x-4 lg:space-y-0 space-y-4">
                       {processInformation.map((information) => (
                         <div className="flex items-start justify-start space-x-4">
-                          <div className="border-2 text-primary-text border-gray-border rounded-full h-12 w-12 text-sm font-bold px-4 py-2 flex items-center justify-center">
+                          <div className="border-2 text-primary-text border-gray-border rounded-full h-8 lg:h-12 w-8 lg:w-12 text-sm font-bold px-4 py-2 flex items-center justify-center">
                             {information.id}
                           </div>
                           <div className="flex flex-col items-start justify-start">
-                            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-primary-text">
+                            <h3 className="scroll-m-20 text-left lg:text-center text-lg lg:text-2xl font-semibold tracking-tight text-primary-text">
                               {information.title}
                             </h3>
-                            <p className="text-sm font-medium text-gray-text text-opacity-80 text-left">
+                            <p className="text-xs lg:text-sm font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
                               {information.description}
                             </p>
                           </div>
