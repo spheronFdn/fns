@@ -22,7 +22,7 @@ describe('renewNames', () => {
     await revert()
   })
   it('should return a renew transaction and succeed', async () => {
-    const name = 'to-be-renewed.eth'
+    const name = 'to-be-renewed.fil'
     const label = name.split('.')[0]
     const duration = 31536000
     const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!
@@ -43,7 +43,7 @@ describe('renewNames', () => {
   })
 
   it('should return a renew transaction and succeed', async () => {
-    const names = ['to-be-renewed.eth', 'test123.eth']
+    const names = ['to-be-renewed.fil', 'test123.fil']
     const label = names[0].split('.')[0]
     const duration = 31536000
     const baseRegistrar = await fnsInstance.contracts!.getBaseRegistrar()!

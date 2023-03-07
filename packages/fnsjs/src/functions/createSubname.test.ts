@@ -22,7 +22,7 @@ describe('createSubname', () => {
     await revert()
   })
   it('should allow creating a subname on the registry', async () => {
-    const tx = await fnsInstance.createSubname('test.test123.eth', {
+    const tx = await fnsInstance.createSubname('test.test123.fil', {
       contract: 'registry',
       owner: accounts[0],
       addressOrIndex: 1,
@@ -31,11 +31,11 @@ describe('createSubname', () => {
     await tx.wait()
 
     const registry = await fnsInstance.contracts!.getRegistry()!
-    const result = await registry.owner(namehash('test.test123.eth'))
+    const result = await registry.owner(namehash('test.test123.fil'))
     expect(result).toBe(accounts[0])
   })
   it('should allow creating a subname on the namewrapper', async () => {
-    const tx = await fnsInstance.createSubname('test.wrapped.eth', {
+    const tx = await fnsInstance.createSubname('test.wrapped.fil', {
       contract: 'nameWrapper',
       owner: accounts[0],
       addressOrIndex: 1,
@@ -44,7 +44,7 @@ describe('createSubname', () => {
     await tx.wait()
 
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-    const result = await nameWrapper.ownerOf(namehash('test.wrapped.eth'))
+    const result = await nameWrapper.ownerOf(namehash('test.wrapped.fil'))
     expect(result).toBe(accounts[0])
   })
 })

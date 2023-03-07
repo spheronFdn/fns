@@ -23,7 +23,7 @@ describe('commitName', () => {
   })
   it('should return a populated commit transaction with extra data and succeed', async () => {
     const { customData, ...popTx } =
-      await fnsInstance.commitName.populateTransaction('commitment.eth', {
+      await fnsInstance.commitName.populateTransaction('commitment.fil', {
         duration: 31536000,
         owner: accounts[1],
         addressOrIndex: accounts[1],
@@ -41,7 +41,7 @@ describe('commitName', () => {
   })
   it('should return a customised commmit transaction and succeed', async () => {
     const secret = randomSecret()
-    const tx = await fnsInstance.commitName('commitment.eth', {
+    const tx = await fnsInstance.commitName('commitment.fil', {
       duration: 31536000,
       owner: accounts[1],
       addressOrIndex: accounts[1],

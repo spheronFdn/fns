@@ -27,16 +27,16 @@ describe('deleteSubname', () => {
   })
   it('should allow deleting a subname on the registry by parent owner', async () => {
     const registry = await fnsInstance.contracts!.getRegistry()!
-    const parentOwner = await registry.owner(namehash('with-subnames.eth'))
+    const parentOwner = await registry.owner(namehash('with-subnames.fil'))
 
-    const tx = await fnsInstance.deleteSubname('test.with-subnames.eth', {
+    const tx = await fnsInstance.deleteSubname('test.with-subnames.fil', {
       contract: 'registry',
       addressOrIndex: parentOwner,
     })
     expect(tx).toBeTruthy()
     await tx.wait()
 
-    const result = await registry.owner(namehash('test.with-subnames.eth'))
+    const result = await registry.owner(namehash('test.with-subnames.fil'))
     expect(result).toBe('0x0000000000000000000000000000000000000000')
   })
 
@@ -44,11 +44,11 @@ describe('deleteSubname', () => {
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
     const parentOwner = await nameWrapper.ownerOf(
-      namehash('wrapped-with-subnames.eth'),
+      namehash('wrapped-with-subnames.fil'),
     )
 
     const tx = await fnsInstance.deleteSubname(
-      'test.wrapped-with-subnames.eth',
+      'test.wrapped-with-subnames.fil',
       {
         contract: 'nameWrapper',
         method: 'setSubnodeOwner',
@@ -59,7 +59,7 @@ describe('deleteSubname', () => {
     await tx.wait()
 
     const result = await nameWrapper.ownerOf(
-      namehash('test.wrapped-with-subnames.eth'),
+      namehash('test.wrapped-with-subnames.fil'),
     )
     expect(result).toBe('0x0000000000000000000000000000000000000000')
   })
@@ -68,17 +68,17 @@ describe('deleteSubname', () => {
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
     const nameOwner = await nameWrapper.ownerOf(
-      namehash('addr.wrapped-with-subnames.eth'),
+      namehash('addr.wrapped-with-subnames.fil'),
     )
 
-    await fnsInstance.deleteSubname('addr.wrapped-with-subnames.eth', {
+    await fnsInstance.deleteSubname('addr.wrapped-with-subnames.fil', {
       contract: 'nameWrapper',
       method: 'setRecord',
       addressOrIndex: nameOwner,
     })
 
     const result = await nameWrapper.ownerOf(
-      namehash('addr.wrapped-with-subnames.eth'),
+      namehash('addr.wrapped-with-subnames.fil'),
     )
     expect(result).toBe('0x0000000000000000000000000000000000000000')
   })
@@ -87,10 +87,10 @@ describe('deleteSubname', () => {
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
     const parentOwner = await nameWrapper.ownerOf(
-      namehash('wrapped-with-subnames.eth'),
+      namehash('wrapped-with-subnames.fil'),
     )
 
-    const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.eth', {
+    const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.fil', {
       named: ['CANNOT_UNWRAP'],
       addressOrIndex: parentOwner,
     })
@@ -98,7 +98,7 @@ describe('deleteSubname', () => {
     await tx0.wait()
 
     const tx1 = await fnsInstance.setChildFuses(
-      'xyz.wrapped-with-subnames.eth',
+      'xyz.wrapped-with-subnames.fil',
       {
         fuses: {
           parent: {
@@ -112,13 +112,13 @@ describe('deleteSubname', () => {
     await tx1.wait()
 
     const nameOwner = await nameWrapper.ownerOf(
-      namehash('xyz.wrapped-with-subnames.eth'),
+      namehash('xyz.wrapped-with-subnames.fil'),
     )
 
     expect(parentOwner === nameOwner).toBe(false)
 
     const tx = await fnsInstance.deleteSubname(
-      'xyz.wrapped-with-subnames.eth',
+      'xyz.wrapped-with-subnames.fil',
       {
         contract: 'nameWrapper',
         method: 'setRecord',
@@ -129,7 +129,7 @@ describe('deleteSubname', () => {
     await tx.wait()
 
     const result = await nameWrapper.ownerOf(
-      namehash('xyz.wrapped-with-subnames.eth'),
+      namehash('xyz.wrapped-with-subnames.fil'),
     )
     expect(result).toBe('0x0000000000000000000000000000000000000000')
   })
@@ -138,10 +138,10 @@ describe('deleteSubname', () => {
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
 
     const parentOwner = await nameWrapper.ownerOf(
-      namehash('wrapped-with-subnames.eth'),
+      namehash('wrapped-with-subnames.fil'),
     )
 
-    const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.eth', {
+    const tx0 = await fnsInstance.setFuses('wrapped-with-subnames.fil', {
       named: ['CANNOT_UNWRAP'],
       addressOrIndex: parentOwner,
     })
@@ -149,7 +149,7 @@ describe('deleteSubname', () => {
     await tx0.wait()
 
     const tx1 = await fnsInstance.setChildFuses(
-      'legacy.wrapped-with-subnames.eth',
+      'legacy.wrapped-with-subnames.fil',
       {
         fuses: {
           parent: {
@@ -163,12 +163,12 @@ describe('deleteSubname', () => {
     await tx1.wait()
 
     const checkOwner = await nameWrapper.ownerOf(
-      namehash('legacy.wrapped-with-subnames.eth'),
+      namehash('legacy.wrapped-with-subnames.fil'),
     )
     expect(checkOwner).toBe(accounts[2])
 
     await expect(
-      fnsInstance.deleteSubname('legacy.wrapped-with-subnames.eth', {
+      fnsInstance.deleteSubname('legacy.wrapped-with-subnames.fil', {
         contract: 'nameWrapper',
         method: 'setSubnodeOwner',
         addressOrIndex: parentOwner,
@@ -176,7 +176,7 @@ describe('deleteSubname', () => {
     ).rejects.toThrow()
 
     const result = await nameWrapper.ownerOf(
-      namehash('legacy.wrapped-with-subnames.eth'),
+      namehash('legacy.wrapped-with-subnames.fil'),
     )
     expect(result).toBe(accounts[2])
   })
@@ -193,7 +193,7 @@ describe('deleteSubname', () => {
 
   it('should not allow deleting 2LD', async () => {
     await expect(
-      fnsInstance.deleteSubname('test123.eth', {
+      fnsInstance.deleteSubname('test123.fil', {
         contract: 'registry',
         addressOrIndex: 1,
       }),

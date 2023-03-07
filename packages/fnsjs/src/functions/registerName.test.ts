@@ -25,7 +25,7 @@ describe('registerName', () => {
   it('should return a registration transaction and succeed', async () => {
     // const controller = await fnsInstance.contracts!.getEthRegistrarController()!
 
-    const name = 'cool-swag.eth'
+    const name = 'cool-swag.fil'
     const duration = 31536000
     const { customData, ...commitPopTx } =
       await fnsInstance.commitName.populateTransaction(name, {

@@ -96,7 +96,7 @@ contract NameWrapper is
 
     /**
      * @notice Gets the owner of a name
-     * @param id Label as a string of the .eth domain to wrap
+     * @param id Label as a string of the .fil domain to wrap
      * @return owner The owner of the name
      */
 
@@ -214,9 +214,9 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Wraps a .eth domain, creating a new token and sending the original ERC721 token to this contract
-     * @dev Can be called by the owner of the name on the .eth registrar or an authorised caller on the registrar
-     * @param label Label as a string of the .eth domain to wrap
+     * @notice Wraps a .fil domain, creating a new token and sending the original ERC721 token to this contract
+     * @dev Can be called by the owner of the name on the .fil registrar or an authorised caller on the registrar
+     * @param label Label as a string of the .fil domain to wrap
      * @param wrappedOwner Owner of the name in this contract
      * @param ownerControlledFuses Initial owner-controlled fuses to set
      * @param resolver Resolver contract address
@@ -250,14 +250,14 @@ contract NameWrapper is
     }
 
     /**
-     * @dev Registers a new .eth second-level domain and wraps it.
+     * @dev Registers a new .fil second-level domain and wraps it.
      *      Only callable by authorised controllers.
-     * @param label The label to register (Eg, 'foo' for 'foo.eth').
+     * @param label The label to register (Eg, 'foo' for 'foo.fil').
      * @param wrappedOwner The owner of the wrapped name.
      * @param duration The duration, in seconds, to register the name for.
      * @param resolver The resolver address to set on the FNS registry (optional).
      * @param ownerControlledFuses Initial owner-controlled fuses to set
-     * @return registrarExpiry The expiry date of the new name on the .eth registrar, in seconds since the Unix epoch.
+     * @return registrarExpiry The expiry date of the new name on the .fil registrar, in seconds since the Unix epoch.
      */
 
     function registerAndWrapETH2LD(
@@ -273,11 +273,11 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Renews a .eth second-level domain.
+     * @notice Renews a .fil second-level domain.
      * @dev Only callable by authorised controllers.
-     * @param tokenId The hash of the label to register (eg, `keccak256('foo')`, for 'foo.eth').
+     * @param tokenId The hash of the label to register (eg, `keccak256('foo')`, for 'foo.fil').
      * @param duration The number of seconds to renew the name for.
-     * @return expires The expiry date of the name on the .eth registrar, in seconds since the Unix epoch.
+     * @return expires The expiry date of the name on the .fil registrar, in seconds since the Unix epoch.
      */
 
     function renew(uint256 tokenId, uint256 duration)
@@ -313,7 +313,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Wraps a non .eth domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
+     * @notice Wraps a non .fil domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner in the registry or an authorised caller in the registry
      * @param name The name to wrap, in DNS format
      * @param wrappedOwner Owner of the name in this contract
@@ -351,10 +351,10 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Unwraps a .eth domain. e.g. juan.eth
+     * @notice Unwraps a .fil domain. e.g. juan.fil
      * @dev Can be called by the owner in the wrapper or an authorised caller in the wrapper
-     * @param labelhash Labelhash of the .eth domain
-     * @param registrant Sets the owner in the .eth registrar to this address
+     * @param labelhash Labelhash of the .fil domain
+     * @param registrant Sets the owner in the .fil registrar to this address
      * @param controller Sets the owner in the registry to this address
      */
 
@@ -375,7 +375,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Unwraps a non .eth domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
+     * @notice Unwraps a non .fil domain, of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner in the wrapper or an authorised caller in the wrapper
      * @param parentNode Parent namehash of the name e.g. juan.xyz would be namehash('xyz')
      * @param labelhash Labelhash of the name, e.g. juan.xyz would be keccak256('juan')
@@ -458,10 +458,10 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Upgrades a .eth wrapped domain by calling the wrapETH2LD function of the upgradeContract
+     * @notice Upgrades a .fil wrapped domain by calling the wrapETH2LD function of the upgradeContract
      *     and burning the token of this contract
      * @dev Can be called by the owner of the name in this contract
-     * @param label Label as a string of the .eth name to upgrade
+     * @param label Label as a string of the .fil name to upgrade
      * @param wrappedOwner The owner of the wrapped name
      */
 
@@ -490,7 +490,7 @@ contract NameWrapper is
     }
 
     /**
-     * @notice Upgrades a non .eth domain of any kind. Could be a DNSSEC name juan.xyz or a subdomain
+     * @notice Upgrades a non .fil domain of any kind. Could be a DNSSEC name juan.xyz or a subdomain
      * @dev Can be called by the owner or an authorised caller
      * Requires upgraded Namewrapper to permit old Namewrapper to call `setSubnodeRecord` for all names
      * @param parentNode Namehash of the parent name
@@ -527,7 +527,7 @@ contract NameWrapper is
     }
 
     /** 
-    /* @notice Sets fuses of a name that you own the parent of. Can also be called by the owner of a .eth name
+    /* @notice Sets fuses of a name that you own the parent of. Can also be called by the owner of a .fil name
      * @param parentNode Parent namehash of the name e.g. juan.xyz would be namehash('xyz')
      * @param labelhash Labelhash of the name, e.g. juan.xyz would be keccak256('juan')
      * @param fuses Fuses to burn
@@ -839,7 +839,7 @@ contract NameWrapper is
         uint32 fuses,
         uint64 expiry
     ) internal view override returns (bool) {
-        // For this check, treat .eth 2LDs as expiring at the start of the grace period.
+        // For this check, treat .fil 2LDs as expiring at the start of the grace period.
         if (fuses & IS_DOT_ETH == IS_DOT_ETH) {
             expiry -= GRACE_PERIOD;
         }
@@ -1021,7 +1021,7 @@ contract NameWrapper is
         uint64 maxExpiry
     ) internal pure returns (uint64) {
         // Expiry cannot be more than maximum allowed
-        // .eth names will check registrar, non .eth check parent
+        // .fil names will check registrar, non .fil check parent
         if (expiry > maxExpiry) {
             expiry = maxExpiry;
         }

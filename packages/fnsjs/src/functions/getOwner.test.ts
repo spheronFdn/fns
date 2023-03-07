@@ -17,24 +17,24 @@ afterAll(async () => {
 })
 
 describe('getOwner', () => {
-  it('should return correct ownership level and values for a wrapped .eth name', async () => {
-    const result = await fnsInstance.getOwner('wrapped.eth')
+  it('should return correct ownership level and values for a wrapped .fil name', async () => {
+    const result = await fnsInstance.getOwner('wrapped.fil')
     expect(result).toEqual({
       ownershipLevel: 'nameWrapper',
       owner: accounts[1],
       expired: false,
     })
   })
-  it('should return correct ownership level and values for an expired wrapped .eth name', async () => {
-    const result = await fnsInstance.getOwner('expired-wrapped.eth')
+  it('should return correct ownership level and values for an expired wrapped .fil name', async () => {
+    const result = await fnsInstance.getOwner('expired-wrapped.fil')
     expect(result).toEqual({
       ownershipLevel: 'nameWrapper',
       owner: '0x0000000000000000000000000000000000000000',
       expired: true,
     })
   })
-  it('should return correct ownership level and values for an unwrapped .eth name', async () => {
-    const result = await fnsInstance.getOwner('test123.eth')
+  it('should return correct ownership level and values for an unwrapped .fil name', async () => {
+    const result = await fnsInstance.getOwner('test123.fil')
     expect(result).toEqual({
       ownershipLevel: 'registrar',
       owner: accounts[1],
@@ -42,8 +42,8 @@ describe('getOwner', () => {
       expired: false,
     })
   })
-  it('should return correct ownership level and values for an expired unwrapped .eth name', async () => {
-    const result = await fnsInstance.getOwner('expired.eth')
+  it('should return correct ownership level and values for an expired unwrapped .fil name', async () => {
+    const result = await fnsInstance.getOwner('expired.fil')
     expect(result).toEqual({
       ownershipLevel: 'registrar',
       owner: accounts[1],
@@ -53,7 +53,7 @@ describe('getOwner', () => {
   })
   describe('subname', () => {
     it('should return correct ownership level and values for a unwrapped name', async () => {
-      const result = await fnsInstance.getOwner('test.with-subnames.eth')
+      const result = await fnsInstance.getOwner('test.with-subnames.fil')
       expect(result).toEqual({
         ownershipLevel: 'registry',
         owner: accounts[2],
@@ -61,7 +61,7 @@ describe('getOwner', () => {
     })
     it('should return correct ownership level and values for a wrapped name', async () => {
       const result = await fnsInstance.getOwner(
-        'test.wrapped-with-subnames.eth',
+        'test.wrapped-with-subnames.fil',
       )
       expect(result).toEqual({
         ownershipLevel: 'nameWrapper',
@@ -69,7 +69,7 @@ describe('getOwner', () => {
       })
     })
     it('should return correct ownership level and values for an expired wrapped name', async () => {
-      const result = await fnsInstance.getOwner('test.expired-wrapped.eth')
+      const result = await fnsInstance.getOwner('test.expired-wrapped.fil')
       expect(result).toEqual({
         ownershipLevel: 'nameWrapper',
         owner: accounts[2],

@@ -110,7 +110,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const _controller = controller.connect(await ethers.getSigner(owner))
     const commitTx = await controller.commit(commitment)
     console.log(
-      `Committing commitment for ${label}.eth (tx: ${commitTx.hash})...`,
+      `Committing commitment for ${label}.fil (tx: ${commitTx.hash})...`,
     )
     await commitTx.wait()
 
@@ -131,11 +131,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         value: price,
       },
     )
-    console.log(`Registering name ${label}.eth (tx: ${registerTx.hash})...`)
+    console.log(`Registering name ${label}.fil (tx: ${registerTx.hash})...`)
     await registerTx.wait()
 
     if (subnames) {
-      console.log(`Setting subnames for ${label}.eth...`)
+      console.log(`Setting subnames for ${label}.fil...`)
       const nameWrapper = await ethers.getContract('NameWrapper')
       for (const {
         label: subnameLabel,
@@ -146,7 +146,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         const subnameOwner = allNamedAccts[namedSubnameOwner]
         const _nameWrapper = nameWrapper.connect(await ethers.getSigner(owner))
         const setSubnameTx = await _nameWrapper.setSubnodeRecord(
-          namehash(`${label}.eth`),
+          namehash(`${label}.fil`),
           subnameLabel,
           subnameOwner,
           resolver,

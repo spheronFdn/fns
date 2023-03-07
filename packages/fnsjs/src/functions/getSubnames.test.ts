@@ -14,7 +14,7 @@ const testProperties = (obj: object, ...properties: string[]) =>
 describe('getSubnames', () => {
   it('should get the subnames for a name ordered by createdAt in desc order', async () => {
     const result = await fnsInstance.getSubnames({
-      name: 'with-subnames.eth',
+      name: 'with-subnames.fil',
       pageSize: 10,
       orderBy: 'createdAt',
       orderDirection: 'desc',
@@ -22,10 +22,10 @@ describe('getSubnames', () => {
     expect(result).toBeTruthy()
     expect(result.subnames.length).toBe(4)
     expect(result.subnameCount).toBe(4)
-    expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-    expect(result.subnames[1].name).toEqual('xyz.with-subnames.eth')
-    expect(result.subnames[2].name).toEqual('legacy.with-subnames.eth')
-    expect(result.subnames[3].name).toEqual('test.with-subnames.eth')
+    expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+    expect(result.subnames[1].name).toEqual('xyz.with-subnames.fil')
+    expect(result.subnames[2].name).toEqual('legacy.with-subnames.fil')
+    expect(result.subnames[3].name).toEqual('test.with-subnames.fil')
     expect(
       result.subnames.every((subname, i, arr) => {
         if (arr[i + 1]) {
@@ -48,7 +48,7 @@ describe('getSubnames', () => {
 
   it('should get the subnames for a name ordered by createdAt in asc order', async () => {
     const result = await fnsInstance.getSubnames({
-      name: 'with-subnames.eth',
+      name: 'with-subnames.fil',
       pageSize: 10,
       orderBy: 'createdAt',
       orderDirection: 'asc',
@@ -56,10 +56,10 @@ describe('getSubnames', () => {
     expect(result).toBeTruthy()
     expect(result.subnames.length).toBe(4)
     expect(result.subnameCount).toBe(4)
-    expect(result.subnames[0].name).toEqual('test.with-subnames.eth')
-    expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
-    expect(result.subnames[2].name).toEqual('xyz.with-subnames.eth')
-    expect(result.subnames[3].name).toEqual('addr.with-subnames.eth')
+    expect(result.subnames[0].name).toEqual('test.with-subnames.fil')
+    expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
+    expect(result.subnames[2].name).toEqual('xyz.with-subnames.fil')
+    expect(result.subnames[3].name).toEqual('addr.with-subnames.fil')
     expect(
       result.subnames.every((subname, i, arr) => {
         if (arr[i + 1]) {
@@ -82,7 +82,7 @@ describe('getSubnames', () => {
 
   it('should get the subnames for a name by labelName in desc order', async () => {
     const result = await fnsInstance.getSubnames({
-      name: 'with-subnames.eth',
+      name: 'with-subnames.fil',
       pageSize: 10,
       orderBy: 'labelName',
       orderDirection: 'desc',
@@ -90,10 +90,10 @@ describe('getSubnames', () => {
     expect(result).toBeTruthy()
     expect(result.subnames.length).toBe(4)
     expect(result.subnameCount).toBe(4)
-    expect(result.subnames[0].name).toEqual('xyz.with-subnames.eth')
-    expect(result.subnames[1].name).toEqual('test.with-subnames.eth')
-    expect(result.subnames[2].name).toEqual('legacy.with-subnames.eth')
-    expect(result.subnames[3].name).toEqual('addr.with-subnames.eth')
+    expect(result.subnames[0].name).toEqual('xyz.with-subnames.fil')
+    expect(result.subnames[1].name).toEqual('test.with-subnames.fil')
+    expect(result.subnames[2].name).toEqual('legacy.with-subnames.fil')
+    expect(result.subnames[3].name).toEqual('addr.with-subnames.fil')
     testProperties(
       result.subnames[0],
       'id',
@@ -108,7 +108,7 @@ describe('getSubnames', () => {
 
   it('should get the subnames for a name by labelName in asc order', async () => {
     const result = await fnsInstance.getSubnames({
-      name: 'with-subnames.eth',
+      name: 'with-subnames.fil',
       pageSize: 10,
       orderBy: 'labelName',
       orderDirection: 'asc',
@@ -116,10 +116,10 @@ describe('getSubnames', () => {
     expect(result).toBeTruthy()
     expect(result.subnames.length).toBe(4)
     expect(result.subnameCount).toBe(4)
-    expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-    expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
-    expect(result.subnames[2].name).toEqual('test.with-subnames.eth')
-    expect(result.subnames[3].name).toEqual('xyz.with-subnames.eth')
+    expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+    expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
+    expect(result.subnames[2].name).toEqual('test.with-subnames.fil')
+    expect(result.subnames[3].name).toEqual('xyz.with-subnames.fil')
     testProperties(
       result.subnames[0],
       'id',
@@ -134,7 +134,7 @@ describe('getSubnames', () => {
   describe('wrapped subnames', () => {
     it('should return fuses', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-subnames.eth',
+        name: 'wrapped-with-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -147,7 +147,7 @@ describe('getSubnames', () => {
     })
     it('should return expiry as undefined if 0', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-expiring-subnames.eth',
+        name: 'wrapped-with-expiring-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -158,7 +158,7 @@ describe('getSubnames', () => {
     })
     it('should return expiry', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-expiring-subnames.eth',
+        name: 'wrapped-with-expiring-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -169,7 +169,7 @@ describe('getSubnames', () => {
     })
     it('should return owner as undefined, fuses as 0, and pccExpired as true if pcc expired', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-expiring-subnames.eth',
+        name: 'wrapped-with-expiring-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -185,7 +185,7 @@ describe('getSubnames', () => {
   describe('with pagination', () => {
     it('should get paginated subnames for a name ordered by createdAt in desc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'with-subnames.eth',
+        name: 'with-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -193,10 +193,10 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('xyz.with-subnames.eth')
-      expect(result.subnames[2].name).toEqual('legacy.with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('test.with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('xyz.with-subnames.fil')
+      expect(result.subnames[2].name).toEqual('legacy.with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('test.with-subnames.fil')
       expect(
         result.subnames.every((subname, i, arr) => {
           if (arr[i + 1]) {
@@ -219,7 +219,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name ordered by createdAt in asc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'with-subnames.eth',
+        name: 'with-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'asc',
@@ -227,10 +227,10 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('test.with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
-      expect(result.subnames[2].name).toEqual('xyz.with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('addr.with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('test.with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
+      expect(result.subnames[2].name).toEqual('xyz.with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('addr.with-subnames.fil')
       expect(
         result.subnames.every((subname, i, arr) => {
           if (arr[i + 1]) {
@@ -253,7 +253,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name by labelName in desc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'with-subnames.eth',
+        name: 'with-subnames.fil',
         pageSize: 10,
         orderBy: 'labelName',
         orderDirection: 'desc',
@@ -261,10 +261,10 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('xyz.with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('test.with-subnames.eth')
-      expect(result.subnames[2].name).toEqual('legacy.with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('addr.with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('xyz.with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('test.with-subnames.fil')
+      expect(result.subnames[2].name).toEqual('legacy.with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('addr.with-subnames.fil')
       testProperties(
         result.subnames[0],
         'id',
@@ -279,7 +279,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name by labelName in asc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'with-subnames.eth',
+        name: 'with-subnames.fil',
         pageSize: 10,
         orderBy: 'labelName',
         orderDirection: 'asc',
@@ -287,10 +287,10 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
-      expect(result.subnames[2].name).toEqual('test.with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('xyz.with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
+      expect(result.subnames[2].name).toEqual('test.with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('xyz.with-subnames.fil')
       testProperties(
         result.subnames[0],
         'id',
@@ -306,7 +306,7 @@ describe('getSubnames', () => {
     describe('with pagination', () => {
       it('should get paginated subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -314,8 +314,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('xyz.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('xyz.with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -335,7 +335,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -344,8 +344,8 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.eth')
-        expect(result2.subnames[1].name).toEqual('test.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.fil')
+        expect(result2.subnames[1].name).toEqual('test.with-subnames.fil')
         expect(
           result2.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -368,7 +368,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'asc',
@@ -376,8 +376,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('test.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('test.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -397,7 +397,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           page: 0,
           pageSize: 2,
           orderBy: 'createdAt',
@@ -408,8 +408,8 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('xyz.with-subnames.eth')
-        expect(result2.subnames[1].name).toEqual('addr.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('xyz.with-subnames.fil')
+        expect(result2.subnames[1].name).toEqual('addr.with-subnames.fil')
         expect(
           result2.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -432,7 +432,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -440,8 +440,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('xyz.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('test.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('xyz.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('test.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -453,7 +453,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -462,8 +462,8 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.eth')
-        expect(result2.subnames[1].name).toEqual('addr.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.fil')
+        expect(result2.subnames[1].name).toEqual('addr.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -478,7 +478,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -486,8 +486,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
 
         testProperties(
           result.subnames[0],
@@ -501,7 +501,7 @@ describe('getSubnames', () => {
         )
 
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -510,8 +510,8 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('test.with-subnames.eth')
-        expect(result2.subnames[1].name).toEqual('xyz.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('test.with-subnames.fil')
+        expect(result2.subnames[1].name).toEqual('xyz.with-subnames.fil')
 
         testProperties(
           result2.subnames[0],
@@ -529,7 +529,7 @@ describe('getSubnames', () => {
     describe('With search query', () => {
       it('should get the searched subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 10,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -538,8 +538,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -562,7 +562,7 @@ describe('getSubnames', () => {
 
       it('should get the searched subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           page: 0,
           pageSize: 10,
           orderBy: 'createdAt',
@@ -572,8 +572,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('legacy.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('addr.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('legacy.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('addr.with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -596,7 +596,7 @@ describe('getSubnames', () => {
 
       it('should get the subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 10,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -605,8 +605,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('legacy.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('addr.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('legacy.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('addr.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -621,7 +621,7 @@ describe('getSubnames', () => {
 
       it('should get the subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 10,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -630,8 +630,8 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
-        expect(result.subnames[1].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
+        expect(result.subnames[1].name).toEqual('legacy.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -648,7 +648,7 @@ describe('getSubnames', () => {
     describe('with search query and pagination', () => {
       it('should get paginated subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -657,7 +657,7 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -669,7 +669,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -679,7 +679,7 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.fil')
         testProperties(
           result2.subnames[0],
           'id',
@@ -694,7 +694,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'asc',
@@ -703,7 +703,7 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('legacy.with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -723,7 +723,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           page: 0,
           pageSize: 2,
           orderBy: 'createdAt',
@@ -735,7 +735,7 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('addr.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('addr.with-subnames.fil')
 
         testProperties(
           result2.subnames[0],
@@ -751,7 +751,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -760,7 +760,7 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('legacy.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('legacy.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -772,7 +772,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -782,7 +782,7 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('addr.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('addr.with-subnames.fil')
         testProperties(
           result.subnames[0],
           'id',
@@ -797,7 +797,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -806,7 +806,7 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('addr.with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('addr.with-subnames.fil')
 
         testProperties(
           result.subnames[0],
@@ -820,7 +820,7 @@ describe('getSubnames', () => {
         )
 
         const result2 = await fnsInstance.getSubnames({
-          name: 'with-subnames.eth',
+          name: 'with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -830,7 +830,7 @@ describe('getSubnames', () => {
         expect(result2).toBeTruthy()
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
-        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.eth')
+        expect(result2.subnames[0].name).toEqual('legacy.with-subnames.fil')
 
         testProperties(
           result2.subnames[0],
@@ -849,7 +849,7 @@ describe('getSubnames', () => {
   describe('wrapped', () => {
     it('should get the subnames for a name ordered by createdAt in desc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-subnames.eth',
+        name: 'wrapped-with-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'desc',
@@ -857,12 +857,12 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('addr.wrapped-with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('xyz.wrapped-with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('addr.wrapped-with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('xyz.wrapped-with-subnames.fil')
       expect(result.subnames[2].name).toEqual(
-        'legacy.wrapped-with-subnames.eth',
+        'legacy.wrapped-with-subnames.fil',
       )
-      expect(result.subnames[3].name).toEqual('test.wrapped-with-subnames.eth')
+      expect(result.subnames[3].name).toEqual('test.wrapped-with-subnames.fil')
       expect(
         result.subnames.every((subname, i, arr) => {
           if (arr[i + 1]) {
@@ -885,7 +885,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name ordered by createdAt in asc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-subnames.eth',
+        name: 'wrapped-with-subnames.fil',
         pageSize: 10,
         orderBy: 'createdAt',
         orderDirection: 'asc',
@@ -893,12 +893,12 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('test.wrapped-with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('test.wrapped-with-subnames.fil')
       expect(result.subnames[1].name).toEqual(
-        'legacy.wrapped-with-subnames.eth',
+        'legacy.wrapped-with-subnames.fil',
       )
-      expect(result.subnames[2].name).toEqual('xyz.wrapped-with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('addr.wrapped-with-subnames.eth')
+      expect(result.subnames[2].name).toEqual('xyz.wrapped-with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('addr.wrapped-with-subnames.fil')
       expect(
         result.subnames.every((subname, i, arr) => {
           if (arr[i + 1]) {
@@ -921,7 +921,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name by labelName in desc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-subnames.eth',
+        name: 'wrapped-with-subnames.fil',
         pageSize: 10,
         orderBy: 'labelName',
         orderDirection: 'desc',
@@ -929,12 +929,12 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('xyz.wrapped-with-subnames.eth')
-      expect(result.subnames[1].name).toEqual('test.wrapped-with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('xyz.wrapped-with-subnames.fil')
+      expect(result.subnames[1].name).toEqual('test.wrapped-with-subnames.fil')
       expect(result.subnames[2].name).toEqual(
-        'legacy.wrapped-with-subnames.eth',
+        'legacy.wrapped-with-subnames.fil',
       )
-      expect(result.subnames[3].name).toEqual('addr.wrapped-with-subnames.eth')
+      expect(result.subnames[3].name).toEqual('addr.wrapped-with-subnames.fil')
       testProperties(
         result.subnames[0],
         'id',
@@ -949,7 +949,7 @@ describe('getSubnames', () => {
 
     it('should get the subnames for a name by labelName in asc order', async () => {
       const result = await fnsInstance.getSubnames({
-        name: 'wrapped-with-subnames.eth',
+        name: 'wrapped-with-subnames.fil',
         pageSize: 10,
         orderBy: 'labelName',
         orderDirection: 'asc',
@@ -957,12 +957,12 @@ describe('getSubnames', () => {
       expect(result).toBeTruthy()
       expect(result.subnames.length).toBe(4)
       expect(result.subnameCount).toBe(4)
-      expect(result.subnames[0].name).toEqual('addr.wrapped-with-subnames.eth')
+      expect(result.subnames[0].name).toEqual('addr.wrapped-with-subnames.fil')
       expect(result.subnames[1].name).toEqual(
-        'legacy.wrapped-with-subnames.eth',
+        'legacy.wrapped-with-subnames.fil',
       )
-      expect(result.subnames[2].name).toEqual('test.wrapped-with-subnames.eth')
-      expect(result.subnames[3].name).toEqual('xyz.wrapped-with-subnames.eth')
+      expect(result.subnames[2].name).toEqual('test.wrapped-with-subnames.fil')
+      expect(result.subnames[3].name).toEqual('xyz.wrapped-with-subnames.fil')
       testProperties(
         result.subnames[0],
         'id',
@@ -978,7 +978,7 @@ describe('getSubnames', () => {
     describe('with pagination', () => {
       it('should get paginated subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -987,9 +987,9 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
-        expect(result.subnames[1].name).toEqual('xyz.wrapped-with-subnames.eth')
+        expect(result.subnames[1].name).toEqual('xyz.wrapped-with-subnames.fil')
         expect(
           result.subnames.every((subname, i, arr) => {
             if (arr[i + 1]) {
@@ -1009,7 +1009,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -1019,10 +1019,10 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(result2.subnames[1].name).toEqual(
-          'test.wrapped-with-subnames.eth',
+          'test.wrapped-with-subnames.fil',
         )
         expect(
           result2.subnames.every((subname, i, arr) => {
@@ -1046,7 +1046,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'createdAt',
           orderDirection: 'asc',
@@ -1055,10 +1055,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'test.wrapped-with-subnames.eth',
+          'test.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(
           result.subnames.every((subname, i, arr) => {
@@ -1079,7 +1079,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           page: 0,
           pageSize: 2,
           orderBy: 'createdAt',
@@ -1091,10 +1091,10 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'xyz.wrapped-with-subnames.eth',
+          'xyz.wrapped-with-subnames.fil',
         )
         expect(result2.subnames[1].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         expect(
           result2.subnames.every((subname, i, arr) => {
@@ -1118,7 +1118,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -1126,9 +1126,9 @@ describe('getSubnames', () => {
         expect(result).toBeTruthy()
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
-        expect(result.subnames[0].name).toEqual('xyz.wrapped-with-subnames.eth')
+        expect(result.subnames[0].name).toEqual('xyz.wrapped-with-subnames.fil')
         expect(result.subnames[1].name).toEqual(
-          'test.wrapped-with-subnames.eth',
+          'test.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1141,7 +1141,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -1151,10 +1151,10 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(result2.subnames[1].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1170,7 +1170,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -1179,10 +1179,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
 
         testProperties(
@@ -1197,7 +1197,7 @@ describe('getSubnames', () => {
         )
 
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 2,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -1207,10 +1207,10 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(2)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'test.wrapped-with-subnames.eth',
+          'test.wrapped-with-subnames.fil',
         )
         expect(result2.subnames[1].name).toEqual(
-          'xyz.wrapped-with-subnames.eth',
+          'xyz.wrapped-with-subnames.fil',
         )
 
         testProperties(
@@ -1229,7 +1229,7 @@ describe('getSubnames', () => {
     describe('With search query', () => {
       it('should get the searched subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 10,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -1239,10 +1239,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(
           result.subnames.every((subname, i, arr) => {
@@ -1266,7 +1266,7 @@ describe('getSubnames', () => {
 
       it('should get the searched subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           page: 0,
           pageSize: 10,
           orderBy: 'createdAt',
@@ -1277,10 +1277,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         expect(
           result.subnames.every((subname, i, arr) => {
@@ -1304,7 +1304,7 @@ describe('getSubnames', () => {
 
       it('should get the subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 10,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -1314,10 +1314,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1333,7 +1333,7 @@ describe('getSubnames', () => {
 
       it('should get the subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 10,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -1343,10 +1343,10 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(2)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         expect(result.subnames[1].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1364,7 +1364,7 @@ describe('getSubnames', () => {
     describe('with search query and pagination', () => {
       it('should get paginated subnames for a name ordered by createdAt in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -1374,7 +1374,7 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1387,7 +1387,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'desc',
@@ -1398,7 +1398,7 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         testProperties(
           result2.subnames[0],
@@ -1414,7 +1414,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name ordered by createdAt in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'createdAt',
           orderDirection: 'asc',
@@ -1424,7 +1424,7 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         expect(
           result.subnames.every((subname, i, arr) => {
@@ -1445,7 +1445,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           page: 0,
           pageSize: 2,
           orderBy: 'createdAt',
@@ -1458,7 +1458,7 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
 
         testProperties(
@@ -1475,7 +1475,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in desc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -1485,7 +1485,7 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1498,7 +1498,7 @@ describe('getSubnames', () => {
           'truncatedName',
         )
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'desc',
@@ -1509,7 +1509,7 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
         testProperties(
           result.subnames[0],
@@ -1525,7 +1525,7 @@ describe('getSubnames', () => {
 
       it('should get paginated subnames for a name by labelName in asc order', async () => {
         const result = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -1535,7 +1535,7 @@ describe('getSubnames', () => {
         expect(result.subnames.length).toBe(1)
         expect(result.subnameCount).toBe(4)
         expect(result.subnames[0].name).toEqual(
-          'addr.wrapped-with-subnames.eth',
+          'addr.wrapped-with-subnames.fil',
         )
 
         testProperties(
@@ -1550,7 +1550,7 @@ describe('getSubnames', () => {
         )
 
         const result2 = await fnsInstance.getSubnames({
-          name: 'wrapped-with-subnames.eth',
+          name: 'wrapped-with-subnames.fil',
           pageSize: 1,
           orderBy: 'labelName',
           orderDirection: 'asc',
@@ -1561,7 +1561,7 @@ describe('getSubnames', () => {
         expect(result2.subnames.length).toBe(1)
         expect(result2.subnameCount).toBe(4)
         expect(result2.subnames[0].name).toEqual(
-          'legacy.wrapped-with-subnames.eth',
+          'legacy.wrapped-with-subnames.fil',
         )
 
         testProperties(

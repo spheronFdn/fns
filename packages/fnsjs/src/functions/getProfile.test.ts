@@ -48,7 +48,7 @@ describe('getProfile', () => {
       )
       expect(result).toBeDefined()
       if (result) {
-        expect((result as any).name).toBe('with-profile.eth')
+        expect((result as any).name).toBe('with-profile.fil')
         expect((result as any).address).toBeUndefined()
         checkRecords(result)
       }
@@ -60,7 +60,7 @@ describe('getProfile', () => {
       )
       expect(result).toBeDefined()
       if (result) {
-        expect((result as any).name).toBe('with-profile.eth')
+        expect((result as any).name).toBe('with-profile.fil')
         expect((result as any).address).toBeUndefined()
         checkRecords(result, 2, 3)
       }
@@ -81,14 +81,14 @@ describe('getProfile', () => {
   })
   describe('with a name', () => {
     it('should return a profile object with no other args', async () => {
-      const result = await fnsInstance.getProfile('with-profile.eth')
+      const result = await fnsInstance.getProfile('with-profile.fil')
       expect((result as any).address).toBe(
         '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       )
       checkRecords(result)
     })
     it('should return a profile object with specified records', async () => {
-      const result = await fnsInstance.getProfile('with-profile.eth', {
+      const result = await fnsInstance.getProfile('with-profile.fil', {
         texts: ['description', 'url'],
         coinTypes: ['ETC_LEGACY', '0'],
       })
@@ -98,19 +98,19 @@ describe('getProfile', () => {
       checkRecords(result, 2, 3)
     })
     it('should return a profile object with all of each specified record type', async () => {
-      const result = await fnsInstance.getProfile('with-profile.eth', {
+      const result = await fnsInstance.getProfile('with-profile.fil', {
         texts: true,
         coinTypes: true,
       })
       checkRecords(result)
     })
     it('should return a profile object for a specified resolver', async () => {
-      const tx = await fnsInstance.wrapName('test123.eth', {
+      const tx = await fnsInstance.wrapName('test123.fil', {
         wrappedOwner: accounts[1],
         addressOrIndex: 1,
       })
       await tx.wait()
-      const result = await fnsInstance.getProfile('test123.eth', {
+      const result = await fnsInstance.getProfile('test123.fil', {
         resolverAddress: deploymentAddresses.LegacyPublicResolver,
       })
       expect(result).toBeDefined()
@@ -121,19 +121,19 @@ describe('getProfile', () => {
     })
     it('should return the decoded name for a name with encoded labels', async () => {
       const result = await fnsInstance.getProfile(
-        '[9dd2c369a187b4e6b9c402f030e50743e619301ea62aa4c0737d4ef7e10a3d49].with-subnames.eth',
+        '[9dd2c369a187b4e6b9c402f030e50743e619301ea62aa4c0737d4ef7e10a3d49].with-subnames.fil',
       )
       expect(result).toBeDefined()
-      expect(result?.decryptedName).toBe('xyz.with-subnames.eth')
+      expect(result?.decryptedName).toBe('xyz.with-subnames.fil')
     })
     it('should return undefined for an unregistered name', async () => {
-      const result = await fnsInstance.getProfile('test123123123cool.eth')
+      const result = await fnsInstance.getProfile('test123123123cool.fil')
       expect(result).toBeUndefined()
     })
   })
   describe('with an old resolver', () => {
     it('should use fallback methods for a name with an older resolver (no multicall)', async () => {
-      const result = await fnsInstance.getProfile('with-legacy-resolver.eth')
+      const result = await fnsInstance.getProfile('with-legacy-resolver.fil')
       expect(result).toBeDefined()
       if (result) {
         expect(result.address).toBe(
@@ -156,14 +156,14 @@ describe('getProfile', () => {
   })
   describe('with invalid resolver', () => {
     it('should fail gracefully for a name with invalid resolver', async () => {
-      const tx = await fnsInstance.setResolver('test123.eth', {
+      const tx = await fnsInstance.setResolver('test123.fil', {
         contract: 'registry',
         resolver: '0xb794F5eA0ba39494cE839613fffBA74279579268',
         addressOrIndex: 1,
       })
       expect(tx).toBeTruthy()
       await tx.wait()
-      const result = await fnsInstance.getProfile('test123.eth')
+      const result = await fnsInstance.getProfile('test123.fil')
       expect(result).toBeDefined()
       if (result) {
         expect(result.address).toBeUndefined()
@@ -176,14 +176,14 @@ describe('getProfile', () => {
     })
 
     it('should fail gracefully for a wrapped name with invalid resolver', async () => {
-      const tx = await fnsInstance.setResolver('wrapped.eth', {
+      const tx = await fnsInstance.setResolver('wrapped.fil', {
         contract: 'nameWrapper',
         resolver: '0xb794F5eA0ba39494cE839613fffBA74279579268',
         addressOrIndex: 1,
       })
       expect(tx).toBeTruthy()
       await tx.wait()
-      const result = await fnsInstance.getProfile('wrapped.eth')
+      const result = await fnsInstance.getProfile('wrapped.fil')
       expect(result).toBeDefined()
       if (result) {
         expect(result.address).toBeUndefined()
@@ -196,7 +196,7 @@ describe('getProfile', () => {
     })
 
     it('should fail gracefully for name with invalid resolver option', async () => {
-      const result = await fnsInstance.getProfile('test123.eth', {
+      const result = await fnsInstance.getProfile('test123.fil', {
         resolverAddress: '0xb794F5eA0ba39494cE839613fffBA74279579268',
       })
       expect(result).toBeDefined()
@@ -210,7 +210,7 @@ describe('getProfile', () => {
     })
 
     it('should fail gracefully for wrapped name with invalid resolver option', async () => {
-      const result = await fnsInstance.getProfile('wrapped.eth', {
+      const result = await fnsInstance.getProfile('wrapped.fil', {
         resolverAddress: '0xb794F5eA0ba39494cE839613fffBA74279579268',
       })
       expect(result).toBeDefined()

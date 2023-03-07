@@ -129,15 +129,15 @@ const dummyABI = [
 describe('getSpecificRecord', () => {
   describe('getContentHash', () => {
     it('should return null for a non-existent name', async () => {
-      const result = await fnsInstance.getContentHash('test123123cool.eth')
+      const result = await fnsInstance.getContentHash('test123123cool.fil')
       expect(result).toBeUndefined()
     })
     it('should return null for a name with no contenthash record', async () => {
-      const result = await fnsInstance.getContentHash('with-profile.eth')
+      const result = await fnsInstance.getContentHash('with-profile.fil')
       expect(result).toBeUndefined()
     })
     it('should return the contenthash for a name with the record set', async () => {
-      const result = await fnsInstance.getContentHash('with-contenthash.eth')
+      const result = await fnsInstance.getContentHash('with-contenthash.fil')
       expect(result).toMatchObject({
         protocolType: 'ipfs',
         decoded: 'bafybeico3uuyj3vphxpvbowchdwjlrlrh62awxscrnii7w7flu5z6fk77y',
@@ -149,7 +149,7 @@ describe('getSpecificRecord', () => {
   describe('getText', () => {
     it('should return a record from a key', async () => {
       const result = await fnsInstance.getText(
-        'with-profile.eth',
+        'with-profile.fil',
         'description',
       )
       expect(result).toBe('Hello2')
@@ -157,7 +157,7 @@ describe('getSpecificRecord', () => {
 
     it('should return null for a non-existent key', async () => {
       const result = await fnsInstance.getText(
-        'with-profile.eth',
+        'with-profile.fil',
         'thiskeydoesntexist',
       )
       expect(result).toBeUndefined()
@@ -166,39 +166,39 @@ describe('getSpecificRecord', () => {
 
   describe('getAddr', () => {
     it('should return the ETH addr record if no coinType is provided', async () => {
-      const result = await fnsInstance.getAddr('with-profile.eth')
+      const result = await fnsInstance.getAddr('with-profile.fil')
       expect(result).toBe('0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC')
     })
     it('should return the correct address based on a coin ID input as a number', async () => {
-      const result = await fnsInstance.getAddr('with-profile.eth', 61)
+      const result = await fnsInstance.getAddr('with-profile.fil', 61)
       expect((result as any).addr).toBe(
         '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       )
       expect((result as any).coin).toBe('ETC_LEGACY')
     })
     it('should return the correct address based on a coin ID input as a string', async () => {
-      const result = await fnsInstance.getAddr('with-profile.eth', '61')
+      const result = await fnsInstance.getAddr('with-profile.fil', '61')
       expect((result as any).addr).toBe(
         '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       )
       expect((result as any).coin).toBe('ETC_LEGACY')
     })
     it('should return the correct address based on a coin name', async () => {
-      const result = await fnsInstance.getAddr('with-profile.eth', 'ETC_LEGACY')
+      const result = await fnsInstance.getAddr('with-profile.fil', 'ETC_LEGACY')
       expect((result as any).addr).toBe(
         '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC',
       )
       expect((result as any).coin).toBe('ETC_LEGACY')
     })
     it('should return null for a non-existent coin', async () => {
-      const result = await fnsInstance.getAddr('with-profile.eth', 'BNB')
+      const result = await fnsInstance.getAddr('with-profile.fil', 'BNB')
       expect(result).toBeUndefined()
     })
   })
 
   describe('getABI', () => {
     it('should return object for type 1 ABI', async () => {
-      const result = await fnsInstance.getABI('with-type-1-abi.eth')
+      const result = await fnsInstance.getABI('with-type-1-abi.fil')
       expect(result).toBeTruthy()
       if (result) {
         expect(result.contentType).toBe(1)
@@ -207,7 +207,7 @@ describe('getSpecificRecord', () => {
       }
     })
     it('should return object for type 2 ABI', async () => {
-      const result = await fnsInstance.getABI('with-type-2-abi.eth')
+      const result = await fnsInstance.getABI('with-type-2-abi.fil')
       expect(result).toBeTruthy()
       if (result) {
         expect(result.contentType).toBe(2)
@@ -216,7 +216,7 @@ describe('getSpecificRecord', () => {
       }
     })
     it('should return object for type 4 ABI', async () => {
-      const result = await fnsInstance.getABI('with-type-4-abi.eth')
+      const result = await fnsInstance.getABI('with-type-4-abi.fil')
       expect(result).toBeTruthy()
       if (result) {
         expect(result.contentType).toBe(4)
@@ -225,7 +225,7 @@ describe('getSpecificRecord', () => {
       }
     })
     it('should return unresolved URI for type 8 ABI', async () => {
-      const result = await fnsInstance.getABI('with-type-8-abi.eth')
+      const result = await fnsInstance.getABI('with-type-8-abi.fil')
       expect(result).toBeTruthy()
       if (result) {
         expect(result.contentType).toBe(8)
@@ -234,7 +234,7 @@ describe('getSpecificRecord', () => {
       }
     })
     it('should return undefined if unsupported contentType', async () => {
-      const result = await fnsInstance.getABI('with-type-256-abi.eth')
+      const result = await fnsInstance.getABI('with-type-256-abi.fil')
       expect(result).toBeUndefined()
     })
   })

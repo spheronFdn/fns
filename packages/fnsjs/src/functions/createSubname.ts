@@ -1,9 +1,8 @@
-import { BigNumber } from '@ethersproject/bignumber'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
 import { FNSArgs } from '../index'
 import { CombinedFuseInput, encodeFuses } from '../utils/fuses'
 import { namehash } from '../utils/normalise'
-import { Expiry, makeExpiry, wrappedLabelLengthCheck } from '../utils/wrapper'
+import { Expiry, wrappedLabelLengthCheck } from '../utils/wrapper'
 
 type BaseArgs = {
   owner: string
@@ -20,11 +19,7 @@ type NameWrapperArgs = {
 type Args = BaseArgs | NameWrapperArgs
 
 export default async function (
-  {
-    contracts,
-    signer,
-    getExpiry,
-  }: FNSArgs<'contracts' | 'signer' | 'getExpiry'>,
+  { contracts, signer }: FNSArgs<'contracts' | 'signer' | 'getExpiry'>,
   name: string,
   { owner, resolverAddress, contract, ...wrapperArgs }: Args,
 ) {
@@ -61,11 +56,6 @@ export default async function (
     case 'nameWrapper': {
       wrappedLabelLengthCheck(label)
       const nameWrapper = (await contracts!.getNameWrapper()!).connect(signer)
-      const expiry: BigNumber = await makeExpiry(
-        { getExpiry },
-        name,
-        'expiry' in wrapperArgs ? wrapperArgs.expiry : undefined,
-      )
 
       const generatedFuses =
         'fuses' in wrapperArgs && wrapperArgs.fuses
@@ -79,7 +69,7 @@ export default async function (
         resolverAddress,
         0,
         generatedFuses,
-        expiry,
+        label,
       )
     }
     default: {

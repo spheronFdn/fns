@@ -274,7 +274,7 @@ contract ETHRegistrarController is
         bytes32 label,
         bytes[] calldata data
     ) internal {
-        // use hardcoded .eth namehash
+        // use hardcoded .fil namehash
         bytes32 nodehash = keccak256(abi.encodePacked(ETH_NODE, label));
         PublicResolver resolver = PublicResolver(resolverAddress);
         resolver.multicallWithNodeCheck(nodehash, data);
