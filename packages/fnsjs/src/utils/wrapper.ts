@@ -1,10 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { toUtf8Bytes } from '@ethersproject/strings'
-import { FNSArgs } from '../index'
 
 export type Expiry = string | number | Date | BigNumber
-
-export const MAX_EXPIRY = BigNumber.from(2).pow(64).sub(1)
 
 export const expiryToBigNumber = (expiry?: Expiry, defaultValue = 0) => {
   if (!expiry) return BigNumber.from(defaultValue)
@@ -15,21 +12,6 @@ export const expiryToBigNumber = (expiry?: Expiry, defaultValue = 0) => {
     return expiry
   }
   return BigNumber.from(expiry)
-}
-
-export const makeExpiry = async (
-  { getExpiry }: FNSArgs<'getExpiry'>,
-  name: string,
-  expiry?: Expiry,
-) => {
-  if (expiry) return expiryToBigNumber(expiry)
-  if (name.endsWith('.eth')) {
-    const expResponse = await getExpiry(name)
-    if (!expResponse?.expiry)
-      throw new Error("Couldn't get expiry for name, please provide one.")
-    return BigNumber.from(expResponse.expiry.getTime() / 1000)
-  }
-  return MAX_EXPIRY
 }
 
 export const wrappedLabelLengthCheck = (label: string) => {
