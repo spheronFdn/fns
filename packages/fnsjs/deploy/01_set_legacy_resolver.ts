@@ -10,7 +10,7 @@ import { namehash } from '../src/utils/normalise'
 const names = [
   {
     namedOwner: 'owner',
-    name: 'with-legacy-resolver.eth',
+    name: 'with-legacy-resolver.fil',
     addr: [{ key: 60, value: '0x70997970C51812dc3A010C7d01b50e0d17dc79C8' }],
   },
 ]

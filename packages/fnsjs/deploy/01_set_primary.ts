@@ -7,7 +7,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types'
 const names = [
   {
     namedOwner: 'owner2',
-    primaryName: 'with-profile.eth',
+    primaryName: 'with-profile.fil',
   },
 ]
 
