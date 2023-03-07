@@ -56,6 +56,7 @@ export interface FILRegistrarControllerInterface extends Interface {
     'renew(string,uint256)': FunctionFragment
     'renounceOwnership()': FunctionFragment
     'rentPrice(string,uint256)': FunctionFragment
+    'nameExpires(string)': FunctionFragment
     'reverseRegistrar()': FunctionFragment
     'supportsInterface(bytes4)': FunctionFragment
     'transferOwnership(address)': FunctionFragment
@@ -80,6 +81,7 @@ export interface FILRegistrarControllerInterface extends Interface {
       | 'renew'
       | 'renounceOwnership'
       | 'rentPrice'
+      | 'nameExpires'
       | 'reverseRegistrar'
       | 'supportsInterface'
       | 'transferOwnership'
@@ -162,6 +164,10 @@ export interface FILRegistrarControllerInterface extends Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>],
   ): string
   encodeFunctionData(
+    functionFragment: 'nameExpires',
+    values: [PromiseOrValue<string>],
+  ): string
+  encodeFunctionData(
     functionFragment: 'reverseRegistrar',
     values?: undefined,
   ): string
@@ -212,6 +218,7 @@ export interface FILRegistrarControllerInterface extends Interface {
     data: BytesLike,
   ): Result
   decodeFunctionResult(functionFragment: 'rentPrice', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'nameExpires', data: BytesLike): Result
   decodeFunctionResult(
     functionFragment: 'reverseRegistrar',
     data: BytesLike,
@@ -380,6 +387,10 @@ export interface FILRegistrarController extends BaseContract {
         price: IPriceOracle.PriceStructOutput
       }
     >
+    nameExpires(
+      name: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<[BigNumber]>
 
     reverseRegistrar(overrides?: CallOverrides): Promise<[string]>
 
@@ -475,6 +486,11 @@ export interface FILRegistrarController extends BaseContract {
     overrides?: CallOverrides,
   ): Promise<IPriceOracle.PriceStructOutput>
 
+  nameExpires(
+    name: PromiseOrValue<string>,
+    overrides?: CallOverrides,
+  ): Promise<BigNumber>
+
   reverseRegistrar(overrides?: CallOverrides): Promise<string>
 
   supportsInterface(
@@ -566,6 +582,11 @@ export interface FILRegistrarController extends BaseContract {
       duration: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides,
     ): Promise<IPriceOracle.PriceStructOutput>
+
+    nameExpires(
+      name: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>
 
     reverseRegistrar(overrides?: CallOverrides): Promise<string>
 
@@ -701,6 +722,11 @@ export interface FILRegistrarController extends BaseContract {
       overrides?: CallOverrides,
     ): Promise<BigNumber>
 
+    nameExpires(
+      name: PromiseOrValue<string>,
+      overrides?: CallOverrides,
+    ): Promise<BigNumber>
+
     reverseRegistrar(overrides?: CallOverrides): Promise<BigNumber>
 
     supportsInterface(
@@ -795,6 +821,11 @@ export interface FILRegistrarController extends BaseContract {
     rentPrice(
       name: PromiseOrValue<string>,
       duration: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides,
+    ): Promise<PopulatedTransaction>
+
+    nameExpires(
+      name: PromiseOrValue<string>,
       overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>
 
