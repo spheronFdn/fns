@@ -15,7 +15,7 @@ jest.setTimeout(20000)
 describe('CCIP', () => {
   describe('getProfile', () => {
     it('should return a profile from a ccip-read name', async () => {
-      const result = await fnsInstance.getProfile('1.offchainexample.eth', {
+      const result = await fnsInstance.getProfile('1.offchainexample.fil', {
         fallback: {
           texts: ['email', 'description'],
           contentHash: true,
@@ -33,9 +33,9 @@ describe('CCIP', () => {
   describe('batch', () => {
     it('allows batch ccip', async () => {
       const result = await fnsInstance.batch(
-        fnsInstance.getAddr.batch('1.offchainexample.eth'),
-        fnsInstance.getAddr.batch('1.offchainexample.eth', 'LTC'),
-        fnsInstance.getText.batch('1.offchainexample.eth', 'email'),
+        fnsInstance.getAddr.batch('1.offchainexample.fil'),
+        fnsInstance.getAddr.batch('1.offchainexample.fil', 'LTC'),
+        fnsInstance.getText.batch('1.offchainexample.fil', 'email'),
       )
       expect(result).toBeTruthy()
       if (result) {
@@ -50,7 +50,7 @@ describe('CCIP', () => {
     it('allows nested batch ccip', async () => {
       const result = await fnsInstance.batch(
         fnsInstance.batch.batch(
-          fnsInstance.getAddr.batch('1.offchainexample.eth'),
+          fnsInstance.getAddr.batch('1.offchainexample.fil'),
         ),
       )
       expect(result).toBeTruthy()

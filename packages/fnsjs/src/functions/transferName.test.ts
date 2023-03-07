@@ -22,7 +22,7 @@ describe('transferName', () => {
     await revert()
   })
   it('should allow a transfer on the registrar', async () => {
-    const tx = await fnsInstance.transferName('test123.eth', {
+    const tx = await fnsInstance.transferName('test123.fil', {
       contract: 'baseRegistrar',
       newOwner: accounts[2],
       addressOrIndex: 1,
@@ -37,7 +37,7 @@ describe('transferName', () => {
     expect(result).toBe(accounts[2])
   })
   it('should allow a transfer on the namewrapper', async () => {
-    const tx = await fnsInstance.transferName('wrapped.eth', {
+    const tx = await fnsInstance.transferName('wrapped.fil', {
       newOwner: accounts[2],
       contract: 'nameWrapper',
       addressOrIndex: 1,
@@ -46,11 +46,11 @@ describe('transferName', () => {
     await tx.wait()
 
     const nameWrapper = await fnsInstance.contracts!.getNameWrapper()!
-    const result = await nameWrapper.ownerOf(namehash('wrapped.eth'))
+    const result = await nameWrapper.ownerOf(namehash('wrapped.fil'))
     expect(result).toBe(accounts[2])
   })
   it('should allow a transfer on the registry', async () => {
-    const tx = await fnsInstance.transferName('test.with-subnames.eth', {
+    const tx = await fnsInstance.transferName('test.with-subnames.fil', {
       newOwner: accounts[1],
       contract: 'registry',
       addressOrIndex: accounts[2],
@@ -59,7 +59,7 @@ describe('transferName', () => {
     await tx.wait()
 
     const registry = await fnsInstance.contracts!.getRegistry()!
-    const result = await registry.owner(namehash('test.with-subnames.eth'))
+    const result = await registry.owner(namehash('test.with-subnames.fil'))
     expect(result).toBe(accounts[1])
   })
 })

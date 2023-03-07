@@ -42,7 +42,7 @@ const dummyABI = [
 
 describe('setRecord', () => {
   it('should allow a text record set', async () => {
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'text',
       record: { key: 'foo', value: 'bar' },
       addressOrIndex: 1,
@@ -54,9 +54,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedText = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('text', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         'foo',
       ]),
     )
@@ -67,7 +67,7 @@ describe('setRecord', () => {
     expect(resultText).toBe('bar')
   })
   it('should allow an address record set', async () => {
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'addr',
       record: {
         key: 'ETC_LEGACY',
@@ -82,9 +82,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedAddr = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('addr(bytes32,uint256)', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '61',
       ]),
     )
@@ -97,7 +97,7 @@ describe('setRecord', () => {
     )
   })
   it('should allow a contenthash record set', async () => {
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'contentHash',
       record:
         'ipns://k51qzi5uqu5dgox2z23r6e99oqency055a6xt92xzmyvpz8mwz5ycjavm0u150',
@@ -110,9 +110,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedContent = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('contenthash', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
       ]),
     )
     const [resultContent] = publicResolver.interface.decodeFunctionResult(
@@ -126,7 +126,7 @@ describe('setRecord', () => {
     expect(content.protocolType).toBe('ipns')
   })
   it('should allow an abi record to be set from an object', async () => {
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'abi',
       record: {
         data: dummyABI,
@@ -140,9 +140,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('ABI', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '0x0f',
       ]),
     )
@@ -157,7 +157,7 @@ describe('setRecord', () => {
   })
   it('should allow a zlib encoded abi record to be set', async () => {
     const encodedInput = await generateABIInput('zlib', dummyABI)
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -169,9 +169,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('ABI', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '0x0f',
       ]),
     )
@@ -188,7 +188,7 @@ describe('setRecord', () => {
   })
   it('should allow a cbor encoded abi record to be set', async () => {
     const encodedInput = await generateABIInput('cbor', dummyABI)
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -200,9 +200,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('ABI', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '0x0f',
       ]),
     )
@@ -219,7 +219,7 @@ describe('setRecord', () => {
   })
   it('should allow a uri abi record to be set', async () => {
     const encodedInput = await generateABIInput('uri', 'https://example.com')
-    const tx = await fnsInstance.setRecord('test123.eth', {
+    const tx = await fnsInstance.setRecord('test123.fil', {
       type: 'abi',
       record: encodedInput,
       addressOrIndex: 1,
@@ -231,9 +231,9 @@ describe('setRecord', () => {
       await fnsInstance.contracts!.getUniversalResolver()!
     const publicResolver = await fnsInstance.contracts!.getPublicResolver()!
     const encodedRes = await universalResolver['resolve(bytes,bytes)'](
-      hexEncodeName('test123.eth'),
+      hexEncodeName('test123.fil'),
       publicResolver.interface.encodeFunctionData('ABI', [
-        namehash('test123.eth'),
+        namehash('test123.fil'),
         '0x0f',
       ]),
     )

@@ -23,14 +23,14 @@ afterAll(async () => {
 
 describe('getWrapperData', () => {
   it('should return default data for an unwrapped name', async () => {
-    const result = await fnsInstance.getWrapperData('with-profile.eth')
+    const result = await fnsInstance.getWrapperData('with-profile.fil')
     expect(result?.expiryDate).toBeUndefined()
     expect(result?.rawFuses).toEqual(0)
     expect(result?.child.CAN_DO_EVERYTHING).toBeTruthy()
   })
   it('should return with CAN_DO_EVERYTHING set to true for a name with no fuses burned', async () => {
     const result = await fnsInstance.getWrapperData(
-      'test.wrapped-with-subnames.eth',
+      'test.wrapped-with-subnames.fil',
     )
     expect(result).toBeTruthy()
     if (result) {
@@ -39,13 +39,13 @@ describe('getWrapperData', () => {
     }
   })
   it('should return with other correct fuses', async () => {
-    const tx = await fnsInstance.setFuses('wrapped.eth', {
+    const tx = await fnsInstance.setFuses('wrapped.fil', {
       named: ['CANNOT_UNWRAP', 'CANNOT_CREATE_SUBDOMAIN', 'CANNOT_SET_TTL'],
       addressOrIndex: 1,
     })
     await tx.wait()
 
-    const result = await fnsInstance.getWrapperData('wrapped.eth')
+    const result = await fnsInstance.getWrapperData('wrapped.fil')
     expect(result).toBeTruthy()
     if (result) {
       expect(result.child.CAN_DO_EVERYTHING).toBe(false)
@@ -56,7 +56,7 @@ describe('getWrapperData', () => {
     }
   })
   it('should return correct expiry', async () => {
-    const result = await fnsInstance.getWrapperData('wrapped.eth')
+    const result = await fnsInstance.getWrapperData('wrapped.fil')
     expect(result).toBeTruthy()
     if (result) {
       expect(result.expiryDate).toBeInstanceOf(Date)

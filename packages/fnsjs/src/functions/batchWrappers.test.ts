@@ -10,12 +10,12 @@ beforeAll(async () => {
 describe('batchWrappers', () => {
   it('should batch calls together', async () => {
     const batch = await fnsInstance.resolverMulticallWrapper.raw([
-      await fnsInstance._getText.raw('with-profile.eth', 'description'),
-      await fnsInstance._getText.raw('with-profile.eth', 'url'),
-      await fnsInstance._getAddr.raw('with-profile.eth'),
+      await fnsInstance._getText.raw('with-profile.fil', 'description'),
+      await fnsInstance._getText.raw('with-profile.fil', 'url'),
+      await fnsInstance._getAddr.raw('with-profile.fil'),
     ])
     const universalResponse = await fnsInstance.universalWrapper(
-      'with-profile.eth',
+      'with-profile.fil',
       batch.data,
     )
     const [batchDecoded] = await fnsInstance.resolverMulticallWrapper.decode(

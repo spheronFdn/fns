@@ -23,7 +23,7 @@ describe('getName', () => {
     )
     expect(result).toBeTruthy()
     if (result) {
-      expect(result.name).toBe('with-profile.eth')
+      expect(result.name).toBe('with-profile.fil')
       expect(result.match).toBeTruthy()
     }
   })
@@ -34,13 +34,13 @@ describe('getName', () => {
     expect(result?.name).toBeUndefined()
   })
   it('should return with a false match for a name with no forward resolution', async () => {
-    const tx = await fnsInstance.setName('with-profile.eth')
+    const tx = await fnsInstance.setName('with-profile.fil')
     await tx?.wait()
 
     const result = await fnsInstance.getName(accounts[0])
     expect(result).toBeTruthy()
     if (result) {
-      expect(result.name).toBe('with-profile.eth')
+      expect(result.name).toBe('with-profile.fil')
       expect(result.match).toBeFalsy()
     }
   })

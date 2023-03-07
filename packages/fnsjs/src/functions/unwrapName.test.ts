@@ -21,8 +21,8 @@ describe('unwrapName', () => {
   beforeEach(async () => {
     await revert()
   })
-  it('should return a .eth unwrap name transaction and succeed', async () => {
-    const tx = await fnsInstance.unwrapName('wrapped.eth', {
+  it('should return a .fil unwrap name transaction and succeed', async () => {
+    const tx = await fnsInstance.unwrapName('wrapped.fil', {
       newController: accounts[1],
       newRegistrant: accounts[1],
       addressOrIndex: 1,
@@ -37,7 +37,7 @@ describe('unwrapName', () => {
     expect(result).toBe(accounts[1])
   })
   it('should return a regular unwrap name transaction and succeed', async () => {
-    const tx = await fnsInstance.unwrapName('test.wrapped-with-subnames.eth', {
+    const tx = await fnsInstance.unwrapName('test.wrapped-with-subnames.fil', {
       newController: accounts[1],
       addressOrIndex: 2,
     })
@@ -46,7 +46,7 @@ describe('unwrapName', () => {
 
     const registry = await fnsInstance.contracts!.getRegistry()!
     const result = await registry.owner(
-      namehash('test.wrapped-with-subnames.eth'),
+      namehash('test.wrapped-with-subnames.fil'),
     )
     expect(result).toBe(accounts[1])
   })

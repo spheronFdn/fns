@@ -23,7 +23,7 @@ export default async function (
 
   if (checkIsDotEth(labels)) {
     if (!newRegistrant) {
-      throw new Error('newRegistrant must be specified for .eth names')
+      throw new Error('newRegistrant must be specified for .fil names')
     }
 
     return nameWrapper.populateTransaction.unwrapETH2LD(
@@ -33,7 +33,7 @@ export default async function (
     )
   }
   if (newRegistrant) {
-    throw new Error('newRegistrant can only be specified for .eth names')
+    throw new Error('newRegistrant can only be specified for .fil names')
   }
 
   return nameWrapper.populateTransaction.unwrap(

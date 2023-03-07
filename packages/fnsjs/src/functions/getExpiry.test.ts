@@ -13,8 +13,8 @@ afterAll(async () => {
 })
 
 describe('getExpiry', () => {
-  it('should get the expiry for a .eth name with no other args', async () => {
-    const result = await fnsInstance.getExpiry('with-profile.eth')
+  it('should get the expiry for a .fil name with no other args', async () => {
+    const result = await fnsInstance.getExpiry('with-profile.fil')
     expect(result).toBeTruthy()
     if (result) {
       const { expiry, gracePeriod } = result
@@ -23,7 +23,7 @@ describe('getExpiry', () => {
     }
   })
   it('should get the expiry for a wrapped name', async () => {
-    const result = await fnsInstance.getExpiry('wrapped.eth', {
+    const result = await fnsInstance.getExpiry('wrapped.fil', {
       contract: 'nameWrapper',
     })
 
@@ -34,17 +34,17 @@ describe('getExpiry', () => {
       expect(gracePeriod).toBe(null)
     }
   })
-  it('should throw an error for a non .eth name if not wrapped', async () => {
+  it('should throw an error for a non .fil name if not wrapped', async () => {
     try {
-      await fnsInstance.getExpiry('sub.with-profile.eth')
+      await fnsInstance.getExpiry('sub.with-profile.fil')
       expect(false).toBeTruthy()
     } catch {
       expect(true).toBeTruthy()
     }
   })
-  it('should throw an error for a non .eth name if registrar is specified', async () => {
+  it('should throw an error for a non .fil name if registrar is specified', async () => {
     try {
-      await fnsInstance.getExpiry('sub.with-profile.eth', {
+      await fnsInstance.getExpiry('sub.with-profile.fil', {
         contract: 'registrar',
       })
       expect(false).toBeTruthy()
