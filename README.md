@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  🧰 FNSlib is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
+  🧰 [FNSlib](https://www.npmjs.com/package/@spheron/fnslib) is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
   <br>
   It is built with
   <a href="https://github.com/ethers-io/ethers.js">ethers.js</a>
@@ -32,13 +32,15 @@
 
 ## NOTE!!!
 
-FNSjs is currently in the early development stage, meaning that the projects are subject to change.
+FNSlib is currently in the early development stage, meaning that the projects are subject to change.
 
 Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
 
 
 
 ## Installation
+You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
+
 Using NPM
 ```
 npm install @spheron/fnslib ethers
@@ -64,7 +66,7 @@ await FNSInstance.setProvider(provider)
 ```
 
 **NOTE:**
-If using FNSjs with Node, you may need to pass the `--experimental-specifier-resolution=node` flag.
+If using FNSlib with Node, you may need to pass the `--experimental-specifier-resolution=node` flag.
 
 ```sh
 node --experimental-specifier-resolution=node ./index.js
@@ -207,7 +209,7 @@ await FNSInstance.setRecord('arome.fil', {
 
 ### Raw Functions
 
-Raw functions are a crucial part of how FNSjs works. In the function file itself
+Raw functions are a crucial part of how FNSlib works. In the function file itself
 a `raw` and `decode` function both need to be defined, with the export being an object with those properties.
 This allows for the encoding and decoding of contract calls to be split, meaning that multiple calls can be batched together.
 For calling a raw function by itself, the raw and decode functions are stitched together with a provider call. This is done
@@ -216,7 +218,7 @@ using `importGenerator` which is explained below.
 ### importGenerator
 
 The importGenerator function generates a wrapped function for any given input.
-The result of the wrapped function obfuscates the processing that FNSjs does, and exposes a cleaner API to the user/developer.
+The result of the wrapped function obfuscates the processing that FNSlib does, and exposes a cleaner API to the user/developer.
 The reason we do this is to:
 
 1. Pass through all the required variables for the function
