@@ -19,6 +19,7 @@ import type { getHistory } from './getHistory'
 import type getName from './getName'
 import type getNames from './getNames'
 import type getOwner from './getOwner'
+import type getOwnerNames from './getOwnerNames'
 import type getPrice from './getPrice'
 import type getProfile from './getProfile'
 import type getRecords from './getRecords'
@@ -79,6 +80,7 @@ type Function = {
   getName: typeof getName
   getNames: typeof getNames
   getOwner: typeof getOwner
+  getOwnerNames: typeof getOwnerNames
   getPrice: typeof getPrice
   getProfile: typeof getProfile
   getRecords: typeof getRecords

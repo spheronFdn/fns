@@ -550,6 +550,10 @@ export class FNS {
     ['contracts'],
   )
 
+  public getOwnerNames = this.generateRawFunction<
+    FunctionTypes['getOwnerNames']
+  >('getOwnerNames', ['contracts'])
+
   public getContent = this.generateRawFunction<FunctionTypes['getContent']>(
     'getContent',
     ['contracts'],
