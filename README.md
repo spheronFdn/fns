@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.12&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.15&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
@@ -131,6 +131,9 @@ const address = await FNSInstance.getAddress('juan.fil')
 
 /* Normal content fetching */
 const contentHash = await FNSInstance.getContent('juan.fil')
+
+/* Get Names registered by an address */
+const registeredNames = await FNSInstance.getOwnerNames('Ox-----')
 
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
