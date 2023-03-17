@@ -7,6 +7,7 @@ export default async function (
   { contracts }: FNSArgs<'contracts'>,
   name: string,
   address: string,
+  coinType: number,
 ) {
   const labels = name.split('.')
   if (labels.length !== 2 || labels[1] !== 'fil')
@@ -15,12 +16,11 @@ export default async function (
   wrappedLabelLengthCheck(labels[0])
   const hash = namehash(name)
   const hashValue = toUtf8Bytes(address)
-  console.log(hashValue)
 
   const controller = await contracts!.getPublicResolver()
   return controller.populateTransaction['setAddr(bytes32,uint256,bytes)'](
     hash,
-    461,
+    coinType,
     hashValue,
   )
 }

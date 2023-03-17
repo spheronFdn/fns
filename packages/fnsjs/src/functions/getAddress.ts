@@ -2,7 +2,11 @@ import { toUtf8String } from '@ethersproject/strings'
 import { FNSArgs } from '../index'
 import { namehash } from '../utils/normalise'
 
-const raw = async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
+const raw = async (
+  { contracts }: FNSArgs<'contracts'>,
+  name: string,
+  coinType: number,
+) => {
   const baseRegistrar = await contracts?.getPublicResolver()!
 
   const label = namehash(name)
@@ -11,7 +15,7 @@ const raw = async ({ contracts }: FNSArgs<'contracts'>, name: string) => {
     to: baseRegistrar.address,
     data: baseRegistrar.interface.encodeFunctionData('addr(bytes32,uint256)', [
       label,
-      461,
+      coinType,
     ]),
   }
 }

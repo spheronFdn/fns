@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.15&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.16&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
@@ -121,19 +121,33 @@ you also save 1 RPC call.
 The profile function will always request an ETH addr record.
 For names, this means the address will always at the top level of the returned object.
 For addresses, this means the "match" property (a boolean value for matching reverse/forward resolution) will always be at the top level of the returned object.
+`coinType` is the cryptocurrency coin type index from [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
+
 
 ```js
 /* Normal profile fetching */
 const profile = await FNSInstance.getProfile('juan.fil')
 
-/* Normal address fetching */
-const address = await FNSInstance.getAddress('juan.fil')
+/* Get Blockchain Address
+Returns the Blockchain address associated with the provided node and coinType, or 0 if none. */
 
+/* For FIL Address - t410fkyutpa243vojf5klstpwld6twufgr3gv5rmsx5y */
+const address = await FNSInstance.getAddress('juan.fil', 4610)
+
+
+/* For FIL(ETH) Address - 0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5 */
+const address = await FNSInstance.getAddress('juan.fil', 461)
+
+/* For BTC - 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 */
+const address = await FNSInstance.getAddress('juan.fil', 0)
+
+/* For LTC - MGxNPPB7eBoWPUaprtX9v9CXJZoD2465zN */
+const address = await FNSInstance.getAddress('juan.fil', 2)
+
+/* For DOGE - DLCDJhnh6aGotar6b182jpzbNEyXb3C361 */
+const address = await FNSInstance.getAddress('juan.fil', 3)
 /* Normal content fetching */
 const contentHash = await FNSInstance.getContent('juan.fil')
-
-/* Get Names registered by an address */
-const registeredNames = await FNSInstance.getOwnerNames('Ox-----')
 
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
