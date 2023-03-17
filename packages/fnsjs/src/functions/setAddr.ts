@@ -2,12 +2,16 @@ import { toUtf8Bytes } from '@ethersproject/strings'
 import { FNSArgs } from '..'
 import { wrappedLabelLengthCheck } from '../utils/wrapper'
 import { namehash } from '../utils/normalise'
+import { BlockchainIdentifier } from '../utils/blockchainIdentifiers'
 
+type BaseArgs = {
+  address: string
+  coinType: BlockchainIdentifier
+}
 export default async function (
   { contracts }: FNSArgs<'contracts'>,
   name: string,
-  address: string,
-  coinType: number,
+  { address, coinType }: BaseArgs,
 ) {
   const labels = name.split('.')
   if (labels.length !== 2 || labels[1] !== 'fil')

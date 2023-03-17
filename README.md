@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.16&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.17&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
@@ -131,21 +131,38 @@ const profile = await FNSInstance.getProfile('juan.fil')
 /* Get Blockchain Address
 Returns the Blockchain address associated with the provided node and coinType, or 0 if none. */
 
-/* For FIL Address - t410fkyutpa243vojf5klstpwld6twufgr3gv5rmsx5y */
-const address = await FNSInstance.getAddress('juan.fil', 4610)
+enum BlockchainIdentifier {
+  BITCOIN = 0,
+  LITECOIN = 2,
+  DOGECOIN = 3,
+  FILCOIN = 4610,
+  FILCOINEVM = 461,
+}
 
+
+/* For FIL Address - t410fkyutpa243vojf5klstpwld6twufgr3gv5rmsx5y */
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.FILCOIN)
+  
 
 /* For FIL(ETH) Address - 0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5 */
-const address = await FNSInstance.getAddress('juan.fil', 461)
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.FILCOINEVM)
+
 
 /* For BTC - 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 */
-const address = await FNSInstance.getAddress('juan.fil', 0)
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.BITCOIN)
+
 
 /* For LTC - MGxNPPB7eBoWPUaprtX9v9CXJZoD2465zN */
-const address = await FNSInstance.getAddress('juan.fil', 2)
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.LITECOIN)
 
 /* For DOGE - DLCDJhnh6aGotar6b182jpzbNEyXb3C361 */
-const address = await FNSInstance.getAddress('juan.fil', 3)
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.DOGECOIN)
+
+
 /* Normal content fetching */
 const contentHash = await FNSInstance.getContent('juan.fil')
 

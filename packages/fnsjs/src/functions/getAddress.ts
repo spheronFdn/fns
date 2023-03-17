@@ -1,11 +1,12 @@
 import { toUtf8String } from '@ethersproject/strings'
 import { FNSArgs } from '../index'
 import { namehash } from '../utils/normalise'
+import { BlockchainIdentifier } from '../utils/blockchainIdentifiers'
 
 const raw = async (
   { contracts }: FNSArgs<'contracts'>,
   name: string,
-  coinType: number,
+  coinType: BlockchainIdentifier,
 ) => {
   const baseRegistrar = await contracts?.getPublicResolver()!
 
