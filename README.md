@@ -36,7 +36,7 @@ FNSlib is currently in the early development stage, meaning that the projects ar
 
 Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
 
-FNSlib can be currently used on Filcecoin Mainnet & Filecoin Hyperspace testnet network.
+FNSlib can be currently used on Filecoin Mainnet & Filecoin Hyperspace testnet network.
 
 ## Installation
 You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
