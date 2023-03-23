@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.18&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.19&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
@@ -36,7 +36,7 @@ FNSlib is currently in the early development stage, meaning that the projects ar
 
 Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
 
-
+FNSlib can be currently used on Filcecoin Mainnet & Filecoin Hyperspace testnet network.
 
 ## Installation
 You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
