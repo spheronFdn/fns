@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.17&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.18&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
