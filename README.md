@@ -1,13 +1,13 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo.svg">
-    <img alt="Spheron" src="https://github.com/spheronFdn/sdk/blob/main/.github/assets/logo.svg" width="250">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/spheronFdn/fns/blob/main/.github/assets/spheron-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/spheronFdn/fns/blob/main/.github/assets/spheron-logo.svg">
+    <img alt="Spheron" src="https://github.com/spheronFdn/fns/blob/main/.github/assets/spheron-logo.svg" width="250">
   </picture>
 </p>
 
 <p align="center">
-  🧰 [FNSlib](https://www.npmjs.com/package/@spheron/fnslib) is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
+  🧰 <a href="https://www.npmjs.com/package/@spheron/fnslib">FNSlib</a> is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
   <br>
   It is built with
   <a href="https://github.com/ethers-io/ethers.js">ethers.js</a>
@@ -121,19 +121,50 @@ you also save 1 RPC call.
 The profile function will always request an ETH addr record.
 For names, this means the address will always at the top level of the returned object.
 For addresses, this means the "match" property (a boolean value for matching reverse/forward resolution) will always be at the top level of the returned object.
+`coinType` is the cryptocurrency coin type index from [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
+
 
 ```js
 /* Normal profile fetching */
 const profile = await FNSInstance.getProfile('juan.fil')
 
-/* Normal address fetching */
-const address = await FNSInstance.getAddress('juan.fil')
+/* Get Blockchain Address
+Returns the Blockchain address associated with the provided node and coinType, or 0 if none. */
+
+enum BlockchainIdentifier {
+  BITCOIN = 0,
+  LITECOIN = 2,
+  DOGECOIN = 3,
+  FILCOIN = 4610,
+  FILCOINEVM = 461,
+}
+
+
+/* For FIL Address - t410fkyutpa243vojf5klstpwld6twufgr3gv5rmsx5y */
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.FILCOIN)
+  
+
+/* For FIL(ETH) Address - 0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5 */
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.FILCOINEVM)
+
+
+/* For BTC - 3FZbgi29cpjq2GjdwV8eyHuJJnkLtktZc5 */
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.BITCOIN)
+
+
+/* For LTC - MGxNPPB7eBoWPUaprtX9v9CXJZoD2465zN */
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.LITECOIN)
+
+/* For DOGE - DLCDJhnh6aGotar6b182jpzbNEyXb3C361 */
+
+const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.DOGECOIN)
+
 
 /* Normal content fetching */
 const contentHash = await FNSInstance.getContent('juan.fil')
-
-/* Get Names registered by an address */
-const registeredNames = await FNSInstance.getOwnerNames('Ox-----')
 
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
