@@ -31,12 +31,21 @@
 </p>
 
 ## NOTE!!!
+🌟 Welcome to FNSlib 🌟
 
-FNSlib is currently in the early development stage, meaning that the projects are subject to change.
+Our project is currently in the early development stage, which means things might change in the future. But don't worry, we're actively seeking feedback! So if you see something that needs improvement, please don't hesitate to create an issue or PR. 🙌
 
-Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
+Good news! FNSlib can already be used on both Filecoin Mainnet and Filecoin Hyperspace testnet networks. 🚀
 
-FNSlib can be currently used on Filecoin Mainnet & Filecoin Hyperspace testnet network.
+And just to give you an idea of how our system works, here's a high-level architecture diagram:
+
+🌟 FNS System Architecture 🌟
+
+Here's an architecture of the FNS system on a high level.
+<picture >
+<img  alt="FNS Architecture"  src="https://res.cloudinary.com/letech-digital-solutions/image/upload/v1679931187/7c1ba5ad-ac06-46b5-be10-e4b8ae64a00a_1_o7pfpi.png">
+
+</picture>
 
 ## Installation
 You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
@@ -52,8 +61,13 @@ yarn add @spheron/fnslib ethers
 
 ## Getting Started
 
-All that's needed to get started is an ethers provider instance(https://filecoin-hyperspace.chainstacklabs.com/rpc/v1).
-Once you create a new FNS instance, you can pass it in using setProvider.
+🚀 Ready to get started with FNSlib? 🚀
+
+All you need to do is grab an 🌟 ethers provider instance 🌟 from https://filecoin-hyperspace.chainstacklabs.com/rpc/v1(testnet) or https://filecoin-mainnet.chainstacklabs.com/rpc/v1(mainnet).
+
+Once you've got your hands on that, creating a new FNS instance is a breeze! Just pass it in using setProvider and you're good to go. 💪
+
+Happy coding! 🤖👨‍💻👩‍💻
 
 ```js
 import { FNS } from '@spheron/fnslib'
@@ -128,8 +142,19 @@ For addresses, this means the "match" property (a boolean value for matching rev
 /* Normal profile fetching */
 const profile = await FNSInstance.getProfile('juan.fil')
 
-/* Get Blockchain Address
-Returns the Blockchain address associated with the provided node and coinType, or 0 if none. */
+ /* Get Blockchain Address
+
+Get Blockchain Address
+🔍 Need to find the blockchain address associated with your FNS name and coinType? 🔍
+
+Our handy function can help! Simply provide the node (FNS name) and coinType, and we'll return the associated blockchain address. If no address is found, don't worry - the function will return 0. 😎
+
+At the moment, FNSlib supports BTC, LTC, DOGE, and FIL, but we're always looking to add support for more major chains in the future. If you have a specific request for a coinType, head on over to our 💬 [discord channel](https://discord.com/invite/ahxuCtm) and let us know. We're always considering new ideas for subsequent updates. 🚀
+
+Our goal is to make FNSlib as comprehensive and user-friendly as possible, and we appreciate your feedback and suggestions. So don't hesitate to reach out and help us achieve this goal. 💪
+
+Keep building something great. 🤖👨‍💻👩‍💻
+*/
 
 enum BlockchainIdentifier {
   BITCOIN = 0,
@@ -163,8 +188,21 @@ const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier
 const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.DOGECOIN)
 
 
-/* Normal content fetching */
-const contentHash = await FNSInstance.getContent('juan.fil')
+/* Normal content fetching 
+To get content hash attached to a fns name
+*/
+
+const  contentHash  =  await FNSInstance.getContent('juan.fil')
+/* ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm */
+/*
+The code block above  is used to fetch the content hash associated with a FNS name 'juan.fil'. The content hash is a unique identifier for the content associated with the FNS name.
+
+The code uses the getContent function of the FNSInstance object to retrieve the content hash. The await keyword is used to wait for the content hash to be retrieved before assigning it to the contentHash variable.
+
+Once the content hash is retrieved, it is returned as a string. In this case, the content hash is ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm.
+
+Overall, this code block demonstrates how to use the FNSlib to retrieve the content associated with a FNS name. It is a crucial feature of the FNSlib, enabling users to easily retrieve content associated with FNS names on the FEVM chain.
+*/
 
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
