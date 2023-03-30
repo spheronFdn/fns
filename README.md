@@ -5,7 +5,7 @@
     <img alt="Spheron" src="https://github.com/spheronFdn/fns/blob/main/.github/assets/spheron-logo.svg" width="250">
   </picture>
 </p>
-
+O
 <p align="center">
   🧰 <a href="https://www.npmjs.com/package/@spheron/fnslib">FNSlib</a> is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
   <br>
@@ -33,19 +33,12 @@
 ## NOTE!!!
 🌟 Welcome to FNSlib 🌟
 
-Our project is currently in the early development stage, which means things might change in the future. But don't worry, we're actively seeking feedback! So if you see something that needs improvement, please don't hesitate to create an issue or PR. 🙌
+Our project is in the early development stage, meaning things might change. 
 
-Good news! FNSlib can already be used on both Filecoin Mainnet and Filecoin Hyperspace testnet networks. 🚀
+But don't worry, we're actively seeking feedback! So if you see something that needs improvement, please don't hesitate to create an issue or PR. 🙌
 
-And just to give you an idea of how our system works, here's a high-level architecture diagram:
+Good news! FNSlib can already be used on both **Filecoin Mainnet** and **Filecoin Hyperspace** testnet networks. 🚀
 
-🌟 FNS System Architecture 🌟
-
-Here's an architecture of the FNS system on a high level.
-<picture >
-<img  alt="FNS Architecture"  src="https://res.cloudinary.com/letech-digital-solutions/image/upload/v1679931187/7c1ba5ad-ac06-46b5-be10-e4b8ae64a00a_1_o7pfpi.png">
-
-</picture>
 
 ## Installation
 You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
@@ -63,7 +56,7 @@ yarn add @spheron/fnslib ethers
 
 🚀 Ready to get started with FNSlib? 🚀
 
-All you need to do is grab an 🌟 ethers provider instance 🌟 from https://filecoin-hyperspace.chainstacklabs.com/rpc/v1(testnet) or https://filecoin-mainnet.chainstacklabs.com/rpc/v1(mainnet).
+You only need to grab an 🌟 ethers provider instance 🌟 from https://filecoin-hyperspace.chainstacklabs.com/rpc/v1 (Testnet) or https://filecoin-mainnet.chainstacklabs.com/rpc/v1 (Mainnet).
 
 Once you've got your hands on that, creating a new FNS instance is a breeze! Just pass it in using setProvider and you're good to go. 💪
 
@@ -149,7 +142,9 @@ Get Blockchain Address
 
 Our handy function can help! Simply provide the node (FNS name) and coinType, and we'll return the associated blockchain address. If no address is found, don't worry - the function will return 0. 😎
 
-At the moment, FNSlib supports BTC, LTC, DOGE, and FIL, but we're always looking to add support for more major chains in the future. If you have a specific request for a coinType, head on over to our 💬 [discord channel](https://discord.com/invite/ahxuCtm) and let us know. We're always considering new ideas for subsequent updates. 🚀
+At the moment, FNSlib supports BTC, LTC, DOGE, and native FIL, but we're always looking to add support for more major chains in the future. 
+
+If you have a specific request for a coinType, head to our 💬 [discord channel](https://discord.com/invite/ahxuCtm) and let us know. We're always considering new ideas for subsequent updates. 🚀
 
 Our goal is to make FNSlib as comprehensive and user-friendly as possible, and we appreciate your feedback and suggestions. So don't hesitate to reach out and help us achieve this goal. 💪
 
@@ -203,7 +198,23 @@ Once the content hash is retrieved, it is returned as a string. In this case, th
 
 Overall, this code block demonstrates how to use the FNSlib to retrieve the content associated with a FNS name. It is a crucial feature of the FNSlib, enabling users to easily retrieve content associated with FNS names on the FEVM chain.
 */
+/* FNS name fetching 
+To get the FNS name attached to an address
+*/
+/*
+The code block below is used to retrieve the FNS name associated with an address on the FEVM chain. Here is an explanation of how it works:
+*/
+const address = "0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5";
+const node = await FNSInstance.getNameNode(address);
+const name = await FNSInstance.getAddrName(node);
+/* juan.fil */
+/*
+The getNameNode function is used to retrieve the node associated with an address. The node variable will contain the node associated with the provided address. This node can then be used to retrieve the FNS name associated with it.
 
+The getAddrName function takes a node as input and retrieves the FNS name associated with it. The name variable will contain the FNS name associated with the provided node.
+
+Overall, this code block demonstrates how to use the FNSlib to retrieve the FNS name associated with an address on the FEVM chain. It is a useful feature that enables users to easily retrieve FNS names associated with specific addresses.
+*/
 /* Get Name from Address */
 const node = await FNSInstance.getNameNode(address);
 const name = await FNSInstance.getAddrName(node);
