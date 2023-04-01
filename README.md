@@ -196,9 +196,9 @@ const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier
 
 The code block is used to fetch the content hash associated with a FNS name 'juan.fil'. The content hash is a unique identifier for the content associated with the FNS name.
 
-The code uses the getContent function of the FNSInstance object to retrieve the content hash. The await keyword is used to wait for the content hash to be retrieved before assigning it to the contentHash variable.
+The code uses the `getContent` function of the FNSInstance object to retrieve the content hash. The await keyword is used to wait for the content hash to be retrieved before assigning it to the contentHash variable.
 
-Once the content hash is retrieved, it is returned as a string. In this case, the content hash is ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm.
+Once the content hash is retrieved, it is returned as a string. In this case, the content hash is `ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm`.
 
 Overall, this code block demonstrates how to use the FNSlib to retrieve the content associated with a FNS name. It is a crucial feature of the FNSlib, enabling users to easily retrieve content associated with FNS names on the FEVM chain.
 
@@ -209,9 +209,9 @@ const contentHash = await FNSInstance.getContent('juan.fil')
 
 ## FNS name fetching
 
-The getNameNode function is used to retrieve the node associated with an address. The node variable will contain the node associated with the provided address. This node can then be used to retrieve the FNS name associated with it.
+The `getNameNode` function is used to retrieve the node associated with an address. The node variable will contain the node associated with the provided address. This node can then be used to retrieve the FNS name associated with it.
 
-The getAddrName function takes a node as input and retrieves the FNS name associated with it. The name variable will contain the FNS name associated with the provided node.
+The `getAddrName` function takes a node as input and retrieves the FNS name associated with it. The name variable will contain the FNS name associated with the provided node.
 
 Overall, this code block demonstrates how to use the FNSlib to retrieve the FNS name associated with an address on the FEVM chain. It is a useful feature that enables users to easily retrieve FNS names associated with specific addresses.
 
