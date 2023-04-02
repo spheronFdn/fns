@@ -5,7 +5,6 @@
     <img alt="Spheron" src="https://github.com/spheronFdn/fns/blob/main/.github/assets/spheron-logo.svg" width="250">
   </picture>
 </p>
-
 <p align="center">
   🧰 <a href="https://www.npmjs.com/package/@spheron/fnslib">FNSlib</a> is the ultimate solution for working with the FNS(.fil) on the FEVM chain. Powered by Spheron.
   <br>
@@ -17,7 +16,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@spheron/fnslib" target="_blank" rel="noreferrer">
-    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.19&color=red" />
+    <img src="https://img.shields.io/static/v1?label=npm&message=v1.0.20&color=red" />
   </a>
   <a href="https://github.com/spheronFdn/fns/blob/main/LICENSE" target="_blank" rel="noreferrer">
     <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" />
@@ -32,28 +31,39 @@
 
 ## NOTE!!!
 
-FNSlib is currently in the early development stage, meaning that the projects are subject to change.
+🌟 Welcome to FNSlib 🌟
 
-Given the current development status, we're actively seeking feedback so feel free to create an issue or PR if you notice something!
+Our project is in the early development stage, meaning things might change.
 
-FNSlib can be currently used on Filecoin Mainnet & Filecoin Hyperspace testnet network.
+But don't worry, we're actively seeking feedback! So if you see something that needs improvement, please don't hesitate to create an issue or PR. 🙌
+
+Good news! FNSlib can already be used on both **Filecoin Mainnet** and **Filecoin Hyperspace** testnet networks. 🚀
 
 ## Installation
+
 You can find the FNS library in NPM package - https://www.npmjs.com/package/@spheron/fnslib
 
 Using NPM
+
 ```
 npm install @spheron/fnslib ethers
 ```
+
 Using Yarn
+
 ```
 yarn add @spheron/fnslib ethers
 ```
 
 ## Getting Started
 
-All that's needed to get started is an ethers provider instance(https://filecoin-hyperspace.chainstacklabs.com/rpc/v1).
-Once you create a new FNS instance, you can pass it in using setProvider.
+🚀 Ready to get started with FNSlib? 🚀
+
+You only need to grab an 🌟 ethers provider instance 🌟 from https://filecoin-hyperspace.chainstacklabs.com/rpc/v1 (Testnet) or https://filecoin-mainnet.chainstacklabs.com/rpc/v1 (Mainnet).
+
+Once you've got your hands on that, creating a new FNS instance is a breeze! Just pass it in using setProvider and you're good to go. 💪
+
+Happy coding! 🤖👨‍💻👩‍💻
 
 ```js
 import { FNS } from '@spheron/fnslib'
@@ -86,28 +96,33 @@ const callWithProvider = await FNSInstance.withProvider(otherProvider).getText(
   'foo',
 )
 ```
-## Name Availability 
+
+## Name Availability
+
 Check if a name is available to be registered on the FEVM Naming Service.
 
 ```js
-const name = "juan.fil"
-const isAvailable = await FNSInstance.getAvailable(name);
+const name = 'juan.fil'
+const isAvailable = await FNSInstance.getAvailable(name)
 ```
+
 ## Price
+
 View the current price of registering or updating a name on the FEVM Naming Service. The price is determined by market demand and is subject to change.
 
 ```js
-const name = "juan.fil"
-const price = await FNSInstance.getPrice(name, duration);
-``` 
+const name = 'juan.fil'
+const price = await FNSInstance.getPrice(name, duration)
+```
 
 ## Expiration
-View the timestamp in which a particular registered name will expire. 
+
+View the timestamp in which a particular registered name will expire.
 
 ```js
-const name = "juan.fil"
-const price = await FNSInstance.getExpiry(name);
-``` 
+const name = 'juan.fil'
+const price = await FNSInstance.getExpiry(name)
+```
 
 ## Profiles
 
@@ -123,14 +138,26 @@ For names, this means the address will always at the top level of the returned o
 For addresses, this means the "match" property (a boolean value for matching reverse/forward resolution) will always be at the top level of the returned object.
 `coinType` is the cryptocurrency coin type index from [SLIP44](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
 
-
 ```js
 /* Normal profile fetching */
 const profile = await FNSInstance.getProfile('juan.fil')
+```
 
-/* Get Blockchain Address
-Returns the Blockchain address associated with the provided node and coinType, or 0 if none. */
+## Get Blockchain Address
 
+🔍 Need to find the blockchain address associated with your FNS name and coinType? 🔍
+
+Our handy function can help! Simply provide the node (FNS name) and coinType, and we'll return the associated blockchain address. If no address is found, don't worry - the function will return 0. 😎
+
+At the moment, FNSlib supports BTC, LTC, DOGE, and native FIL, but we're always looking to add support for more major chains in the future.
+
+If you have a specific request for a coinType, head to our 💬 [discord channel](https://discord.com/invite/ahxuCtm) and let us know. We're always considering new ideas for subsequent updates. 🚀
+
+Our goal is to make FNSlib as comprehensive and user-friendly as possible, and we appreciate your feedback and suggestions. So don't hesitate to reach out and help us achieve this goal. 💪
+
+Keep building something great. 🤖👨‍💻👩‍💻
+
+```js
 enum BlockchainIdentifier {
   BITCOIN = 0,
   LITECOIN = 2,
@@ -143,7 +170,7 @@ enum BlockchainIdentifier {
 /* For FIL Address - t410fkyutpa243vojf5klstpwld6twufgr3gv5rmsx5y */
 
 const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.FILCOIN)
-  
+
 
 /* For FIL(ETH) Address - 0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5 */
 
@@ -161,16 +188,45 @@ const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier
 /* For DOGE - DLCDJhnh6aGotar6b182jpzbNEyXb3C361 */
 
 const  address  =  await FNSInstance.getAddress('juan.fil', BlockchainIdentifier.DOGECOIN)
+```
 
+## Normal content fetching
 
-/* Normal content fetching */
+### To get ipfs content hash attached to a fns name
+
+The code block is used to fetch the content hash associated with a FNS name 'juan.fil'. The content hash is a unique identifier for the content associated with the FNS name.
+
+The code uses the `getContent` function of the FNSInstance object to retrieve the content hash. The await keyword is used to wait for the content hash to be retrieved before assigning it to the contentHash variable.
+
+Once the content hash is retrieved, it is returned as a string. In this case, the content hash is `ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm`.
+
+Overall, this code block demonstrates how to use the FNSlib to retrieve the content associated with a FNS name. It is a crucial feature of the FNSlib, enabling users to easily retrieve content associated with FNS names on the FEVM chain.
+
+```js
 const contentHash = await FNSInstance.getContent('juan.fil')
+/* ipfs://QmZYmH5iDbD6v3U2ixoVAjioSzvWJszDzYdbeCLquGSpVm */
+```
 
-/* Get Name from Address */
-const node = await FNSInstance.getNameNode(address);
-const name = await FNSInstance.getAddrName(node);
+## FNS name fetching
 
-/* Profile fetching from an address */
+The `getNameNode` function is used to retrieve the node associated with an address. The node variable will contain the node associated with the provided address. This node can then be used to retrieve the FNS name associated with it.
+
+The `getAddrName` function takes a node as input and retrieves the FNS name associated with it. The name variable will contain the FNS name associated with the provided node.
+
+Overall, this code block demonstrates how to use the FNSlib to retrieve the FNS name associated with an address on the FEVM chain. It is a useful feature that enables users to easily retrieve FNS names associated with specific addresses.
+
+The code block below is used to retrieve the FNS name associated with an address on the FEVM chain. Here is an explanation of how it works:
+
+```js
+const address = '0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5'
+const node = await FNSInstance.getNameNode(address)
+const name = await FNSInstance.getAddrName(node)
+/* juan.fil */
+```
+
+## Profile fetching from an address
+
+```js
 const profile = await FNSInstance.getProfile(
   '0x562937835cdD5C92F54B94Df658Fd3b50A68ecD5',
 )
@@ -212,7 +268,6 @@ type ProfileReturn = {
 }
 ```
 
-
 ## Ownership Levels
 
 The `getOwner` function returns not only an owner (and potentially a registrant), but also a ownershipLevel value.
@@ -220,22 +275,21 @@ This value essentially means the contract for the "real owner" of any given name
 of the name, but if there is no NFT then it's just the registry. This value is useful for input into the `transferName`
 function, where a contract needs to be specified.
 
-
-
 ## Write Transaction Options
 
 Currently, some write functions have an `options` argument. While this may expand over time,
 it currently just allows you to pass an address or index for an account array to ethers for specifying the signer of the transaction.
 
 ## Register A Name
+
 ```js
 /* write operation to register name */
-await FNSInstance.register('aromedev.fil', address, duration, { value: 2000 });
+await FNSInstance.register('aromedev.fil', address, duration, { value: 2000 })
 /* write operation to set record */
 await FNSInstance.setRecord('arome.fil', {
-    type: 'contentHash',
-    record: ipfsHash,
-    resolverAddress
+  type: 'contentHash',
+  record: ipfsHash,
+  resolverAddress,
 })
 ```
 
@@ -268,7 +322,6 @@ The reason we do this is to:
 The contract manager is where all the contracts are dynamically loaded in and resolved based on the network.
 A new instance of ContractManager is created every time you switch providers.
 
-
 ### initialProvider
 
 The `initialProvider`, and similarly `checkInitialProvider` are used when creating single-use class instances with `withProvider`.
@@ -281,7 +334,6 @@ It allows `withProvider` to act as a new FNS instance without having to await a 
 
 Utils can be imported at follows
 `import { encodeContenthash } from '@spheron/fnslib/utils/contentHash'`
-
 
 ### getName
 
@@ -436,7 +488,6 @@ Output:
 - string | null
   - Address record value
 
-
 ### setName
 
 Sets the primary name for a specified address.
@@ -519,9 +570,11 @@ Output:
 - transaction
 
 ## Contribution
+
 We encourage you to read the [contribution guidelines](https://github.com/spheronFdn/fns/blob/main/.github/contribution-guidelines.md) to learn about our development process and how to propose bug fixes and improvements before submitting a pull request.
 
 The Spheron community extends beyond issues and pull requests! You can support Spheron [in many other ways](https://github.com/spheronFdn/fns/blob/main/.github/support.md) as well.
 
 ## Community
+
 For help, discussions or any other queries: [Join us on Discord](https://discord.com/invite/ahxuCtm)
