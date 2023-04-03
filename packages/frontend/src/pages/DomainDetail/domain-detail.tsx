@@ -8,6 +8,10 @@ import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
 import { setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
+import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
+import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
+import { ReactComponent as CancelIcon } from '../../assets/icons/cancel-icon.svg'
+import { copyToClipboard } from '../../lib/utils'
 
 const DomainDetail = () => {
   const params = useParams()
@@ -18,6 +22,8 @@ const DomainDetail = () => {
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
+  const [isControllerEditMode, setIsControllerEditMode] =
+    useState<boolean>(false)
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -113,26 +119,79 @@ const DomainDetail = () => {
         </div>
       ) : (
         <>
-          <div className="lg:overflow-hidden overflow-x-scroll py-6 lg:py-10 border-b border-gray-border">
-            <div className="w-full flex items-start flex-col space-y-12">
-              <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
-                <span className="text-base text-gray-text">Parent:</span>
-                <div className="font-semibold text-primary-text lg:ml-0 ml-4">
+          <div className="lg:overflow-hidden overflow-x-scroll py-6">
+            <div className="w-full flex items-start flex-col space-y-7">
+              <div className="w-full flex items-center justify-between">
+                <span className="text-base text-gray-unaryBorder">Text:</span>
+                <div className="font-semibold text-primary-text ml-4">
                   {process.env.REACT_APP_CONTROLLER_ADDRESS}
                 </div>
               </div>
               {!isDomainAvailable && (
-                <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
-                  <span className="text-base text-gray-text">Controller:</span>
+                <div className="w-full flex items-center justify-between">
+                  <span className="text-base text-gray-unaryBorder">
+                    Controller:
+                  </span>
                   <div>
                     {ownerLoading ? (
                       <InfoLoader />
                     ) : (
-                      <>
-                        <div className="font-semibold text-primary-text lg:ml-0 ml-4">
-                          {ownerAddress}
-                        </div>
-                      </>
+                      <div className="flex justify-end gap-3">
+                        {isControllerEditMode ? (
+                          <div className="w-full flex items-center gap-3">
+                            <div className="w-full flex-row flex items-center gap-8 bg-[#141416] rounded-full border-2 border-[#434345] p-2">
+                              <Input
+                                className="bg-transparent ml-2 w-full"
+                                value={ownerAddress}
+                                onChange={(e) => {
+                                  setContentHashQuery(e.target.value)
+                                }}
+                              />
+                              <Button
+                                onClick={handleSetContentHash}
+                                className="py-1"
+                                disabled={
+                                  (isControllerEditMode &&
+                                    contentHash === contentHashQuery) ||
+                                  settingContentHash ||
+                                  !contentHashQuery ||
+                                  isSuccesful
+                                }
+                              >
+                                {isEditMode ? 'Update' : 'Add'}
+                              </Button>
+                            </div>
+                            <CancelIcon
+                              className="cursor-pointer"
+                              onClick={() =>
+                                setIsControllerEditMode(!isControllerEditMode)
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <div className="font-semibold text-primary-text ml-4">
+                              {ownerAddress}
+                            </div>
+                            <CopyIcon
+                              className="cursor-pointer"
+                              onClick={() => copyToClipboard(contentHash)}
+                            />
+                            {true && (
+                              <div className="flex justify-start">
+                                <EditIcon
+                                  className="cursor-pointer"
+                                  onClick={() =>
+                                    setIsControllerEditMode(
+                                      !isControllerEditMode,
+                                    )
+                                  }
+                                />
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -140,10 +199,10 @@ const DomainDetail = () => {
             </div>
           </div>
           {!isDomainAvailable && (
-            <div className="lg:overflow-hidden overflow-x-scroll mt-6 lg:mt-10 w-full flex items-start flex-col space-y-12">
+            <div className="lg:overflow-hidden overflow-x-scroll pt-6 border-t border-gray-border w-full flex items-start flex-col space-y-7">
               <div className="w-full flex items-center justify-between">
-                <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
-                  <span className="text-base text-gray-text text-left lg:text-right">
+                <div className="w-full flex items-center justify-between">
+                  <span className="text-base text-gray-unaryBorder text-left lg:text-right">
                     Content Hash:
                   </span>
                   <div>
@@ -151,26 +210,29 @@ const DomainDetail = () => {
                       <InfoLoader />
                     ) : (
                       <>
-                        {contentHash && !isEditMode ? (
-                          <>
+                        {!contentHash && !isEditMode ? (
+                          <div className="flex flex-row gap-3">
                             <a
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
                               className="text-blue-500 lg:ml-0 ml-4 lg:mr-2"
                             >
-                              {contentHash}
+                              {contentHash}hbhvyc
                             </a>
-                            {ownerAddress === currentAccount && (
+                            <CopyIcon
+                              className="cursor-pointer"
+                              onClick={() => copyToClipboard(contentHash)}
+                            />
+                            {true && (
                               <div className="flex justify-start lg:ml-0 ml-4 lg:block">
-                                <Button
+                                <EditIcon
+                                  className="cursor-pointer"
                                   onClick={() => setIsEditMode(!isEditMode)}
-                                >
-                                  Edit
-                                </Button>
+                                />
                               </div>
                             )}
-                          </>
+                          </div>
                         ) : (
                           <>
                             {(ownerAddress === currentAccount ||
@@ -205,14 +267,21 @@ const DomainDetail = () => {
                 </div>
               </div>
 
-              <div className="w-11/12 lg:w-[800px] flex items-center justify-between">
-                <span className="text-base text-gray-text">Expiration:</span>
+              <div className="w-full flex items-center justify-between">
+                <span className="text-base text-gray-unaryBorder">
+                  Expiration:
+                </span>
                 <div>
                   {expiryDateLoading ? (
                     <InfoLoader />
                   ) : (
-                    <div className="lg:ml-0 ml-4 lg:text-base text-sm font-semibold text-primary-text">
-                      {expirationDate}
+                    <div className="flex flex-row items-center gap-3">
+                      <div className="lg:ml-0 ml-4 lg:text-base text-sm font-semibold text-primary-text">
+                        {expirationDate}
+                      </div>
+                      <Button onClick={undefined} className="py-1">
+                        Extend
+                      </Button>
                     </div>
                   )}
                 </div>

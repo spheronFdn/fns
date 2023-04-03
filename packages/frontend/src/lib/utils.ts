@@ -45,3 +45,7 @@ export const getFee = async () => {
     return '0'
   }
 }
+
+export const copyToClipboard = async (value: string) => {
+  await navigator.clipboard.writeText(value || '')
+}

@@ -1,30 +1,138 @@
 .App {
   text-align: center;
-  height: 100vh;
+  position: relative;
+}
+
+.powered__by__spheron {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  font-size: x-small;
+  color: #777e90;
 }
 
 .hero__text {
-  background: -webkit-linear-gradient(180deg, #2cdaff, #0052ff);
-  background-clip: text;
+  background: linear-gradient(
+    90deg,
+    #01abff 1.97%,
+    #01f0ff 37.63%,
+    #0057ff 89.75%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .button__bg {
-  background: radial-gradient(
-    130.89% 130.89% at 47.98% 7.11%,
-    #004aa2 0%,
-    #418ff8 99.99%,
-    #5cc4ff 100%
-  );
+  background: #0057ff;
   transition: all 150ms ease-in-out;
 }
 
-.button__bg:hover {
-  background: radial-gradient(
-    130.89% 130.89% at 47.98% 7.11%,
-    #0049a2d8 0%,
-    #418ff8 99.99%,
-    #5cc4ff 100%
+.front__globe__icon {
+  position: static;
+  bottom: 0px;
+  height: 325px;
+}
+
+.result__text {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 40px;
+  background: linear-gradient(
+    87.99deg,
+    #01ffc2 3.46%,
+    #01abff 46.53%,
+    #0057ff 113.3%
   );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.result__container {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+}
+
+.info__circle__outer {
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-image: linear-gradient(
+    90.02deg,
+    #0057ff 17.04%,
+    #8247ff 81.96%,
+    #01abff 81.96%
+  );
+}
+
+.info__circle__inner {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #141416;
+  color: #0057ff;
+  font-size: large;
+  font-weight: 600;
+}
+
+.top__ribbon {
+  height: 40px;
+  background: linear-gradient(
+    90.02deg,
+    #0057ff 17.04%,
+    #8247ff 81.96%,
+    #01abff 81.96%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 12px;
+}
+
+.register__modal {
+  /* display: none; Hide the modal by default */
+  position: fixed; /* Position the modal on top of the page content */
+  z-index: 1; /* Set the modal to be on top of other page elements */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scrolling if the modal content overflows */
+  background-color: rgba(0, 0, 0, 0.6); /* Black background with opacity */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register__modal__content {
+  padding: 24px;
+  width: 40%;
+  background: #141416;
+  box-shadow: 0px 4px 5px -1px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  color: white;
+  text-align: left;
+}
+
+.register__modal__step {
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  padding: 20px;
 }

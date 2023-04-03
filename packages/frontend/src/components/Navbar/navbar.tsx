@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { ReactComponent as SpheronLogo } from '../../assets/icons/spheron-logo.svg'
+import { ReactComponent as MetamaskIcon } from '../../assets/icons/metamask.svg'
 import { LogOut } from 'lucide-react'
 import makeBlockie from 'ethereum-blockies-base64'
 import { Avatar, AvatarFallback, AvatarImage } from '../UI/avatar'
@@ -44,7 +45,7 @@ const Navbar = () => {
           className="flex items-center justify-start cursor-pointer"
           onClick={handleRedirect}
         >
-          <SpheronLogo className="h-11 lg:h-16 w-auto" />
+          <SpheronLogo className="h-10 w-24" />
         </div>
         <div className="flex items-center space-x-3">
           {currentAccount ? (
@@ -79,7 +80,14 @@ const Navbar = () => {
               </DropdownMenu>
             </>
           ) : (
-            <Button onClick={connectWallet}>Connect</Button>
+            <Button
+              variant="navbar"
+              className="gap-x-2 rounded-full text-white uppercase text-sm p-5"
+              onClick={connectWallet}
+            >
+              <MetamaskIcon className="h-7 w-7" />
+              Connect Wallet
+            </Button>
           )}
         </div>
       </div>

@@ -8,6 +8,7 @@ import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
 import Loader from '../../components/Loader/loader'
 import InfoLoader from '../../components/Loader/info-loader'
+import RegisterModal from '../../components/Modal/register-modal'
 
 const DomainRegister = () => {
   const params = useParams()
@@ -62,19 +63,6 @@ const DomainRegister = () => {
     >()
   const [registerLoading, setRegisterLoading] = useState<boolean>(false)
   const [hash, setHash] = useState<string>('')
-
-  const processInformation = [
-    {
-      id: 1,
-      title: 'Transaction Signing',
-      description: `Your wallet will open and you will be asked to confirm the first of two transactions required for registration. If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.`,
-    },
-    {
-      id: 2,
-      title: 'Wait for a few minutes',
-      description: `The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.`,
-    },
-  ]
 
   const handleRegister = async () => {
     setRegisterLoading(true)
@@ -186,10 +174,9 @@ const DomainRegister = () => {
                 </>
               ) : (
                 <>
-                  {' '}
                   <div className="py-6 lg:py-10 border-b border-gray-border">
-                    <div className="w-full flex items-start flex-col space-y-12">
-                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
+                    <div className="w-full flex items-start flex-col space-y-8">
+                      <div className="w-full flex items-center justify-between">
                         <span className="text-base text-gray-text">
                           Period:
                         </span>
@@ -197,7 +184,7 @@ const DomainRegister = () => {
                           <Button
                             onClick={() => setYear(year > 1 ? year - 1 : year)}
                             variant="outline"
-                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-blue-bg"
+                            className="h-5 w-5 p-0"
                           >
                             -
                           </Button>
@@ -206,19 +193,19 @@ const DomainRegister = () => {
                           <Button
                             onClick={() => setYear(year + 1)}
                             variant="outline"
-                            className="text-primary-text h-7 w-5 text-xs hover:bg-primary-text transition hover:text-blue-bg"
+                            className="h-5 w-5 p-0"
                           >
                             +
                           </Button>
                         </div>
                       </div>
-                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
+                      <div className="w-full flex items-center justify-between">
                         <span className="text-base text-gray-text">Price:</span>
                         <div className="ml-12 font-semibold text-primary-text text-right ">
                           {priceLoading ? <InfoLoader /> : `${price} TFIL`}
                         </div>
                       </div>
-                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
+                      <div className="w-full flex items-center justify-between">
                         <span className="text-base text-gray-text">
                           Gas fee:
                         </span>
@@ -230,9 +217,9 @@ const DomainRegister = () => {
                   </div>
                   <div className="mt-6 lg:mt-10 w-full flex items-start flex-col space-y-12">
                     <div className="w-full flex items-center justify-between">
-                      <div className="w-11/12 lg:w-5/12 flex items-center justify-between">
+                      <div className="w-full flex items-center justify-between">
                         <span className="text-base text-gray-text">Total:</span>
-                        <div className="font-semibold text-primary-text">
+                        <div className="font-semibold text-primary-text text-xl">
                           {priceLoading ? (
                             <InfoLoader />
                           ) : (
@@ -240,86 +227,47 @@ const DomainRegister = () => {
                           )}
                         </div>
                       </div>
-
-                      <Button
-                        disabled={
-                          priceLoading ||
-                          registerLoading ||
-                          !!hash ||
-                          isSuccessful ||
-                          isLessBalance
-                        }
-                        onClick={
-                          currentAccount ? handleRegister : connectWallet
-                        }
-                        className="hidden lg:block"
-                      >
-                        Register
-                      </Button>
                     </div>
-                    <div className="w-11/12 lg:w-5/12 flex lg:pb-10 items-center justify-between">
-                      {currentAccount && (
-                        <>
-                          <span className="text-base text-gray-text">
-                            Your Balance:
-                          </span>
-                          <div
-                            className={`font-semibold ${
-                              isLessBalance
-                                ? 'text-red-600'
-                                : 'text-primary-text'
-                            }`}
-                          >
-                            {userBalanceLoading ? (
-                              <InfoLoader />
-                            ) : (
-                              `${Number(userBalance).toFixed(4)} TFIL`
-                            )}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <Button
-                      disabled={
-                        priceLoading ||
-                        registerLoading ||
-                        !!hash ||
-                        isSuccessful ||
-                        isLessBalance
-                      }
-                      onClick={currentAccount ? handleRegister : connectWallet}
-                      className="w-full lg:hidden"
-                    >
-                      Register
-                    </Button>
-                  </div>
-                  <div className="border-t border-gray-border py-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 w-11/12 lg:w-9/12 gap-x-4 lg:space-y-0 space-y-4">
-                      {processInformation.map((information) => (
-                        <div className="flex items-start justify-start space-x-4">
-                          <div className="border-2 text-primary-text border-gray-border rounded-full h-8 lg:h-12 w-8 lg:w-12 text-sm font-bold px-4 py-2 flex items-center justify-center">
-                            {information.id}
-                          </div>
-                          <div className="flex flex-col items-start justify-start">
-                            <h3 className="scroll-m-20 text-left lg:text-center text-lg lg:text-2xl font-semibold tracking-tight text-primary-text">
-                              {information.title}
-                            </h3>
-                            <p className="text-xs lg:text-sm font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
-                              {information.description}
-                            </p>
-                          </div>
+                    {currentAccount && (
+                      <div className="w-full flex items-center justify-between">
+                        <span className="text-base text-gray-text">
+                          Your Balance:
+                        </span>
+                        <div
+                          className={`font-semibold ${
+                            isLessBalance ? 'text-red-600' : 'text-primary-text'
+                          }`}
+                        >
+                          {userBalanceLoading ? (
+                            <InfoLoader />
+                          ) : (
+                            `${Number(userBalance).toFixed(4)} TFIL`
+                          )}
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
             </>
           ) : (
-            <div className="mt-20 text-primary-text text-xl font-semibold ">
+            <div className="mt-20 mb-12 text-primary-text text-xl font-semibold ">
               Domain is already registered
             </div>
           )}
+          <Button
+            disabled={
+              priceLoading ||
+              registerLoading ||
+              !!hash ||
+              isSuccessful ||
+              isLessBalance
+            }
+            onClick={currentAccount ? handleRegister : connectWallet}
+            className="hidden lg:block uppercase"
+          >
+            {currentAccount ? 'register' : 'connect to register'}
+          </Button>
         </>
       )}
     </>

@@ -3157,7 +3157,7 @@
   dependencies:
     antlr4ts "^0.5.0-alpha.4"
 
-"@spheron/fnslib@^1.0.6":
+"@spheron/fnslib@1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@spheron/fnslib/-/fnslib-1.0.6.tgz#6d28fafdd8d32a7e4e88d228eeca28d249765d61"
   integrity sha512-Jdi5gggxIuOJSHi/wojjGC21oqL1avFRyOWL0pjtu41OMfHY5HHdyq/Xz75WzLI1QddcAV4ZoK6wNCH01xE/NA==

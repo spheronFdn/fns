@@ -180,7 +180,7 @@ const Domain = () => {
   const navItems = [
     {
       id: 1,
-      label: 'register',
+      label: 'registration',
       isActive: location.pathname.split('/')[3] === 'register',
     },
     {
@@ -203,11 +203,23 @@ const Domain = () => {
     )
   }
 
+  const processInformation = [
+    {
+      id: 1,
+      title: 'Transaction Signing',
+      description: `Your wallet will open and you will be asked to confirm the first of two transactions required for registration. If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.`,
+    },
+    {
+      id: 2,
+      title: 'Wait for a few minutes',
+      description: `The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.`,
+    },
+  ]
+
   return (
-    <>
-      <div className="w-full bg-blue-bg bg-opacity-30 py-4">
-        <div className="w-10/12 lg:w-8/12 mx-auto flex items-center justify-between">
-          <div className="mr-auto ml-0 w-full md:w-9/12 lg:w-6/12 flex space-x-3">
+    <div className="w-10/12 lg:w-8/12 mx-auto">
+      <div className="mt-8 mb-5 flex items-center justify-between">
+        {/* <div className="mr-auto ml-0 w-full md:w-9/12 lg:w-6/12 flex space-x-3">
             <Input
               className="h-10 w-11/12 text-base lg:text-lg"
               value={searchQuery}
@@ -216,25 +228,26 @@ const Domain = () => {
               }}
             />
             <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
-          </div>
+          </div> */}
+        <span className="result__text">Result for `{searchQuery}`</span>
+      </div>
+
+      <div className="result__container p-8">
+        <div className="flex justify-start space-x-8">
+          {navItems.map((navItem) => (
+            <Link
+              key={navItem.id}
+              to={`/domain/${params.domainName}/${navItem.label}`}
+              className={`capitalize font-semibold text-lg px-4 ${
+                navItem.isActive
+                  ? 'text-primary-textBlue pb-2 border-b border-primary-textBlue'
+                  : 'text-gray-inactive'
+              }`}
+            >
+              {navItem.label}
+            </Link>
+          ))}
         </div>
-      </div>
-      <div className="w-10/12 lg:w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
-        {navItems.map((navItem) => (
-          <Link
-            key={navItem.id}
-            to={`/domain/${params.domainName}/${navItem.label}`}
-            className={`capitalize text-lg ${
-              navItem.isActive
-                ? 'font-semibold text-white'
-                : 'text-gray-inactive'
-            }`}
-          >
-            {navItem.label}
-          </Link>
-        ))}
-      </div>
-      <div className="w-10/12 lg:w-8/12 mx-auto">
         <Outlet
           context={[
             searchQuery,
@@ -260,7 +273,29 @@ const Domain = () => {
           ]}
         />
       </div>
-    </>
+      {isDomainAvailable && (
+        <>
+          <div className="mt-8 w-full flex justify-end"></div>
+          <div className="result__container p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
+            {processInformation.map((information) => (
+              <div className="flex items-start justify-start space-x-4">
+                <div className="info__circle__outer">
+                  <div className="info__circle__inner">{information.id}</div>
+                </div>
+                <div className="flex flex-col items-start justify-start">
+                  <h3 className="scroll-m-20 text-left lg:text-center text-lg lg:text-2xl font-semibold tracking-tight text-primary-text">
+                    {information.title}
+                  </h3>
+                  <p className="text-xs lg:text-sm font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
+                    {information.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
