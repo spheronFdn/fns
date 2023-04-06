@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react'
 import { getUserBalance } from '../lib/utils'
+import { getNameFromAddress } from '../services/spheron-fns'
 
 export const Web3Context: any = createContext<any>({} as any)
 
@@ -7,7 +8,20 @@ const { ethereum } = window as any
 
 const Web3ContextProvider: any = ({ children }: any) => {
   const [currentAccount, setCurrentAccount] = useState(null)
+  const [currentAccountName, setCurrentAccountName] = useState(null)
   const [userBalance, setUserBalance] = useState('')
+
+  const getAdressName = async (address: string) => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const res: any = await getNameFromAddress(address)
+      if (!res.error) {
+        setCurrentAccountName(res.response)
+      }
+    } catch (error) {
+      console.log('Error in getting domain name ->', error)
+    }
+  }
 
   const disconnectWallet = async () => {
     try {
@@ -51,6 +65,7 @@ const Web3ContextProvider: any = ({ children }: any) => {
         method: 'eth_requestAccounts',
       })
       setCurrentAccount(accounts[0])
+      getAdressName(accounts[0])
       const userBalanceRes = await getUserBalance(accounts[0])
       setUserBalance(userBalanceRes)
     } catch (error) {
@@ -63,11 +78,11 @@ const Web3ContextProvider: any = ({ children }: any) => {
     <Web3Context.Provider
       value={{
         connectWallet,
-
         disconnectWallet,
         currentAccount,
         setCurrentAccount,
         userBalance,
+        currentAccountName,
       }}
     >
       {children}

@@ -22,6 +22,8 @@ const buttonVariants = cva(
           'bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-100 dark:hover:text-slate-100 data-[state=open]:bg-transparent dark:data-[state=open]:bg-transparent',
         link: 'bg-transparent underline-offset-4 hover:underline text-slate-900 dark:text-slate-100 hover:bg-transparent dark:hover:bg-transparent',
         navbar: 'bg-gray-navBtnBg',
+        cancel:
+          'rounded-full bg-white bg-opacity-10 hover:bg-opacity-5 transition-all ease-in-out text-white px-2',
       },
       size: {
         default: 'h-10 py-2 px-4',

@@ -12,12 +12,15 @@ import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
 import { ReactComponent as CancelIcon } from '../../assets/icons/cancel-icon.svg'
 import { copyToClipboard } from '../../lib/utils'
+import { ModalContext } from '../../context/modal-context'
 
 const DomainDetail = () => {
   const params = useParams()
   const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
+  const ModalCntx = useContext<any>(ModalContext)
+  const { setModalOpen, setModalType, setModalOption } = ModalCntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
@@ -114,7 +117,7 @@ const DomainDetail = () => {
   return (
     <>
       {loading ? (
-        <div className="mt-24">
+        <div className="my-24 mb-12">
           <Loader />
         </div>
       ) : (
@@ -158,7 +161,7 @@ const DomainDetail = () => {
                                   isSuccesful
                                 }
                               >
-                                {isEditMode ? 'Update' : 'Add'}
+                                {isControllerEditMode ? 'Update' : 'Add'}
                               </Button>
                             </div>
                             <CancelIcon
@@ -218,7 +221,7 @@ const DomainDetail = () => {
                               rel="noreferrer"
                               className="text-blue-500 lg:ml-0 ml-4 lg:mr-2"
                             >
-                              {contentHash}hbhvyc
+                              {contentHash}
                             </a>
                             <CopyIcon
                               className="cursor-pointer"
@@ -237,26 +240,33 @@ const DomainDetail = () => {
                           <>
                             {(ownerAddress === currentAccount ||
                               isEditMode) && (
-                              <div className="flex items-center space-x-3">
-                                <Input
-                                  className="h-10 w-11/12 text-base lg:text-lg"
-                                  value={contentHashQuery}
-                                  onChange={(e) => {
-                                    setContentHashQuery(e.target.value)
-                                  }}
+                              <div className="w-full flex items-center gap-3">
+                                <div className="w-full flex-row flex items-center gap-8 bg-[#141416] rounded-full border-2 border-[#434345] p-2">
+                                  <Input
+                                    className="bg-transparent ml-2 w-full"
+                                    value={contentHashQuery}
+                                    onChange={(e) => {
+                                      setContentHashQuery(e.target.value)
+                                    }}
+                                  />
+                                  <Button
+                                    onClick={handleSetContentHash}
+                                    className="py-1"
+                                    disabled={
+                                      (isEditMode &&
+                                        contentHash === contentHashQuery) ||
+                                      settingContentHash ||
+                                      !contentHashQuery ||
+                                      isSuccesful
+                                    }
+                                  >
+                                    {isEditMode ? 'Update' : 'Add'}
+                                  </Button>
+                                </div>
+                                <CancelIcon
+                                  className="cursor-pointer"
+                                  onClick={() => setIsEditMode(!isEditMode)}
                                 />
-                                <Button
-                                  onClick={handleSetContentHash}
-                                  disabled={
-                                    (isEditMode &&
-                                      contentHash === contentHashQuery) ||
-                                    settingContentHash ||
-                                    !contentHashQuery ||
-                                    isSuccesful
-                                  }
-                                >
-                                  {isEditMode ? 'Update' : 'Add'}
-                                </Button>
                               </div>
                             )}
                           </>
@@ -279,7 +289,18 @@ const DomainDetail = () => {
                       <div className="lg:ml-0 ml-4 lg:text-base text-sm font-semibold text-primary-text">
                         {expirationDate}
                       </div>
-                      <Button onClick={undefined} className="py-1">
+                      <Button
+                        onClick={() => {
+                          setModalOpen(true)
+                          setModalType('extendDomain')
+                          setModalOption({
+                            price: '0',
+                            gasFee: '2',
+                            priceLoading: false,
+                          })
+                        }}
+                        className="py-1"
+                      >
                         Extend
                       </Button>
                     </div>

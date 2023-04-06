@@ -160,3 +160,15 @@ export const setContentHash = async (
     return { error: true, response: (error as Error).message }
   }
 }
+
+export const getOwnerNames = async (address: string) => {
+  try {
+    const FNSInstance = new FNS()
+    await FNSInstance.setProvider(provider)
+    const names = await FNSInstance.getOwnerNames(address)
+    return { error: false, response: names }
+  } catch (error) {
+    console.log(error)
+    return { error: true, response: (error as Error).message }
+  }
+}

@@ -8,16 +8,18 @@ import {
   Link,
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
-import { Input } from '../../components/UI/input'
+import { ModalContext } from '../../context/modal-context'
 import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
-import { getFee, getUserBalance, isValidAddress } from '../../lib/utils'
+import { getFee, getUserBalance } from '../../lib/utils'
 import {
   getAddress,
   getContentHash,
   getExpiry,
   getPriceOnYear,
   isAvailable,
+  registerDomain,
+  setAddr,
 } from '../../services/spheron-fns'
 
 const Domain = () => {
@@ -25,7 +27,7 @@ const Domain = () => {
   const location = useLocation()
   const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
-  const { currentAccount } = Web3Cntx
+  const { currentAccount, connectWallet } = Web3Cntx
   const [isDomainAvailable, setIsDomainAvailable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
@@ -49,7 +51,8 @@ const Domain = () => {
     setOwnerLoading(true)
     try {
       const res = await getAddress(domainName)
-      setOwnerAddress(res.response || '')
+      console.log('YEE ADDRESS --', res)
+      // setOwnerAddress(res.response || '')
     } catch (error) {
       console.log('Error in getAddressFromDomainName: ')
       console.log(error)
@@ -181,27 +184,16 @@ const Domain = () => {
     {
       id: 1,
       label: 'registration',
+      route: 'register',
       isActive: location.pathname.split('/')[3] === 'register',
     },
     {
       id: 2,
       label: 'details',
+      route: 'details',
       isActive: location.pathname.split('/')[3] === 'details',
     },
   ]
-
-  const handleSearch = async (searchQuery: string) => {
-    const containsFilSubstr =
-      searchQuery.slice(searchQuery.length - 3, searchQuery.length) === 'fil'
-    getAvailibility(searchQuery)
-    navigate(
-      `/${
-        isValidAddress(searchQuery)
-          ? `address/${searchQuery}/registrant`
-          : `domain/${searchQuery}${containsFilSubstr ? '' : '.fil'}/register`
-      }`,
-    )
-  }
 
   const processInformation = [
     {
@@ -216,28 +208,94 @@ const Domain = () => {
     },
   ]
 
+  const ModalCntx = useContext<any>(ModalContext)
+  const { setModalOpen, setModalType, setModalOption } = ModalCntx
+
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false)
+  const [hash, setHash] = useState<string>('')
+
+  const totalPrice = Number(gasFee) + Number(price)
+  const isLessBalance = userBalance ? totalPrice > Number(userBalance) : false
+
+  const handleRegister = async () => {
+    setModalOpen(true)
+    setModalType('registerDomain')
+    setRegisterLoading(true)
+    setStep(1)
+    setModalOption(1)
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const res: any = await registerDomain(
+        searchQuery,
+        currentAccount,
+        year,
+        price,
+      )
+      if (!res.error) {
+        toast({
+          title: 'Success',
+          description: 'Please wait for address to register',
+        })
+        setStep(2)
+        setModalOption(2)
+        const addrRes = await setAddr(searchQuery, currentAccount)
+        if (!addrRes.error) {
+          setModalOpen(false)
+          setStep(3)
+          setModalOption(3)
+          setIsSuccessful(true)
+          setRegisterLoading(false)
+          navigate(`/domain/${params.domainName}/details`)
+          toast({
+            title: 'Successful',
+            description:
+              'Congratulations, you have successfully registered a domain',
+          })
+          setHash(res.response)
+        } else {
+          setModalOpen(false)
+          setStep(0)
+          setModalOption(0)
+          setRegisterLoading(false)
+          toast({
+            title: 'Error',
+            variant: 'destructive',
+            description: res.response,
+          })
+        }
+      } else {
+        setModalOpen(false)
+        setStep(0)
+        setModalOption(0)
+        setRegisterLoading(false)
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: res.response,
+        })
+      }
+    } catch (error) {
+      setModalOpen(false)
+      console.log('Error in registering domain ->', error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+      setRegisterLoading(false)
+    }
+  }
+
   return (
-    <div className="w-10/12 lg:w-8/12 mx-auto">
+    <div className="w-10/12 lg:w-8/12 mx-auto flex flex-col justify-end">
       <div className="mt-8 mb-5 flex items-center justify-between">
-        {/* <div className="mr-auto ml-0 w-full md:w-9/12 lg:w-6/12 flex space-x-3">
-            <Input
-              className="h-10 w-11/12 text-base lg:text-lg"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value)
-              }}
-            />
-            <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
-          </div> */}
         <span className="result__text">Result for `{searchQuery}`</span>
       </div>
-
       <div className="result__container p-8">
         <div className="flex justify-start space-x-8">
           {navItems.map((navItem) => (
             <Link
               key={navItem.id}
-              to={`/domain/${params.domainName}/${navItem.label}`}
+              to={`/domain/${params.domainName}/${navItem.route}`}
               className={`capitalize font-semibold text-lg px-4 ${
                 navItem.isActive
                   ? 'text-primary-textBlue pb-2 border-b border-primary-textBlue'
@@ -274,8 +332,26 @@ const Domain = () => {
         />
       </div>
       {isDomainAvailable && (
+        <div className="w-full flex justify-end">
+          <Button
+            disabled={
+              priceLoading ||
+              registerLoading ||
+              !!hash ||
+              isSuccessful ||
+              isLessBalance
+            }
+            onClick={currentAccount ? handleRegister : connectWallet}
+            className="mt-6 uppercase"
+          >
+            {currentAccount ? 'register' : 'connect to register'}
+          </Button>
+        </div>
+      )}
+
+      {isDomainAvailable && (
         <>
-          <div className="mt-8 w-full flex justify-end"></div>
+          <div className="mt-6 w-full flex justify-end"></div>
           <div className="result__container p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
             {processInformation.map((information) => (
               <div className="flex items-start justify-start space-x-4">

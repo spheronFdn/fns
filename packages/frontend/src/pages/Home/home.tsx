@@ -8,7 +8,7 @@ const Home = () => {
       <h1 className="scroll-m-20 text-4xl text-white font-extrabold tracking-tight lg:text-5xl">
         <span className="hero__text">Find your personal .fil domain</span>
       </h1>
-      <SearchDomain />
+      <SearchDomain showBtn={true} />
       <WebIcon className="front__globe__icon" />
     </div>
   )

@@ -1,6 +1,8 @@
 .App {
   text-align: center;
   position: relative;
+  height: 100%;
+  min-height: 100vh;
 }
 
 .powered__by__spheron {
@@ -33,9 +35,10 @@
 }
 
 .front__globe__icon {
-  position: static;
+  position: absolute;
   bottom: 0px;
-  height: 325px;
+  height: 350px;
+  z-index: -10;
 }
 
 .result__text {
@@ -68,12 +71,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background-image: linear-gradient(
-    90.02deg,
-    #0057ff 17.04%,
-    #8247ff 81.96%,
-    #01abff 81.96%
-  );
+  background-image: linear-gradient(90.02deg, #0057ff 17.04%, #8247ff 81.96%);
 }
 
 .info__circle__inner {
@@ -83,7 +81,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   background: #141416;
   color: #0057ff;
   font-size: large;
@@ -92,12 +90,7 @@
 
 .top__ribbon {
   height: 40px;
-  background: linear-gradient(
-    90.02deg,
-    #0057ff 17.04%,
-    #8247ff 81.96%,
-    #01abff 81.96%
-  );
+  background: linear-gradient(90.02deg, #0057ff 17.04%, #8247ff 81.96%);
   display: flex;
   align-items: center;
   justify-content: center;

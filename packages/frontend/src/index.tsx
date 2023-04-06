@@ -4,13 +4,16 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import Web3Provider from './context/web3-context'
+import ModalProvider from './context/modal-context'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Web3Provider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <ModalProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ModalProvider>
   </Web3Provider>,
 )
 
