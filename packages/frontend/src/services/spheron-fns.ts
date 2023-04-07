@@ -1,17 +1,11 @@
 import { FNS } from '@spheron/fnslib'
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
+import { BlockchainIdentifier } from '@spheron/fnslib/utils/blockchainIdentifiers'
 
 const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
 
-enum BlockchainIdentifier {
-  BITCOIN = 0,
-  LITECOIN = 2,
-  DOGECOIN = 3,
-  FILCOIN = 4610,
-  FILCOINEVM = 461,
-}
 export const isAvailable = async (name: string) => {
   try {
     const FNSInstance = new FNS()
