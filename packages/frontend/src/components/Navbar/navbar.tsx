@@ -12,6 +12,7 @@ import {
 import { Web3Context } from '../../context/web3-context'
 import { Button } from '../UI/button'
 import { truncateAddress } from '../../lib/utils'
+import config from '../../config'
 
 interface IDropdownOption {
   id: number
@@ -51,7 +52,8 @@ const Navbar = () => {
             <>
               <div className="bg-gray-100 bg-opacity-5  text-white text-sm font-bold flex items-center justify-start rounded-xl">
                 <div className="rounded-xl pl-2.5 lg:pl-3 text-xs lg:text-base">
-                  {Number(userBalance).toFixed(2)} tFIL
+                  {Number(userBalance).toFixed(2)}{' '}
+                  {config.web3.NETWORK.nativeCurrency.symbol}
                 </div>
                 <div className="py-1.5 px-2 lg:py-2 lg:px-3 rounded-xl ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base">
                   {truncateAddress(currentAccount)}
