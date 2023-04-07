@@ -1,6 +1,7 @@
 import { FNS } from '@spheron/fnslib'
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
+import { BlockchainIdentifier } from '@spheron/fnslib/utils/blockchainIdentifiers'
 
 const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
@@ -33,7 +34,10 @@ export const setAddr = async (domainName: string, value: string) => {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
-    const res = await FNSInstance.setAddr(domainName, String(value))
+    const res = await FNSInstance.setAddr(domainName, {
+      address: String(value),
+      coinType: BlockchainIdentifier.FILCOINEVM
+    })
     await res.wait()
     localStorage.removeItem('domain-underpurchase')
     return { error: false, response: res }
@@ -89,7 +93,7 @@ export const getAddress = async (domainName: string) => {
   try {
     const FNSInstance = new FNS()
     await FNSInstance.setProvider(provider)
-    const address = await FNSInstance.getAddress(domainName)
+    const address = await FNSInstance.getAddress(domainName, BlockchainIdentifier.FILCOINEVM)
     return { error: false, response: address }
   } catch (error) {
     return { error: true, response: (error as Error).message }
