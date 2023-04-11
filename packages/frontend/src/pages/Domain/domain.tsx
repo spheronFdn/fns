@@ -21,6 +21,7 @@ import {
   registerDomain,
   setAddr,
 } from '../../services/spheron-fns'
+import SearchDomain from '../../components/UI/search-domain'
 
 const Domain = () => {
   const navigate = useNavigate()
@@ -51,8 +52,7 @@ const Domain = () => {
     setOwnerLoading(true)
     try {
       const res = await getAddress(domainName)
-      console.log('YEE ADDRESS --', res)
-      // setOwnerAddress(res.response || '')
+      setOwnerAddress(res.response || '')
     } catch (error) {
       console.log('Error in getAddressFromDomainName: ')
       console.log(error)
@@ -287,7 +287,8 @@ const Domain = () => {
 
   return (
     <div className="w-10/12 lg:w-8/12 mx-auto flex flex-col justify-end">
-      <div className="mt-8 mb-5 flex items-center justify-between">
+      <div className="mt-4 mb-5 flex flex-col items-start gap-8">
+        <SearchDomain showBtn={false} classname="lg:hidden" />
         <span className="result__text">Result for `{searchQuery}`</span>
       </div>
       <div className="result__container p-8">
@@ -296,7 +297,7 @@ const Domain = () => {
             <Link
               key={navItem.id}
               to={`/domain/${params.domainName}/${navItem.route}`}
-              className={`capitalize font-semibold text-lg px-4 ${
+              className={`capitalize font-semibold text-sm sm:text-base md:text-lg px-4 ${
                 navItem.isActive
                   ? 'text-primary-textBlue pb-2 border-b border-primary-textBlue'
                   : 'text-gray-inactive'
@@ -342,7 +343,7 @@ const Domain = () => {
               isLessBalance
             }
             onClick={currentAccount ? handleRegister : connectWallet}
-            className="mt-6 uppercase"
+            className="mt-6 uppercase md:text-base text-sm"
           >
             {currentAccount ? 'register' : 'connect to register'}
           </Button>
@@ -350,8 +351,7 @@ const Domain = () => {
       )}
 
       {isDomainAvailable && (
-        <>
-          <div className="mt-6 w-full flex justify-end"></div>
+        <div className="mt-6 w-full sm:flex hidden">
           <div className="result__container p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
             {processInformation.map((information) => (
               <div className="flex items-start justify-start space-x-4">
@@ -359,17 +359,17 @@ const Domain = () => {
                   <div className="info__circle__inner">{information.id}</div>
                 </div>
                 <div className="flex flex-col items-start justify-start">
-                  <h3 className="scroll-m-20 text-left lg:text-center text-lg lg:text-2xl font-semibold tracking-tight text-primary-text">
+                  <h3 className="scroll-m-20 text-left lg:text-center text-base lg:text-2xl font-semibold tracking-tight text-primary-text">
                     {information.title}
                   </h3>
-                  <p className="text-xs lg:text-sm font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
+                  <p className="text-sm lg:text-base font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
                     {information.description}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   )

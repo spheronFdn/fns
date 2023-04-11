@@ -12,21 +12,21 @@ import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
 import { ReactComponent as CancelIcon } from '../../assets/icons/cancel-icon.svg'
 import { copyToClipboard } from '../../lib/utils'
-import { ModalContext } from '../../context/modal-context'
+import CopyPopup from '../../components/Popup/copy-popup'
 
 const DomainDetail = () => {
   const params = useParams()
   const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
-  const ModalCntx = useContext<any>(ModalContext)
-  const { setModalOpen, setModalType, setModalOption } = ModalCntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isControllerEditMode, setIsControllerEditMode] =
     useState<boolean>(false)
+  const [showCopyPopup, setShowCopyPopup] = useState<boolean>(false)
+  const [copyPopupText, setCopyPopupText] = useState<string>('Click to Copy')
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -124,15 +124,17 @@ const DomainDetail = () => {
         <>
           <div className="lg:overflow-hidden overflow-x-scroll py-6">
             <div className="w-full flex items-start flex-col space-y-7">
-              <div className="w-full flex items-center justify-between">
-                <span className="text-base text-gray-unaryBorder">Text:</span>
-                <div className="font-semibold text-primary-text ml-4">
+              <div className="w-full flex items-center justify-between gap-4">
+                <span className="md:text-base text-sm text-gray-unaryBorder">
+                  Registrant:
+                </span>
+                <div className="font-semibold md:text-base text-sm text-primary-text">
                   {process.env.REACT_APP_CONTROLLER_ADDRESS}
                 </div>
               </div>
               {!isDomainAvailable && (
-                <div className="w-full flex items-center justify-between">
-                  <span className="text-base text-gray-unaryBorder">
+                <div className="w-full flex items-center justify-between gap-4">
+                  <span className="md:text-base text-sm text-gray-unaryBorder">
                     Controller:
                   </span>
                   <div>
@@ -142,9 +144,12 @@ const DomainDetail = () => {
                       <div className="flex justify-end gap-3">
                         {isControllerEditMode ? (
                           <div className="w-full flex items-center gap-3">
-                            <div className="w-full flex-row flex items-center gap-8 bg-[#141416] rounded-full border-2 border-[#434345] p-2">
+                            <div
+                              className="w-full flex-row flex items-center gap-3 md:gap-6 
+                            bg-[#141416] rounded-full border-2 border-[#434345] pl-2 pr-1 py-1"
+                            >
                               <Input
-                                className="bg-transparent ml-2 w-full"
+                                className="bg-transparent md:text-base text-sm ml-2 w-full"
                                 value={ownerAddress}
                                 onChange={(e) => {
                                   setContentHashQuery(e.target.value)
@@ -152,7 +157,7 @@ const DomainDetail = () => {
                               />
                               <Button
                                 onClick={handleSetContentHash}
-                                className="py-1"
+                                className="py-1 h-9 md:text-sm text-xs"
                                 disabled={
                                   (isControllerEditMode &&
                                     contentHash === contentHashQuery) ||
@@ -173,17 +178,33 @@ const DomainDetail = () => {
                           </div>
                         ) : (
                           <>
-                            <div className="font-semibold text-primary-text ml-4">
+                            <div className="font-semibold md:text-base text-sm text-primary-text">
                               {ownerAddress}
                             </div>
-                            <CopyIcon
-                              className="cursor-pointer"
-                              onClick={() => copyToClipboard(contentHash)}
-                            />
-                            {true && (
+                            <div className="static">
+                              {showCopyPopup && (
+                                <CopyPopup
+                                  text={copyPopupText}
+                                  classname="-mt-11 -ml-9"
+                                />
+                              )}
+                              <CopyIcon
+                                className="copy__button"
+                                onClick={() => {
+                                  copyToClipboard(contentHash)
+                                  setCopyPopupText('Copied!')
+                                }}
+                                onMouseOver={() => setShowCopyPopup(true)}
+                                onMouseOut={() => {
+                                  setShowCopyPopup(false)
+                                  setCopyPopupText('Click to Copy')
+                                }}
+                              />
+                            </div>
+                            {ownerAddress === currentAccount && (
                               <div className="flex justify-start">
                                 <EditIcon
-                                  className="cursor-pointer"
+                                  className="copy__button"
                                   onClick={() =>
                                     setIsControllerEditMode(
                                       !isControllerEditMode,
@@ -204,8 +225,8 @@ const DomainDetail = () => {
           {!isDomainAvailable && (
             <div className="lg:overflow-hidden overflow-x-scroll pt-6 border-t border-gray-border w-full flex items-start flex-col space-y-7">
               <div className="w-full flex items-center justify-between">
-                <div className="w-full flex items-center justify-between">
-                  <span className="text-base text-gray-unaryBorder text-left lg:text-right">
+                <div className="w-full flex items-center justify-between gap-4">
+                  <span className="md:text-base text-sm text-gray-unaryBorder text-left lg:text-right">
                     Content Hash:
                   </span>
                   <div>
@@ -213,37 +234,48 @@ const DomainDetail = () => {
                       <InfoLoader />
                     ) : (
                       <>
-                        {!contentHash && !isEditMode ? (
+                        {contentHash && !isEditMode ? (
                           <div className="flex flex-row gap-3">
                             <a
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-blue-500 lg:ml-0 ml-4 lg:mr-2"
+                              className="text-blue-500 md:text-base text-sm lg:ml-0 lg:mr-2"
                             >
                               {contentHash}
                             </a>
-                            <CopyIcon
-                              className="cursor-pointer"
-                              onClick={() => copyToClipboard(contentHash)}
-                            />
-                            {true && (
-                              <div className="flex justify-start lg:ml-0 ml-4 lg:block">
-                                <EditIcon
-                                  className="cursor-pointer"
-                                  onClick={() => setIsEditMode(!isEditMode)}
+                            <div className="static">
+                              {showCopyPopup && (
+                                <CopyPopup
+                                  text={copyPopupText}
+                                  classname="-mt-11 -ml-9"
                                 />
-                              </div>
-                            )}
+                              )}
+                              <CopyIcon
+                                className="copy__button"
+                                onClick={() => {
+                                  copyToClipboard(contentHash)
+                                  setCopyPopupText('Copied!')
+                                }}
+                                onMouseOver={() => setShowCopyPopup(true)}
+                                onMouseOut={() => {
+                                  setShowCopyPopup(false)
+                                  setCopyPopupText('Click to Copy')
+                                }}
+                              />
+                            </div>
                           </div>
                         ) : (
                           <>
                             {(ownerAddress === currentAccount ||
                               isEditMode) && (
                               <div className="w-full flex items-center gap-3">
-                                <div className="w-full flex-row flex items-center gap-8 bg-[#141416] rounded-full border-2 border-[#434345] p-2">
+                                <div
+                                  className="w-full flex-row flex items-center gap-3 md:gap-6 
+                                bg-[#141416] rounded-full border-2 border-[#434345] pl-2 pr-1 py-1"
+                                >
                                   <Input
-                                    className="bg-transparent ml-2 w-full"
+                                    className="bg-transparent ml-2 md:text-base text-sm w-full"
                                     value={contentHashQuery}
                                     onChange={(e) => {
                                       setContentHashQuery(e.target.value)
@@ -251,7 +283,7 @@ const DomainDetail = () => {
                                   />
                                   <Button
                                     onClick={handleSetContentHash}
-                                    className="py-1"
+                                    className="py-1 h-9 md:text-sm text-xs"
                                     disabled={
                                       (isEditMode &&
                                         contentHash === contentHashQuery) ||
@@ -260,7 +292,7 @@ const DomainDetail = () => {
                                       isSuccesful
                                     }
                                   >
-                                    {isEditMode ? 'Update' : 'Add'}
+                                    {!!contentHash ? 'Update' : 'Set'}
                                   </Button>
                                 </div>
                                 <CancelIcon
@@ -271,14 +303,22 @@ const DomainDetail = () => {
                             )}
                           </>
                         )}
+                        {ownerAddress === currentAccount && !isEditMode && (
+                          <div className="flex justify-start lg:ml-0 lg:block">
+                            <EditIcon
+                              className="copy__button"
+                              onClick={() => setIsEditMode(!isEditMode)}
+                            />
+                          </div>
+                        )}
                       </>
                     )}
                   </div>
                 </div>
               </div>
 
-              <div className="w-full flex items-center justify-between">
-                <span className="text-base text-gray-unaryBorder">
+              <div className="w-full flex items-center gap-4 justify-between">
+                <span className="md:text-base text-sm text-gray-unaryBorder">
                   Expiration:
                 </span>
                 <div>
@@ -286,10 +326,11 @@ const DomainDetail = () => {
                     <InfoLoader />
                   ) : (
                     <div className="flex flex-row items-center gap-3">
-                      <div className="lg:ml-0 ml-4 lg:text-base text-sm font-semibold text-primary-text">
+                      <div className="md:text-base text-sm text-right font-semibold text-primary-text">
                         {expirationDate}
                       </div>
-                      <Button
+                      {/* TODO - EXTEND TO BE RELEASED NEXT */}
+                      {/* <Button
                         onClick={() => {
                           setModalOpen(true)
                           setModalType('extendDomain')
@@ -302,7 +343,7 @@ const DomainDetail = () => {
                         className="py-1"
                       >
                         Extend
-                      </Button>
+                      </Button> */}
                     </div>
                   )}
                 </div>

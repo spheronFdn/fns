@@ -7,9 +7,10 @@ import { Button } from './button'
 
 interface IProps {
   showBtn: boolean
+  classname: string
 }
 
-function SearchDomain({ showBtn }: IProps) {
+function SearchDomain({ showBtn, classname }: IProps) {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
 
@@ -26,12 +27,14 @@ function SearchDomain({ showBtn }: IProps) {
   }
   return (
     <div
-      className={`w-11/12 md:w-6/12 lg:w-4/12 flex items-center
-        rounded-full border border-gray-border p-1.5
+      className={`${
+        !!classname && classname
+      } w-11/12 md:w-8/12 lg:w-4/12 flex items-center
+        rounded-full border border-gray-border p-3 md:p-1.5
         ${showBtn ? 'flex-row' : 'flex-row-reverse'}`}
     >
       <SearchLogo
-        className={`mx-3 hidden sm:block ${showBtn ? '' : 'cursor-pointer'}`}
+        className={`mx-3 ${showBtn ? 'hidden sm:block' : 'cursor-pointer'}`}
         onClick={() => {
           if (!showBtn) handleSearch()
         }}
@@ -39,13 +42,14 @@ function SearchDomain({ showBtn }: IProps) {
       <Input
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-11/12 ml-3 md:h-10 lg:h-12 border-0 bg-transparent"
+        className="w-11/12 ml-3 md:h-10 lg:h-12 border-0 bg-transparent
+        sm:text-base text-sm"
         placeholder="Search for address or domain name"
       />
       {showBtn && (
         <Button
           onClick={handleSearch}
-          className="md:h-10 lg:h-12 md:w-20 lg:w-28 uppercase"
+          className="md:h-10 lg:h-12 md:w-20 lg:w-28 text-xs md:text-sm uppercase"
         >
           Search
         </Button>

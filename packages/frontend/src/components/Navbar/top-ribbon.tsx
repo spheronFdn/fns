@@ -1,10 +1,12 @@
 import React from 'react'
-import '../../App.css'
+import '../../App.scss'
 
 function TopRibbon() {
   return (
-    <div className="top__ribbon">
-      <span className="bg-black text-white py-1 px-2.5 rounded-full">New</span>{' '}
+    <div className="top__ribbon text-xs md:text-base">
+      <span className="bg-black text-white text-xs md:text-base py-1 px-2.5 rounded-full">
+        New
+      </span>{' '}
       Spheron FNS provide safe and secure domains
     </div>
   )

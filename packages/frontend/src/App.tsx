@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import './App.css'
+import './App.scss'
 import { Toaster } from './components/UI/toaster'
 import { Web3Context } from './context/web3-context'
 import Router from './Routes'
-import { ReactComponent as PoweredBySpheron } from '../src/assets/icons/powered-by-spheron.svg'
 import TopRibbon from './components/Navbar/top-ribbon'
+import PoweredBySpheron from './components/UI/powered-by-spheron'
 
 function App() {
   const Web3Cntx = useContext<any>(Web3Context)
@@ -20,9 +20,7 @@ function App() {
       <TopRibbon />
       <Router />
       <Toaster />
-      <div className="powered__by__spheron">
-        Powered by: <PoweredBySpheron />
-      </div>
+      <PoweredBySpheron />
     </div>
   )
 }

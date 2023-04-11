@@ -9,6 +9,8 @@ import Loader from '../../components/Loader/loader'
 import InfoLoader from '../../components/Loader/info-loader'
 import RegisterModal from '../../components/Modal/register-modal'
 import { ModalContext } from '../../context/modal-context'
+import { ReactComponent as PlusIcon } from '../../assets/icons/plus-icon.svg'
+import { ReactComponent as MinusIcon } from '../../assets/icons/minus-icon.svg'
 
 const DomainRegister = () => {
   const params = useParams()
@@ -81,36 +83,36 @@ const DomainRegister = () => {
               <div className="py-6 lg:py-10 border-b border-gray-border">
                 <div className="w-full flex items-start flex-col space-y-8">
                   <div className="w-full flex items-center justify-between">
-                    <span className="text-base text-gray-text">Period:</span>
+                    <span className="md:text-base text-sm text-gray-text  text-left">
+                      Period:
+                    </span>
                     <div className="flex items-center space-x-3">
-                      <Button
+                      <MinusIcon
                         onClick={() => setYear(year > 1 ? year - 1 : year)}
-                        variant="outline"
-                        className="h-5 w-5 p-0 flex items-center"
-                      >
-                        -
-                      </Button>
-                      <div className="text-primary-text text-center min-w-[70px]">
+                        className="unary__button"
+                      />
+                      <div className="text-primary-text text-center md:text-base text-sm min-w-[70px]">
                         {year} year
                       </div>
-                      <Button
+                      <PlusIcon
                         onClick={() => setYear(year + 1)}
-                        variant="outline"
-                        className="h-5 w-5 p-0 flex-shrink-0 flex items-center justify-center text-base"
-                      >
-                        +
-                      </Button>
+                        className="unary__button text-red-700 hover:text-red-700 ease-in-out"
+                      />
                     </div>
                   </div>
                   <div className="w-full flex items-center justify-between">
-                    <span className="text-base text-gray-text">Price:</span>
-                    <div className="ml-12 font-semibold text-primary-text text-right ">
+                    <span className="md:text-base text-sm text-gray-text  text-left">
+                      Price:
+                    </span>
+                    <div className="ml-12 font-semibold md:text-base text-sm text-primary-text text-right">
                       {priceLoading ? <InfoLoader /> : `${price} TFIL`}
                     </div>
                   </div>
                   <div className="w-full flex items-center justify-between">
-                    <span className="text-base text-gray-text">Gas fee:</span>
-                    <div className="ml-16 font-semibold text-primary-text text-right  ">
+                    <span className="md:text-base text-sm text-gray-text text-left">
+                      Gas fee:
+                    </span>
+                    <div className="ml-16 font-semibold md:text-base text-sm text-primary-text text-right  ">
                       {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
                     </div>
                   </div>
@@ -119,8 +121,10 @@ const DomainRegister = () => {
               <div className="mt-6 lg:mt-10 w-full flex items-start flex-col space-y-8">
                 <div className="w-full flex items-center justify-between">
                   <div className="w-full flex items-center justify-between">
-                    <span className="text-base text-gray-text">Total:</span>
-                    <div className="font-semibold text-primary-text text-xl">
+                    <span className="md:text-base text-sm text-gray-text  text-left">
+                      Total:
+                    </span>
+                    <div className="font-semibold md:text-xl text-base text-primary-text">
                       {priceLoading ? (
                         <InfoLoader />
                       ) : (
@@ -131,11 +135,11 @@ const DomainRegister = () => {
                 </div>
                 {currentAccount && (
                   <div className="w-full flex items-center justify-between">
-                    <span className="text-base text-gray-text">
+                    <span className="md:text-base text-sm text-gray-text text-left">
                       Your Balance:
                     </span>
                     <div
-                      className={`font-semibold ${
+                      className={`font-semibold md:text-base text-sm ${
                         isLessBalance ? 'text-red-600' : 'text-primary-text'
                       }`}
                     >
@@ -150,7 +154,7 @@ const DomainRegister = () => {
               </div>
             </>
           ) : (
-            <div className="mt-20 mb-12 text-primary-text text-xl font-semibold ">
+            <div className="mt-20 mb-12 text-primary-text md:text-xl text-base font-semibold ">
               Domain is already registered
             </div>
           )}

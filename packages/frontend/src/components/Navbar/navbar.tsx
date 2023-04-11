@@ -28,7 +28,6 @@ interface IDropdownOption {
 const Navbar = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  console.log('yee location -', location.pathname)
   const Web3Cntx = useContext<any>(Web3Context)
   const {
     currentAccount,
@@ -50,7 +49,7 @@ const Navbar = () => {
       id: 1,
       label: accountAddrEllipsis,
       onClick: () => copyToClipboard(currentAccount),
-      icon: <CopyIcon className="h-6 w-6 cursor-pointer" />,
+      icon: <CopyIcon className="h-6 w-6 copy__button" />,
     },
     {
       id: 2,
@@ -63,7 +62,10 @@ const Navbar = () => {
       label: '',
       onClick: () => null,
       icon: (
-        <Button onClick={disconnectWallet} className="py-1 uppercase w-full">
+        <Button
+          onClick={disconnectWallet}
+          className="py-0.5 md:py-1 uppercase w-full md:text-sm text-xs"
+        >
           Disconnect
         </Button>
       ),
@@ -83,18 +85,20 @@ const Navbar = () => {
           className="flex items-center justify-start cursor-pointer"
           onClick={handleRedirect}
         >
-          <SpheronLogo className="h-10 w-24" />
+          <SpheronLogo className="md:h-10 md:w-24 w-16" />
         </div>
-        {location.pathname !== '/' && <SearchDomain showBtn={false} />}
+        {location.pathname !== '/' && (
+          <SearchDomain showBtn={false} classname="lg:flex hidden" />
+        )}
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
               <div
                 className="bg-gray-100 bg-opacity-5 rounded-full
-              text-white text-sm font-bold 
+              text-white text-xs md:text-sm font-bold 
               flex items-center justify-start"
               >
-                <div className="pl-3 text-base">
+                <div className="pl-3 text-sm md:text-base">
                   {Number(userBalance).toFixed(2)} tFIL
                 </div>
                 <div className="px-3 py-2.5 rounded-full ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base">
@@ -119,12 +123,12 @@ const Navbar = () => {
                     }
                   />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="right-50 w-52 border-white border-opacity-10">
+                <DropdownMenuContent className="w-max md:w-52 border-white border-opacity-10">
                   {dropdownOptions.map((option) => (
                     <DropdownMenuItem
                       key={option.id}
                       onClick={option.onClick}
-                      className={`flex flex-row justify-between P-4 text-white ${
+                      className={`flex flex-row justify-between p-3 md:p-4 text-white md:text-sm text-xs ${
                         option.id === 2 ? 'cursor-pointer' : ''
                       } ${
                         option.id !== 3
@@ -143,10 +147,11 @@ const Navbar = () => {
           ) : (
             <Button
               variant="navbar"
-              className="gap-x-2 rounded-full text-white uppercase text-sm p-5"
+              className="gap-x-2 rounded-full text-white uppercase text-xs md:text-sm p-3 md:p-5
+              flex flex-row items-center"
               onClick={connectWallet}
             >
-              <MetamaskIcon className="h-7 w-7" />
+              <MetamaskIcon className="md:h-7 md:w-7 h-5 w-5" />
               Connect Wallet
             </Button>
           )}

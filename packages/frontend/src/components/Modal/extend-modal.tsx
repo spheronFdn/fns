@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import '../../../src/App.css'
+import '../../../src/App.scss'
 import { ModalContext } from '../../context/modal-context'
 import InfoLoader from '../Loader/info-loader'
 import { Button } from '../UI/button'
@@ -11,6 +11,8 @@ interface IProps {
     gasFee: string
   }
 }
+
+// TODO - TO BE RELEASED NEXT
 
 function ExtendModal({ option }: IProps) {
   const ModalCntx = useContext<any>(ModalContext)
