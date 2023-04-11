@@ -11,6 +11,7 @@ import RegisterModal from '../../components/Modal/register-modal'
 import { ModalContext } from '../../context/modal-context'
 import { ReactComponent as PlusIcon } from '../../assets/icons/plus-icon.svg'
 import { ReactComponent as MinusIcon } from '../../assets/icons/minus-icon.svg'
+import config from '../../config'
 
 const DomainRegister = () => {
   const params = useParams()
@@ -105,7 +106,11 @@ const DomainRegister = () => {
                       Price:
                     </span>
                     <div className="ml-12 font-semibold md:text-base text-sm text-primary-text text-right">
-                      {priceLoading ? <InfoLoader /> : `${price} TFIL`}
+                      {priceLoading ? (
+                        <InfoLoader />
+                      ) : (
+                        `${price} ${config.web3.NETWORK.nativeCurrency.symbol}`
+                      )}
                     </div>
                   </div>
                   <div className="w-full flex items-center justify-between">
@@ -113,7 +118,11 @@ const DomainRegister = () => {
                       Gas fee:
                     </span>
                     <div className="ml-16 font-semibold md:text-base text-sm text-primary-text text-right  ">
-                      {priceLoading ? <InfoLoader /> : `${gasFee} TFIL`}
+                      {priceLoading ? (
+                        <InfoLoader />
+                      ) : (
+                        `${gasFee} ${config.web3.NETWORK.nativeCurrency.symbol}`
+                      )}
                     </div>
                   </div>
                 </div>
@@ -128,7 +137,9 @@ const DomainRegister = () => {
                       {priceLoading ? (
                         <InfoLoader />
                       ) : (
-                        `${totalPrice.toFixed(4)} TFIL`
+                        `${totalPrice.toFixed(4)} ${
+                          config.web3.NETWORK.nativeCurrency.symbol
+                        }`
                       )}
                     </div>
                   </div>
@@ -146,7 +157,9 @@ const DomainRegister = () => {
                       {userBalanceLoading ? (
                         <InfoLoader />
                       ) : (
-                        `${Number(userBalance).toFixed(4)} TFIL`
+                        `${Number(userBalance).toFixed(4)} ${
+                          config.web3.NETWORK.nativeCurrency.symbol
+                        }`
                       )}
                     </div>
                   </div>

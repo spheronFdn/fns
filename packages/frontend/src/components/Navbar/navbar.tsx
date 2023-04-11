@@ -17,6 +17,7 @@ import { Button } from '../UI/button'
 import { copyToClipboard, truncateAddress } from '../../lib/utils'
 import SearchDomain from '../UI/search-domain'
 import { useLocation, useNavigate } from 'react-router-dom'
+import config from '../../config'
 
 interface IDropdownOption {
   id: number
@@ -99,7 +100,8 @@ const Navbar = () => {
               flex items-center justify-start"
               >
                 <div className="pl-3 text-sm md:text-base">
-                  {Number(userBalance).toFixed(2)} tFIL
+                  {Number(userBalance).toFixed(2)}{' '}
+                  {config.web3.NETWORK.nativeCurrency.symbol}
                 </div>
                 <div className="px-3 py-2.5 rounded-full ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base">
                   {currentAccountName

@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react'
+import config from '../config'
 import { getUserBalance } from '../lib/utils'
 import { getNameFromAddress } from '../services/spheron-fns'
 
@@ -41,21 +42,22 @@ const Web3ContextProvider: any = ({ children }: any) => {
     }
     try {
       if (
-        (window as any).ethereum.chainId !== `0x${Number(3141).toString(16)}`
+        (window as any).ethereum.chainId !==
+        `0x${Number(config.web3.CHAIN_ID).toString(16)}`
       ) {
         await (window as any).ethereum.request({
           method: 'wallet_addEthereumChain',
           params: [
             {
-              chainId: `0x${Number(3141).toString(16)}`,
+              chainId: `0x${Number(config.web3.CHAIN_ID).toString(16)}`,
               rpcUrls: [process.env.REACT_APP_RPC_URL],
-              chainName: 'Filecoin hyperspace',
+              chainName: config.web3.NETWORK.chainName,
               nativeCurrency: {
-                name: 'tFIL',
-                symbol: 'tFIL',
-                decimals: 18,
+                name: config.web3.NETWORK.nativeCurrency.name,
+                symbol: config.web3.NETWORK.nativeCurrency.symbol,
+                decimals: config.web3.NETWORK.nativeCurrency.decimals,
               },
-              blockExplorerUrls: ['https://hyperspace.filfox.info'],
+              blockExplorerUrls: config.web3.NETWORK.blockExplorerUrls,
             },
           ],
         })

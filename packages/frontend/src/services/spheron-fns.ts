@@ -36,7 +36,7 @@ export const setAddr = async (domainName: string, value: string) => {
     await FNSInstance.setProvider(provider)
     const res = await FNSInstance.setAddr(domainName, {
       address: String(value),
-      coinType: BlockchainIdentifier.FILCOINEVM,
+      coinType: BlockchainIdentifier.FILCOINEVM
     })
     await res.wait()
     localStorage.removeItem('domain-underpurchase')
