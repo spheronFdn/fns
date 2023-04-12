@@ -28,6 +28,12 @@ function ExtendModal({ option }: IProps) {
     }
   }
 
+  const handleModalCancel = () => {
+    setModalOpen(false)
+    setModalType('')
+    setModalOption(null)
+  }
+
   return (
     <div
       className="register__modal modal"
@@ -89,11 +95,7 @@ function ExtendModal({ option }: IProps) {
         </div>
         <div className="flex flex-row flex-wrap gap-3 justify-end">
           <Button
-            onClick={() => {
-              setModalOpen(false)
-              setModalType('')
-              setModalOption(null)
-            }}
+            onClick={handleModalCancel}
             className="py-1 uppercase bg-white bg-opacity-10"
             variant="cancel"
           >
