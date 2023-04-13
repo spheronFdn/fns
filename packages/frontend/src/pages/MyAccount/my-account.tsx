@@ -25,7 +25,7 @@ const MyAccount = () => {
       if (!res.error) {
         setOwnerDetails(
           res.response.map((owner: string) => ({
-            name: owner,
+            name: owner + '.fil',
             expiry: '',
           })),
         )
@@ -105,11 +105,12 @@ const MyAccount = () => {
               <div
                 className="border-t-[0.5px] border-[#333336]
                 flex flex-col md:flex-row gap-5 justify-between py-5 md:py-8"
+                key={owner.name}
               >
                 <div className="flex flex-row items-center gap-3 justify-between">
                   <div className="flex flex-row items-center gap-3">
                     <GlobeLogo />
-                    <h3 className="text-primary-textBlue md:text-lg text-base">
+                    <h3 className="text-white md:text-lg text-base">
                       {owner.name}
                     </h3>
                   </div>

@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { setContentHash } from '../../services/spheron-fns'
+import { getAddress, setAddr, setContentHash } from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
@@ -20,6 +20,9 @@ const DomainDetail = () => {
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
+  const [controller, setController] = useState<string>('')
+  const [updateControllerLoading, setuUdateControllerLoading] =
+    useState<boolean>(false)
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
@@ -55,6 +58,51 @@ const DomainDetail = () => {
 
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
+  async function getAddressFromDomainName() {
+    try {
+      const res = await getAddress(params.domainName || '')
+      setController(res.response || '')
+    } catch (error) {
+      console.log('Error in getAddressFromDomainName: ')
+      console.log(error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+  }
+
+  const handleSetController = async () => {
+    setuUdateControllerLoading(true)
+    try {
+      const addrRes = await setAddr(searchQuery, controller)
+      if (!addrRes.error) {
+        toast({
+          title: 'Successful',
+          description:
+            'Congratulations, you have successfully updated the controller',
+        })
+        setIsControllerEditMode(false)
+        getAddressFromDomainName()
+      } else {
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: addrRes.response as string,
+        })
+      }
+      setuUdateControllerLoading(false)
+    } catch (error) {
+      setuUdateControllerLoading(false)
+      setIsSuccesful(false)
+      console.log('Error in setting controller -> ', error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+  }
+
   const handleSetContentHash = async () => {
     setSettingContentHash(true)
     try {
@@ -89,6 +137,7 @@ const DomainDetail = () => {
         toast({
           title: 'Error',
           variant: 'destructive',
+          description: res.response as string,
         })
         setSettingContentHash(false)
       }
@@ -114,6 +163,18 @@ const DomainDetail = () => {
     setIsEditMode(false)
   }, [currentAccount])
 
+  useEffect(() => {
+    setController(ownerAddress)
+  }, [ownerAddress])
+
+  useEffect(() => {
+    if (copyPopupText === 'Copied!') {
+      setTimeout(() => {
+        setCopyPopupText('Click to Copy')
+      }, 500)
+    }
+  }, [copyPopupText])
+
   return (
     <>
       {loading ? (
@@ -134,14 +195,14 @@ const DomainDetail = () => {
               </div>
               {!isDomainAvailable && (
                 <div className="w-full flex items-center justify-between gap-4">
-                  <span className="md:text-base text-sm text-gray-unaryBorder">
+                  <span className="md:text-base text-sm text-gray-unaryBorder lg:w-1/3 text-left">
                     Controller:
                   </span>
-                  <div>
-                    {ownerLoading ? (
+                  <div className="lg:w-2/3 flex justify-end">
+                    {ownerLoading || updateControllerLoading ? (
                       <InfoLoader />
                     ) : (
-                      <div className="flex justify-end gap-3">
+                      <div className="flex justify-end gap-3 lg:w-2/3">
                         {isControllerEditMode ? (
                           <div className="w-full flex items-center gap-3">
                             <div
@@ -150,27 +211,25 @@ const DomainDetail = () => {
                             >
                               <Input
                                 className="bg-transparent md:text-base text-sm ml-2 w-full"
-                                value={ownerAddress}
+                                value={controller}
                                 onChange={(e) => {
-                                  setContentHashQuery(e.target.value)
+                                  setController(e.target.value)
                                 }}
                               />
                               <Button
-                                onClick={handleSetContentHash}
+                                onClick={handleSetController}
                                 className="py-1 h-9 md:text-sm text-xs"
                                 disabled={
-                                  (isControllerEditMode &&
-                                    contentHash === contentHashQuery) ||
-                                  settingContentHash ||
-                                  !contentHashQuery ||
-                                  isSuccesful
+                                  ownerAddress === controller ||
+                                  updateControllerLoading ||
+                                  !controller
                                 }
                               >
-                                {isControllerEditMode ? 'Update' : 'Add'}
+                                {!!ownerAddress ? 'Update' : 'Add'}
                               </Button>
                             </div>
                             <CancelIcon
-                              className="cursor-pointer"
+                              className="cursor-pointer copy__button"
                               onClick={() =>
                                 setIsControllerEditMode(!isControllerEditMode)
                               }
@@ -181,27 +240,28 @@ const DomainDetail = () => {
                             <div className="font-semibold md:text-base text-sm text-primary-text">
                               {ownerAddress}
                             </div>
-                            <div className="static">
-                              {showCopyPopup && (
-                                <CopyPopup
-                                  text={copyPopupText}
-                                  classname="-mt-11 -ml-9"
+                            {ownerAddress && (
+                              <div className="static">
+                                {showCopyPopup && (
+                                  <CopyPopup
+                                    text={copyPopupText}
+                                    classname="-mt-11 -ml-9"
+                                  />
+                                )}
+                                <CopyIcon
+                                  className="copy__button"
+                                  onClick={() => {
+                                    copyToClipboard(contentHash)
+                                    setCopyPopupText('Copied!')
+                                  }}
+                                  onMouseOver={() => setShowCopyPopup(true)}
+                                  onMouseOut={() => {
+                                    setShowCopyPopup(false)
+                                  }}
                                 />
-                              )}
-                              <CopyIcon
-                                className="copy__button"
-                                onClick={() => {
-                                  copyToClipboard(contentHash)
-                                  setCopyPopupText('Copied!')
-                                }}
-                                onMouseOver={() => setShowCopyPopup(true)}
-                                onMouseOut={() => {
-                                  setShowCopyPopup(false)
-                                  setCopyPopupText('Click to Copy')
-                                }}
-                              />
-                            </div>
-                            {ownerAddress === currentAccount && (
+                              </div>
+                            )}
+                            {currentAccount === ownerAddress && (
                               <div className="flex justify-start">
                                 <EditIcon
                                   className="copy__button"
@@ -226,10 +286,10 @@ const DomainDetail = () => {
             <div className="lg:overflow-hidden overflow-x-scroll pt-6 border-t border-gray-border w-full flex items-start flex-col space-y-7">
               <div className="w-full flex items-center justify-between">
                 <div className="w-full flex items-center justify-between gap-4">
-                  <span className="md:text-base text-sm text-gray-unaryBorder text-left lg:text-right">
+                  <span className="md:text-base text-sm text-gray-unaryBorder text-left lg:w-1/3">
                     Content Hash:
                   </span>
-                  <div>
+                  <div className="lg:w-2/3 flex justify-end">
                     {settingContentHash || contentHashLoading ? (
                       <InfoLoader />
                     ) : (
@@ -260,16 +320,14 @@ const DomainDetail = () => {
                                 onMouseOver={() => setShowCopyPopup(true)}
                                 onMouseOut={() => {
                                   setShowCopyPopup(false)
-                                  setCopyPopupText('Click to Copy')
                                 }}
                               />
                             </div>
                           </div>
                         ) : (
                           <>
-                            {(ownerAddress === currentAccount ||
-                              isEditMode) && (
-                              <div className="w-full flex items-center gap-3">
+                            {ownerAddress === currentAccount && isEditMode && (
+                              <div className="lg:w-2/3 flex items-center gap-3">
                                 <div
                                   className="w-full flex-row flex items-center gap-3 md:gap-6 
                                 bg-[#141416] rounded-full border-2 border-[#434345] pl-2 pr-1 py-1"
@@ -296,7 +354,7 @@ const DomainDetail = () => {
                                   </Button>
                                 </div>
                                 <CancelIcon
-                                  className="cursor-pointer"
+                                  className="cursor-pointer copy__button"
                                   onClick={() => setIsEditMode(!isEditMode)}
                                 />
                               </div>

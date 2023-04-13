@@ -128,12 +128,14 @@ const Domain = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.domainName])
 
+  const getDomainDetails = () => {
+    getAddressFromDomainName(params.domainName || '')
+    getContentHashFromDomainName(params.domainName || '')
+    getExpiryFromDomainName(params.domainName || '')
+  }
+
   useEffect(() => {
-    if (!isDomainAvailable && params.domainName) {
-      getAddressFromDomainName(params.domainName || '')
-      getContentHashFromDomainName(params.domainName || '')
-      getExpiryFromDomainName(params.domainName || '')
-    }
+    if (!isDomainAvailable && params.domainName) getDomainDetails()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDomainAvailable, params.domainName])
 
@@ -218,7 +220,6 @@ const Domain = () => {
   const isLessBalance = userBalance ? totalPrice > Number(userBalance) : false
 
   const handleRegister = async () => {
-    setModalOpen(true)
     setModalType('registerDomain')
     setRegisterLoading(true)
     setStep(1)
@@ -246,6 +247,7 @@ const Domain = () => {
           setIsSuccessful(true)
           setRegisterLoading(false)
           navigate(`/domain/${params.domainName}/details`)
+          getDomainDetails()
           toast({
             title: 'Successful',
             description:
@@ -283,6 +285,14 @@ const Domain = () => {
       })
       setRegisterLoading(false)
     }
+  }
+
+  const handleRegisterClick = () => {
+    if (!!currentAccount) {
+      setModalOpen(true)
+      if (!registerLoading) handleRegister()
+    }
+    connectWallet()
   }
 
   return (
@@ -335,17 +345,15 @@ const Domain = () => {
       {isDomainAvailable && (
         <div className="w-full flex justify-end">
           <Button
-            disabled={
-              priceLoading ||
-              registerLoading ||
-              !!hash ||
-              isSuccessful ||
-              isLessBalance
-            }
-            onClick={currentAccount ? handleRegister : connectWallet}
+            disabled={priceLoading || !!hash || isSuccessful || isLessBalance}
+            onClick={handleRegisterClick}
             className="mt-6 uppercase md:text-sm text-xs"
           >
-            {currentAccount ? 'register' : 'connect to register'}
+            {currentAccount
+              ? registerLoading
+                ? 'registering'
+                : 'register'
+              : 'connect to register'}
           </Button>
         </div>
       )}

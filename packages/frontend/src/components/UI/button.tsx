@@ -7,7 +7,7 @@ const buttonVariants = cva('', {
   variants: {
     variant: {
       spheron:
-        'rounded-full button__bg hover:bg-primary-buttonHover transition-all ease-in-out text-white px-2',
+        'rounded-full button__bg hover:bg-primary-buttonHover cursor-pointer disabled:cursor-not-allowed disabled:hover:bg-[#0057ff] transition-all ease-in-out text-white px-2',
       default:
         'bg-slate-900 text-white hover:bg-slate-700 dark:bg-slate-50 dark:text-slate-900',
       destructive:
