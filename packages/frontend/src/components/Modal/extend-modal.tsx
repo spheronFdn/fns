@@ -20,7 +20,6 @@ function ExtendModal({ option }: IProps) {
   const [year, setYear] = useState<number>(1)
 
   const totalPrice = Number(option.gasFee) + Number(option.price)
-  // const isLessBalance = userBalance ? totalPrice > Number(userBalance) : false
 
   const handleClose = (e: any) => {
     if (e.target.classList.contains('modal')) {
