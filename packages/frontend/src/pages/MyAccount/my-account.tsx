@@ -84,11 +84,11 @@ const MyAccount = () => {
   }, [])
 
   return (
-    <div className="w-10/12 lg:w-8/12 mx-auto">
+    <div className="w-11/12 lg:w-8/12 mx-auto">
       <div className="text-white text-left font-bold text-sm md:text-xl lg:text-2xl mt-8 mb-5">
         My Account
       </div>
-      <div className="result__container font-medium text-gray-unaryBorder p-8 pb-0">
+      <div className="result__container font-medium text-gray-unaryBorder p-6 md:p-8 pb-0">
         <div className="flex flex-row justify-between pb-5 md:pb-8 md:text-base text-sm">
           <h3 className="hidden md:block">Registered Domains</h3>
           <h3 className="hidden md:block">Expiry date</h3>

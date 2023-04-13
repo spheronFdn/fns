@@ -38,8 +38,8 @@
 .front__globe__icon {
   position: absolute;
   bottom: 0px;
-  height: 350px;
   z-index: -10;
+  width: 100vw;
   @media (max-width: 500px) {
     height: 250px;
   }

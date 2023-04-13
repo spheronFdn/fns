@@ -81,16 +81,21 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between h-14 lg:h-20 border-gray-border border-b border-opacity-50 shadow-sm">
-      <div className="flex justify-between items-center w-11/12 lg:w-8/12 mx-auto">
-        <div
-          className="flex items-center justify-start cursor-pointer"
-          onClick={handleRedirect}
-        >
-          <SpheronLogo className="md:h-10 md:w-24 w-16" />
+      <div className="flex justify-between items-center gap-8 w-11/12 lg:w-8/12 mx-auto">
+        <div className="flex flex-row gap-8 w-max">
+          <div
+            className="flex items-center justify-start cursor-pointer"
+            onClick={handleRedirect}
+          >
+            <SpheronLogo className="md:h-10 md:w-24 w-16" />
+          </div>
+          {location.pathname !== '/' && (
+            <SearchDomain
+              showBtn={false}
+              classname="lg:flex hidden h-12 w-96"
+            />
+          )}
         </div>
-        {location.pathname !== '/' && (
-          <SearchDomain showBtn={false} classname="lg:flex hidden" />
-        )}
         <div className="flex items-center space-x-3">
           {currentAccount ? (
             <>
@@ -149,7 +154,7 @@ const Navbar = () => {
           ) : (
             <Button
               variant="navbar"
-              className="gap-x-2 rounded-full text-white uppercase text-xs md:text-sm p-3 md:p-5
+              className="gap-x-2 rounded-full text-white uppercase text-xs p-3 md:p-5
               flex flex-row items-center"
               onClick={connectWallet}
             >

@@ -286,12 +286,12 @@ const Domain = () => {
   }
 
   return (
-    <div className="w-10/12 lg:w-8/12 mx-auto flex flex-col justify-end">
+    <div className="w-11/12 lg:w-8/12 mx-auto flex flex-col justify-end">
       <div className="mt-4 mb-5 flex flex-col items-start gap-8">
-        <SearchDomain showBtn={false} classname="lg:hidden" />
+        <SearchDomain showBtn={false} classname="lg:hidden w-full" />
         <span className="result__text">Result for `{searchQuery}`</span>
       </div>
-      <div className="result__container p-8">
+      <div className="result__container p-6 md:p-8">
         <div className="flex justify-start space-x-8">
           {navItems.map((navItem) => (
             <Link
@@ -343,7 +343,7 @@ const Domain = () => {
               isLessBalance
             }
             onClick={currentAccount ? handleRegister : connectWallet}
-            className="mt-6 uppercase md:text-base text-sm"
+            className="mt-6 uppercase md:text-sm text-xs"
           >
             {currentAccount ? 'register' : 'connect to register'}
           </Button>
@@ -352,7 +352,7 @@ const Domain = () => {
 
       {isDomainAvailable && (
         <div className="mt-6 w-full sm:flex hidden">
-          <div className="result__container p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
+          <div className="result__container p-6 md:p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
             {processInformation.map((information) => (
               <div className="flex items-start justify-start space-x-4">
                 <div className="info__circle__outer">
