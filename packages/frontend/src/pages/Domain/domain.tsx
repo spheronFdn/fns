@@ -286,8 +286,8 @@ const Domain = () => {
   }
 
   return (
-    <div className="w-11/12 lg:w-8/12 mx-auto flex flex-col justify-end">
-      <div className="mt-4 mb-5 flex flex-col items-start gap-8">
+    <div className="w-11/12 lg:w-10/12 mx-auto flex flex-col justify-end">
+      <div className="mt-6 mb-5 flex flex-col items-start gap-8">
         <SearchDomain showBtn={false} classname="lg:hidden w-full" />
         <span className="result__text">Result for `{searchQuery}`</span>
       </div>

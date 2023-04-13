@@ -84,7 +84,7 @@ const MyAccount = () => {
   }, [])
 
   return (
-    <div className="w-11/12 lg:w-8/12 mx-auto">
+    <div className="w-11/12 lg:w-10/12 mx-auto">
       <div className="text-white text-left font-bold text-sm md:text-xl lg:text-2xl mt-8 mb-5">
         My Account
       </div>

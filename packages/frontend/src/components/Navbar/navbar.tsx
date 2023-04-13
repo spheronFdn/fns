@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { ReactComponent as SpheronLogo } from '../../assets/icons/spheron-logo.svg'
+import { ReactComponent as FNSLogo } from '../../assets/icons/fns-logo.svg'
 import { ReactComponent as MetamaskIcon } from '../../assets/icons/metamask.svg'
 import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
 import { ReactComponent as DownArrow } from '../../assets/icons/down-arrow.svg'
-import { LogOut } from 'lucide-react'
 import makeBlockie from 'ethereum-blockies-base64'
 import { Avatar, AvatarFallback, AvatarImage } from '../UI/avatar'
 import {
@@ -65,7 +64,7 @@ const Navbar = () => {
       icon: (
         <Button
           onClick={disconnectWallet}
-          className="py-0.5 md:py-1 uppercase w-full md:text-sm text-xs"
+          className="py-0.5 md:py-1 uppercase w-full text-xs"
         >
           Disconnect
         </Button>
@@ -81,18 +80,18 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between h-14 lg:h-20 border-gray-border border-b border-opacity-50 shadow-sm">
-      <div className="flex justify-between items-center gap-8 w-11/12 lg:w-8/12 mx-auto">
-        <div className="flex flex-row gap-8 w-max">
+      <div className="flex justify-between items-center gap-8 w-11/12 lg:w-10/12 mx-auto">
+        <div className="flex flex-row gap-8 lg:w-2/3">
           <div
             className="flex items-center justify-start cursor-pointer"
             onClick={handleRedirect}
           >
-            <SpheronLogo className="md:h-10 md:w-24 w-16" />
+            <FNSLogo className="md:h-10 md:w-24 w-16" />
           </div>
           {location.pathname !== '/' && (
             <SearchDomain
               showBtn={false}
-              classname="lg:flex hidden h-12 w-96"
+              classname="lg:flex hidden h-12 w-2/3"
             />
           )}
         </div>
