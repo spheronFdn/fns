@@ -6,7 +6,7 @@ const handleClick = () => {
   window.open('https://spheron.network/', '_blank')
 }
 
-function PoweredBySpheron() {
+const PoweredBySpheron = () => {
   return (
     <div className="powered__by__spheron" onClick={handleClick}>
       Powered by: <PoweredBySpheronLogo />

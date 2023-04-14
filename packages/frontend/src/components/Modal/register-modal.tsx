@@ -71,12 +71,7 @@ function RegisterModal({ step }: any) {
   }
 
   return (
-    <div
-      className="register__modal modal"
-      onClick={(e) => {
-        handleClose(e)
-      }}
-    >
+    <div className="register__modal modal" onClick={(e) => handleClose(e)}>
       <div className="register__modal__content">
         <h2 className="md:text-base text-sm">Setting up the domain</h2>
         <h2 className="text-gray-unaryBorder md:text-sm text-xs mt-2">

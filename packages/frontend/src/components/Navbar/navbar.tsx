@@ -13,7 +13,11 @@ import {
 } from '../UI/dropdown-menu'
 import { Web3Context } from '../../context/web3-context'
 import { Button } from '../UI/button'
-import { copyToClipboard, truncateAddress } from '../../lib/utils'
+import {
+  copyToClipboard,
+  getMiddleEllipsis,
+  truncateAddress,
+} from '../../lib/utils'
 import SearchDomain from '../UI/search-domain'
 import { useLocation, useNavigate } from 'react-router-dom'
 import config from '../../config'
@@ -37,15 +41,10 @@ const Navbar = () => {
     userBalance,
   } = Web3Cntx
 
-  const leftHalf = currentAccount?.slice(0, 4)
-  const rightHalf = currentAccount?.slice(currentAccount?.length - 4)
-
-  const accountAddrEllipsis = leftHalf + '...' + rightHalf
-
   const dropdownOptions: IDropdownOption[] = [
     {
       id: 1,
-      label: accountAddrEllipsis,
+      label: getMiddleEllipsis(currentAccount),
       onClick: () => copyToClipboard(currentAccount),
       icon: <CopyIcon className="h-6 w-6 copy__button" />,
     },
@@ -124,14 +123,17 @@ const Navbar = () => {
                     : truncateAddress(currentAccount)}
                 </div>
               </div>
-              <Avatar>
-                <AvatarImage src={makeBlockie(currentAccount)} alt="@avatar" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
               <DropdownMenu
                 onOpenChange={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <DropdownMenuTrigger>
+                <DropdownMenuTrigger className="flex flex-row items-center gap-4 cursor-pointer">
+                  <Avatar>
+                    <AvatarImage
+                      src={makeBlockie(currentAccount)}
+                      alt="@avatar"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                   <DownArrow
                     className={
                       isDropdownOpen

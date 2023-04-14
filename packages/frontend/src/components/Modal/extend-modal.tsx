@@ -34,12 +34,7 @@ function ExtendModal({ option }: IProps) {
   }
 
   return (
-    <div
-      className="register__modal modal"
-      onClick={(e) => {
-        handleClose(e)
-      }}
-    >
+    <div className="register__modal modal" onClick={(e) => handleClose(e)}>
       <div className="register__modal__content max-w-lg space-y-5">
         <h2 className="font-semibold">Extend domain validity</h2>
         <hr className="border border-white border-opacity-10" />
