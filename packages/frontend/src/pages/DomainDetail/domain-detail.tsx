@@ -33,11 +33,14 @@ const DomainDetail = () => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isControllerEditMode, setIsControllerEditMode] =
     useState<boolean>(false)
-  const [showCopyPopup, setShowCopyPopup] = useState<{
-    show: boolean
-    type: string
-  }>({ show: false, type: '' })
-  const [copyPopupText, setCopyPopupText] = useState<string>('Click to Copy')
+  const [showControllerCopyPopup, setShowControllerCopyPopup] =
+    useState<boolean>(false)
+  const [copyControllerPopupText, setCopyControllerPopupText] =
+    useState<string>('Click to Copy')
+  const [showContentHashCopyPopup, setShowContentHashCopyPopup] =
+    useState<boolean>(false)
+  const [copyContentHashPopupText, setCopyContentHashPopupText] =
+    useState<string>('Click to Copy')
   // If second step is not completed - to check if domain name is registered under current address
   const [isDomainPresent, setIsDomainPresent] = useState<boolean>(false)
 
@@ -196,12 +199,17 @@ const DomainDetail = () => {
   }, [ownerAddress])
 
   useEffect(() => {
-    if (copyPopupText === 'Copied!') {
+    if (copyControllerPopupText === 'Copied!') {
       setTimeout(() => {
-        setCopyPopupText('Click to Copy')
-      }, 500)
+        setCopyControllerPopupText('Click to Copy')
+      }, 2000)
     }
-  }, [copyPopupText])
+    if (copyContentHashPopupText === 'Copied!') {
+      setTimeout(() => {
+        setCopyContentHashPopupText('Click to Copy')
+      }, 2000)
+    }
+  }, [copyControllerPopupText, copyContentHashPopupText])
 
   return (
     <>
@@ -270,30 +278,23 @@ const DomainDetail = () => {
                             </div>
                             {ownerAddress && (
                               <div className="static">
-                                {showCopyPopup.show &&
-                                  showCopyPopup.type === 'controller' && (
-                                    <CopyPopup
-                                      text={copyPopupText}
-                                      classname="-mt-11 -ml-9"
-                                    />
-                                  )}
+                                {showControllerCopyPopup && (
+                                  <CopyPopup
+                                    text={copyControllerPopupText}
+                                    classname="-mt-11 -ml-9"
+                                  />
+                                )}
                                 <CopyIcon
                                   className="copy__button"
                                   onClick={() => {
                                     copyToClipboard(contentHash)
-                                    setCopyPopupText('Copied!')
+                                    setCopyControllerPopupText('Copied!')
                                   }}
                                   onMouseOver={() =>
-                                    setShowCopyPopup({
-                                      show: true,
-                                      type: 'controller',
-                                    })
+                                    setShowControllerCopyPopup(true)
                                   }
                                   onMouseOut={() => {
-                                    setShowCopyPopup({
-                                      show: false,
-                                      type: 'controller',
-                                    })
+                                    setShowControllerCopyPopup(false)
                                   }}
                                 />
                               </div>
@@ -352,30 +353,23 @@ const DomainDetail = () => {
                               {contentHash}
                             </a>
                             <div className="static">
-                              {showCopyPopup.show &&
-                                showCopyPopup.type === 'contentHash' && (
-                                  <CopyPopup
-                                    text={copyPopupText}
-                                    classname="-mt-11 -ml-9"
-                                  />
-                                )}
+                              {showContentHashCopyPopup && (
+                                <CopyPopup
+                                  text={copyContentHashPopupText}
+                                  classname="-mt-11 -ml-9"
+                                />
+                              )}
                               <CopyIcon
                                 className="copy__button"
                                 onClick={() => {
                                   copyToClipboard(contentHash)
-                                  setCopyPopupText('Copied!')
+                                  setCopyContentHashPopupText('Copied!')
                                 }}
                                 onMouseOver={() =>
-                                  setShowCopyPopup({
-                                    show: true,
-                                    type: 'contentHash',
-                                  })
+                                  setShowContentHashCopyPopup(true)
                                 }
                                 onMouseOut={() => {
-                                  setShowCopyPopup({
-                                    show: false,
-                                    type: 'contentHash',
-                                  })
+                                  setShowContentHashCopyPopup(false)
                                 }}
                               />
                             </div>
