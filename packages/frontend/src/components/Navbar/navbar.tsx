@@ -37,10 +37,8 @@ const Navbar = () => {
     userBalance,
   } = Web3Cntx
 
-  const leftHalf = currentAccount?.slice(0, Math.ceil(9 / 2) - 1)
-  const rightHalf = currentAccount?.slice(
-    currentAccount?.length - Math.floor(9 / 2) + 1,
-  )
+  const leftHalf = currentAccount?.slice(0, 4)
+  const rightHalf = currentAccount?.slice(currentAccount?.length - 4)
 
   const accountAddrEllipsis = leftHalf + '...' + rightHalf
 
@@ -76,6 +74,10 @@ const Navbar = () => {
     window.open(`${window.location.origin}/`, '_self')
   }
 
+  const handleDomainClick = () => {
+    if (!!currentAccountName) navigate(`/domain/${currentAccountName}/details`)
+  }
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
@@ -107,7 +109,16 @@ const Navbar = () => {
                   {Number(userBalance).toFixed(2)}{' '}
                   {config.web3.NETWORK.nativeCurrency.symbol}
                 </div>
-                <div className="px-3 py-2.5 rounded-full ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base">
+                <div
+                  className={`px-3 py-2.5 rounded-full ml-2.5 bg-gray-100 bg-opacity-10 text-xs lg:text-base
+                 duration-100 ease-in-out
+                  ${
+                    !!currentAccountName
+                      ? 'cursor-pointer hover:bg-opacity-20'
+                      : ''
+                  }`}
+                  onClick={handleDomainClick}
+                >
                   {currentAccountName
                     ? currentAccountName
                     : truncateAddress(currentAccount)}

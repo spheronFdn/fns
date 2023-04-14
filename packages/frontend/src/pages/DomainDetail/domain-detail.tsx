@@ -6,7 +6,12 @@ import Loader from '../../components/Loader/loader'
 import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
-import { getAddress, setAddr, setContentHash } from '../../services/spheron-fns'
+import {
+  getAddress,
+  getOwnerNames,
+  setAddr,
+  setContentHash,
+} from '../../services/spheron-fns'
 import { useToast } from '../../hooks/useToast'
 import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
 import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
@@ -21,15 +26,21 @@ const DomainDetail = () => {
   const { currentAccount } = Web3Cntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [controller, setController] = useState<string>('')
-  const [updateControllerLoading, setuUdateControllerLoading] =
+  const [updateControllerLoading, setUpdateControllerLoading] =
     useState<boolean>(false)
   const [settingContentHash, setSettingContentHash] = useState<boolean>(false)
   const [isSuccesful, setIsSuccesful] = useState<boolean>(false)
   const [isEditMode, setIsEditMode] = useState<boolean>(false)
   const [isControllerEditMode, setIsControllerEditMode] =
     useState<boolean>(false)
-  const [showCopyPopup, setShowCopyPopup] = useState<boolean>(false)
+  const [showCopyPopup, setShowCopyPopup] = useState<{
+    show: boolean
+    type: string
+  }>({ show: false, type: '' })
   const [copyPopupText, setCopyPopupText] = useState<string>('Click to Copy')
+  // If second step is not completed - to check if domain name is registered under current address
+  const [isDomainPresent, setIsDomainPresent] = useState<boolean>(false)
+
   const [
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     searchQuery,
@@ -72,8 +83,23 @@ const DomainDetail = () => {
     }
   }
 
+  const handleGetownerNames = async () => {
+    try {
+      const res: any = await getOwnerNames(currentAccount)
+      if (!res.error) {
+        setIsDomainPresent(res.response.includes(searchQuery.slice(0, -4)))
+      }
+    } catch (error) {
+      console.log('Error in fetching owner names ->', error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+    }
+  }
+
   const handleSetController = async () => {
-    setuUdateControllerLoading(true)
+    setUpdateControllerLoading(true)
     try {
       const addrRes = await setAddr(searchQuery, controller)
       if (!addrRes.error) {
@@ -91,9 +117,9 @@ const DomainDetail = () => {
           description: addrRes.response as string,
         })
       }
-      setuUdateControllerLoading(false)
+      setUpdateControllerLoading(false)
     } catch (error) {
-      setuUdateControllerLoading(false)
+      setUpdateControllerLoading(false)
       setIsSuccesful(false)
       console.log('Error in setting controller -> ', error)
       toast({
@@ -161,6 +187,8 @@ const DomainDetail = () => {
 
   useEffect(() => {
     setIsEditMode(false)
+    handleGetownerNames()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAccount])
 
   useEffect(() => {
@@ -184,8 +212,8 @@ const DomainDetail = () => {
       ) : (
         <>
           <div className="lg:overflow-hidden overflow-x-scroll py-6">
-            <div className="w-full flex items-start flex-col space-y-7">
-              <div className="w-full flex items-center justify-between gap-4">
+            <div className="w-full flex items-start flex-col space-y-4">
+              <div className="w-full flex items-center justify-between gap-4 h-12">
                 <span className="md:text-base text-sm text-gray-unaryBorder">
                   Registrant:
                 </span>
@@ -194,7 +222,7 @@ const DomainDetail = () => {
                 </div>
               </div>
               {!isDomainAvailable && (
-                <div className="w-full flex items-center justify-between gap-4">
+                <div className="w-full flex items-center justify-between gap-4 h-12">
                   <span className="md:text-base text-sm text-gray-unaryBorder lg:w-1/3 text-left">
                     Controller:
                   </span>
@@ -242,26 +270,41 @@ const DomainDetail = () => {
                             </div>
                             {ownerAddress && (
                               <div className="static">
-                                {showCopyPopup && (
-                                  <CopyPopup
-                                    text={copyPopupText}
-                                    classname="-mt-11 -ml-9"
-                                  />
-                                )}
+                                {showCopyPopup.show &&
+                                  showCopyPopup.type === 'controller' && (
+                                    <CopyPopup
+                                      text={copyPopupText}
+                                      classname="-mt-11 -ml-9"
+                                    />
+                                  )}
                                 <CopyIcon
                                   className="copy__button"
                                   onClick={() => {
                                     copyToClipboard(contentHash)
                                     setCopyPopupText('Copied!')
                                   }}
-                                  onMouseOver={() => setShowCopyPopup(true)}
+                                  onMouseOver={() =>
+                                    setShowCopyPopup({
+                                      show: true,
+                                      type: 'controller',
+                                    })
+                                  }
                                   onMouseOut={() => {
-                                    setShowCopyPopup(false)
+                                    setShowCopyPopup({
+                                      show: false,
+                                      type: 'controller',
+                                    })
                                   }}
                                 />
                               </div>
                             )}
-                            {currentAccount === ownerAddress && (
+                            {!ownerAddress && !isControllerEditMode && (
+                              <div className="font-semibold md:text-base text-sm text-gray-unaryBorder text-right">
+                                Not Set
+                              </div>
+                            )}
+                            {(currentAccount === ownerAddress ||
+                              isDomainPresent) && (
                               <div className="flex justify-start">
                                 <EditIcon
                                   className="copy__button"
@@ -283,13 +326,17 @@ const DomainDetail = () => {
             </div>
           </div>
           {!isDomainAvailable && (
-            <div className="lg:overflow-hidden overflow-x-scroll pt-6 border-t border-gray-border w-full flex items-start flex-col space-y-7">
+            <div
+              className="lg:overflow-hidden overflow-x-scroll pt-6 
+            border-t border-gray-border w-full 
+            flex items-start flex-col space-y-4"
+            >
               <div className="w-full flex items-center justify-between">
-                <div className="w-full flex items-center justify-between gap-4">
+                <div className="w-full flex items-center justify-between gap-4 h-12">
                   <span className="md:text-base text-sm text-gray-unaryBorder text-left lg:w-1/3">
                     Content Hash:
                   </span>
-                  <div className="lg:w-2/3 flex justify-end">
+                  <div className="lg:w-2/3 flex justify-end gap-3">
                     {settingContentHash || contentHashLoading ? (
                       <InfoLoader />
                     ) : (
@@ -300,26 +347,35 @@ const DomainDetail = () => {
                               href={contentHash}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-blue-500 md:text-base text-sm lg:ml-0 lg:mr-2"
+                              className="text-blue-500 md:text-base text-sm"
                             >
                               {contentHash}
                             </a>
                             <div className="static">
-                              {showCopyPopup && (
-                                <CopyPopup
-                                  text={copyPopupText}
-                                  classname="-mt-11 -ml-9"
-                                />
-                              )}
+                              {showCopyPopup.show &&
+                                showCopyPopup.type === 'contentHash' && (
+                                  <CopyPopup
+                                    text={copyPopupText}
+                                    classname="-mt-11 -ml-9"
+                                  />
+                                )}
                               <CopyIcon
                                 className="copy__button"
                                 onClick={() => {
                                   copyToClipboard(contentHash)
                                   setCopyPopupText('Copied!')
                                 }}
-                                onMouseOver={() => setShowCopyPopup(true)}
+                                onMouseOver={() =>
+                                  setShowCopyPopup({
+                                    show: true,
+                                    type: 'contentHash',
+                                  })
+                                }
                                 onMouseOut={() => {
-                                  setShowCopyPopup(false)
+                                  setShowCopyPopup({
+                                    show: false,
+                                    type: 'contentHash',
+                                  })
                                 }}
                               />
                             </div>
@@ -361,6 +417,11 @@ const DomainDetail = () => {
                             )}
                           </>
                         )}
+                        {!contentHash && !isEditMode && (
+                          <div className="font-semibold md:text-base text-sm text-gray-unaryBorder text-right">
+                            Not Set
+                          </div>
+                        )}
                         {ownerAddress === currentAccount && !isEditMode && (
                           <div className="flex justify-start lg:ml-0 lg:block">
                             <EditIcon
@@ -375,7 +436,7 @@ const DomainDetail = () => {
                 </div>
               </div>
 
-              <div className="w-full flex items-center gap-4 justify-between">
+              <div className="w-full flex items-center gap-4 justify-between h-12">
                 <span className="md:text-base text-sm text-gray-unaryBorder">
                   Expiration:
                 </span>

@@ -352,7 +352,7 @@ const Domain = () => {
             {currentAccount
               ? registerLoading
                 ? 'registering'
-                : 'register'
+                : 'register now'
               : 'connect to register'}
           </Button>
         </div>
