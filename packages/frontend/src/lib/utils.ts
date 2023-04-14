@@ -23,7 +23,7 @@ export const getSecondsFromYear = (year: number): number => {
 
 export const getUserBalance = async (address: string) => {
   try {
-    const network = 'https://rpc.ankr.com/filecoin_testnet'
+    const network = process.env.REACT_APP_RPC_URL
     const provider = new ethers.providers.JsonRpcProvider(network)
     const balance = await provider.getBalance(address)
     const balanceInFil = ethers.utils.formatEther(balance)
@@ -36,7 +36,7 @@ export const getUserBalance = async (address: string) => {
 
 export const getFee = async () => {
   try {
-    const network = 'https://rpc.ankr.com/filecoin_testnet'
+    const network = process.env.REACT_APP_RPC_URL
     const provider = new ethers.providers.JsonRpcProvider(network)
     const feeData = await provider.getFeeData()
     return ethers.utils.formatUnits(`${parseInt(feeData!.gasPrice!._hex, 16)}`)

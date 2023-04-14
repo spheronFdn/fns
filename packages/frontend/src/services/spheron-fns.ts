@@ -3,9 +3,7 @@ import { BlockchainIdentifier } from '@spheron/fnslib/utils/blockchainIdentifier
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
 
-// TODO - TESTNET RPC TO BE REPLACED WITH process.env.REACT_APP_RPC_URL BEFORE MERGING TO MAIN
-
-const providerUrl = 'https://rpc.ankr.com/filecoin_testnet'
+const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
 
 export const isAvailable = async (name: string) => {

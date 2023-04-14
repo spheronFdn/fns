@@ -50,7 +50,7 @@ const Web3ContextProvider: any = ({ children }: any) => {
           params: [
             {
               chainId: `0x${Number(config.web3.CHAIN_ID).toString(16)}`,
-              rpcUrls: ['https://rpc.ankr.com/filecoin_testnet'],
+              rpcUrls: [process.env.REACT_APP_RPC_URL],
               chainName: config.web3.NETWORK.chainName,
               nativeCurrency: {
                 name: config.web3.NETWORK.nativeCurrency.name,
