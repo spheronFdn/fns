@@ -1,7 +1,7 @@
 import { FNS } from '@spheron/fnslib'
+import { BlockchainIdentifier } from '@spheron/fnslib/utils/blockchainIdentifiers'
 import { ethers } from 'ethers'
 import { getSecondsFromYear } from '../lib/utils'
-import { BlockchainIdentifier } from '@spheron/fnslib/utils/blockchainIdentifiers'
 
 const providerUrl = process.env.REACT_APP_RPC_URL
 const provider = new ethers.providers.JsonRpcProvider(providerUrl)
@@ -36,7 +36,7 @@ export const setAddr = async (domainName: string, value: string) => {
     await FNSInstance.setProvider(provider)
     const res = await FNSInstance.setAddr(domainName, {
       address: String(value),
-      coinType: BlockchainIdentifier.FILCOINEVM
+      coinType: BlockchainIdentifier.FILCOINEVM,
     })
     await res.wait()
     localStorage.removeItem('domain-underpurchase')
@@ -93,7 +93,10 @@ export const getAddress = async (domainName: string) => {
   try {
     const FNSInstance = new FNS()
     await FNSInstance.setProvider(provider)
-    const address = await FNSInstance.getAddress(domainName, BlockchainIdentifier.FILCOINEVM)
+    const address = await FNSInstance.getAddress(
+      domainName,
+      BlockchainIdentifier.FILCOINEVM,
+    )
     return { error: false, response: address }
   } catch (error) {
     return { error: true, response: (error as Error).message }
@@ -161,6 +164,18 @@ export const setContentHash = async (
     return { error: false, response: res }
   } catch (error) {
     console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const getOwnerNames = async (address: string) => {
+  try {
+    const FNSInstance = new FNS()
+    await FNSInstance.setProvider(provider)
+    const names = await FNSInstance.getOwnerNames(address)
+    return { error: false, response: names }
+  } catch (error) {
+    console.log(error)
     return { error: true, response: (error as Error).message }
   }
 }

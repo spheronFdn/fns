@@ -11,12 +11,15 @@ module.exports = {
           text: '#FFF',
           button: '#1D4AE0',
           buttonHover: '#133eca',
+          textBlue: '#0057FF',
         },
         gray: {
           text: '#FFFFFFB2',
           inactive: '#838ead',
           bg: '#F9FAFB',
           border: '#ffffff2b',
+          unaryBorder: '#69696A',
+          navBtnBg: '#FFFFFF1A',
         },
         blue: {
           bg: '#040E31',

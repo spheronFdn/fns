@@ -8,24 +8,27 @@ import {
   Link,
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
-import { Input } from '../../components/UI/input'
+import { ModalContext } from '../../context/modal-context'
 import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
-import { getFee, getUserBalance, isValidAddress } from '../../lib/utils'
+import { getFee, getUserBalance } from '../../lib/utils'
 import {
   getAddress,
   getContentHash,
   getExpiry,
   getPriceOnYear,
   isAvailable,
+  registerDomain,
+  setAddr,
 } from '../../services/spheron-fns'
+import SearchDomain from '../../components/UI/search-domain'
 
 const Domain = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
-  const { currentAccount } = Web3Cntx
+  const { currentAccount, connectWallet } = Web3Cntx
   const [isDomainAvailable, setIsDomainAvailable] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [contentHashLoading, setContentHashLoading] = useState<boolean>(true)
@@ -125,12 +128,14 @@ const Domain = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.domainName])
 
+  const getDomainDetails = () => {
+    getAddressFromDomainName(params.domainName || '')
+    getContentHashFromDomainName(params.domainName || '')
+    getExpiryFromDomainName(params.domainName || '')
+  }
+
   useEffect(() => {
-    if (!isDomainAvailable && params.domainName) {
-      getAddressFromDomainName(params.domainName || '')
-      getContentHashFromDomainName(params.domainName || '')
-      getExpiryFromDomainName(params.domainName || '')
-    }
+    if (!isDomainAvailable && params.domainName) getDomainDetails()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDomainAvailable, params.domainName])
 
@@ -180,61 +185,138 @@ const Domain = () => {
   const navItems = [
     {
       id: 1,
-      label: 'register',
+      label: 'registration',
+      route: 'register',
       isActive: location.pathname.split('/')[3] === 'register',
     },
     {
       id: 2,
       label: 'details',
+      route: 'details',
       isActive: location.pathname.split('/')[3] === 'details',
     },
   ]
 
-  const handleSearch = async (searchQuery: string) => {
-    const containsFilSubstr =
-      searchQuery.slice(searchQuery.length - 3, searchQuery.length) === 'fil'
-    getAvailibility(searchQuery)
-    navigate(
-      `/${
-        isValidAddress(searchQuery)
-          ? `address/${searchQuery}/registrant`
-          : `domain/${searchQuery}${containsFilSubstr ? '' : '.fil'}/register`
-      }`,
-    )
+  const processInformation = [
+    {
+      id: 1,
+      title: 'Transaction Signing',
+      description: `Your wallet will open and you will be asked to confirm the first of two transactions required for registration. If the second transaction is not processed within 7 days of the first, you will need to start again from step 1.`,
+    },
+    {
+      id: 2,
+      title: 'Wait for a few minutes',
+      description: `The waiting period is required to ensure another person hasn’t tried to register the same name and protect you after your request.`,
+    },
+  ]
+
+  const ModalCntx = useContext<any>(ModalContext)
+  const { setModalOpen, setModalType, setModalOption } = ModalCntx
+
+  const [registerLoading, setRegisterLoading] = useState<boolean>(false)
+  const [hash, setHash] = useState<string>('')
+
+  const totalPrice = Number(gasFee) + Number(price)
+  const isLessBalance = userBalance ? totalPrice > Number(userBalance) : false
+
+  const handleRegister = async () => {
+    setModalType('registerDomain')
+    setRegisterLoading(true)
+    setStep(1)
+    setModalOption(1)
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const res: any = await registerDomain(
+        searchQuery,
+        currentAccount,
+        year,
+        price,
+      )
+      if (!res.error) {
+        toast({
+          title: 'Success',
+          description: 'Please wait for address to register',
+        })
+        setStep(2)
+        setModalOption(2)
+        const addrRes = await setAddr(searchQuery, currentAccount)
+        if (!addrRes.error) {
+          setModalOpen(false)
+          setStep(3)
+          setModalOption(3)
+          setIsSuccessful(true)
+          setRegisterLoading(false)
+          navigate(`/domain/${params.domainName}/details`)
+          getDomainDetails()
+          toast({
+            title: 'Successful',
+            description:
+              'Congratulations, you have successfully registered a domain',
+          })
+          setHash(res.response)
+        } else {
+          setModalOpen(false)
+          setStep(0)
+          setModalOption(0)
+          setRegisterLoading(false)
+          toast({
+            title: 'Error',
+            variant: 'destructive',
+            description: res.response,
+          })
+        }
+      } else {
+        setModalOpen(false)
+        setStep(0)
+        setModalOption(0)
+        setRegisterLoading(false)
+        toast({
+          title: 'Error',
+          variant: 'destructive',
+          description: res.response,
+        })
+      }
+    } catch (error) {
+      setModalOpen(false)
+      console.log('Error in registering domain ->', error)
+      toast({
+        title: 'Error',
+        description: (error as Error).message,
+      })
+      setRegisterLoading(false)
+    }
+  }
+
+  const handleRegisterClick = () => {
+    if (!!currentAccount) {
+      setModalOpen(true)
+      if (!registerLoading) handleRegister()
+    }
+    connectWallet()
   }
 
   return (
-    <>
-      <div className="w-full bg-blue-bg bg-opacity-30 py-4">
-        <div className="w-10/12 lg:w-8/12 mx-auto flex items-center justify-between">
-          <div className="mr-auto ml-0 w-full md:w-9/12 lg:w-6/12 flex space-x-3">
-            <Input
-              className="h-10 w-11/12 text-base lg:text-lg"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value)
-              }}
-            />
-            <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
-          </div>
+    <div className="w-11/12 lg:w-10/12 mx-auto flex flex-col justify-end">
+      <div className="mt-6 mb-5 flex flex-col items-start gap-8">
+        <SearchDomain showBtn={false} classname="lg:hidden w-full" />
+        <span className="result__text">Result for `{searchQuery}`</span>
+      </div>
+      <div className="result__container p-6 md:p-8">
+        <div className="flex justify-start space-x-8">
+          {navItems.map((navItem) => (
+            <Link
+              key={navItem.id}
+              to={`/domain/${params.domainName}/${navItem.route}`}
+              className={`capitalize font-semibold text-sm sm:text-base md:text-lg px-4 ${
+                navItem.isActive
+                  ? 'text-primary-textBlue pb-2 border-b border-primary-textBlue'
+                  : 'text-gray-inactive'
+              }`}
+            >
+              {navItem.label}
+            </Link>
+          ))}
         </div>
-      </div>
-      <div className="w-10/12 lg:w-8/12 mx-auto flex justify-start space-x-8 pt-5 pb-4 border-b border-gray-border">
-        {navItems.map((navItem) => (
-          <Link
-            key={navItem.id}
-            to={`/domain/${params.domainName}/${navItem.label}`}
-            className={`capitalize text-lg ${
-              navItem.isActive
-                ? 'font-semibold text-white'
-                : 'text-gray-inactive'
-            }`}
-          >
-            {navItem.label}
-          </Link>
-        ))}
-      </div>
-      <div className="w-10/12 lg:w-8/12 mx-auto">
         <Outlet
           context={[
             searchQuery,
@@ -260,7 +342,44 @@ const Domain = () => {
           ]}
         />
       </div>
-    </>
+      {isDomainAvailable && (
+        <div className="w-full flex justify-end">
+          <Button
+            disabled={priceLoading || !!hash || isSuccessful || isLessBalance}
+            onClick={handleRegisterClick}
+            className="mt-6 uppercase md:text-sm text-xs"
+          >
+            {currentAccount
+              ? registerLoading
+                ? 'registering'
+                : 'register now'
+              : 'connect to register'}
+          </Button>
+        </div>
+      )}
+
+      {isDomainAvailable && (
+        <div className="mt-6 w-full sm:flex hidden">
+          <div className="result__container p-6 md:p-8 my-8 pb-8 grid grid-cols-1 lg:grid-cols-2 gap-x-4 lg:space-y-0 space-y-4">
+            {processInformation.map((information) => (
+              <div className="flex items-start justify-start space-x-4">
+                <div className="info__circle__outer">
+                  <div className="info__circle__inner">{information.id}</div>
+                </div>
+                <div className="flex flex-col items-start justify-start">
+                  <h3 className="scroll-m-20 text-left lg:text-center text-base lg:text-2xl font-semibold tracking-tight text-primary-text">
+                    {information.title}
+                  </h3>
+                  <p className="text-sm lg:text-base font-medium text-gray-text text-opacity-80 text-justify lg:text-left">
+                    {information.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   )
 }
 

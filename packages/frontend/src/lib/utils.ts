@@ -45,3 +45,14 @@ export const getFee = async () => {
     return '0'
   }
 }
+
+export const copyToClipboard = async (value: string) => {
+  await navigator.clipboard.writeText(value || '')
+}
+
+export const getMiddleEllipsis = (text: string) => {
+  const leftHalf = text?.slice(0, 4)
+  const rightHalf = text?.slice(text?.length - 4)
+
+  return leftHalf + '...' + rightHalf
+}

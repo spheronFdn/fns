@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from 'react'
-import './App.css'
+import './App.scss'
 import { Toaster } from './components/UI/toaster'
 import { Web3Context } from './context/web3-context'
 import Router from './Routes'
+import TopRibbon from './components/Navbar/top-ribbon'
+import PoweredBySpheron from './components/UI/powered-by-spheron'
 
 function App() {
   const Web3Cntx = useContext<any>(Web3Context)
@@ -15,8 +17,10 @@ function App() {
 
   return (
     <div className="App">
+      <TopRibbon />
       <Router />
       <Toaster />
+      <PoweredBySpheron />
     </div>
   )
 }
