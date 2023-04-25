@@ -569,6 +569,11 @@ export class FNS {
     ['contracts'],
   )
 
+  public getTxtRecord = this.generateRawFunction<FunctionTypes['getTxtRecord']>(
+    'getTxtRecord',
+    ['contracts'],
+  )
+
   public getDecryptedName = this.generateRawFunction<
     FunctionTypes['getDecryptedName']
   >('getDecryptedName', ['contracts', 'gqlInstance'])
@@ -661,6 +666,10 @@ export class FNS {
     'setAddr',
     ['contracts'],
   )
+
+  public setTxtRecord = this.generateWriteFunction<
+    FunctionTypes['setTxtRecord']
+  >('setTxtRecord', ['contracts'])
 
   public registerName = this.generateWriteFunction<
     FunctionTypes['registerName']
