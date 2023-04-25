@@ -24,6 +24,7 @@ import type getPrice from './getPrice'
 import type getProfile from './getProfile'
 import type getRecords from './getRecords'
 import type getResolver from './getResolver'
+import type getTxtRecord from './getTxtRecord'
 import type {
   getABI,
   getAddr,
@@ -40,6 +41,7 @@ import type importDNSSECName from './importDNSSECName'
 import type registerName from './registerName'
 import type setContentHash from './setContentHash'
 import type setAddr from './setAddr'
+import type setTxtRecord from './setTxtRecord'
 import type {
   // eslint-disable-next-line import/no-named-default
   default as renewNames,
@@ -85,6 +87,7 @@ type Function = {
   getProfile: typeof getProfile
   getRecords: typeof getRecords
   getResolver: typeof getResolver
+  getTxtRecord: typeof getTxtRecord
   getAddr: typeof getAddr
   getContentHash: typeof getContentHash
   getText: typeof getText
@@ -99,6 +102,7 @@ type Function = {
   registerName: typeof registerName
   setContentHash: typeof setContentHash
   setAddr: typeof setAddr
+  setTxtRecord: typeof setTxtRecord
   renewNames: typeof renewNames
   extendWrappedName: typeof extendWrappedName
   setName: typeof setName
