@@ -7,8 +7,8 @@ import {
   Link,
 } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
-import { Input } from '../../components/UI/input'
 import { isValidAddress } from '../../lib/utils'
+import { Input } from '../../components/InputField/input'
 
 const Domain = () => {
   const navigate = useNavigate()

@@ -1,8 +1,11 @@
 import React, { useContext, useState } from 'react'
 import '../../../src/App.scss'
 import { ModalContext } from '../../context/modal-context'
+import { ReactComponent as PlusIcon } from '../../assets/icons/plus-icon.svg'
+import { ReactComponent as MinusIcon } from '../../assets/icons/minus-icon.svg'
 import InfoLoader from '../Loader/info-loader'
 import { Button } from '../UI/button'
+import { toast } from '../../hooks/useToast'
 
 interface IProps {
   option: {
@@ -33,6 +36,34 @@ function ExtendModal({ option }: IProps) {
     setModalOption(null)
   }
 
+  // const handleExtend = async () => {
+  //   setModalOption(1)
+  //   try {
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     const res: any = await renewNames(searchQuery, year.toString(), price)
+  //     if (!res.error) {
+  //       toast({
+  //         title: 'Success',
+  //         description: 'Please wait for address to register',
+  //       })
+  //     } else {
+  //       setModalOpen(false)
+  //       toast({
+  //         title: 'Error',
+  //         variant: 'destructive',
+  //         description: res.response,
+  //       })
+  //     }
+  //   } catch (error) {
+  //     setModalOpen(false)
+  //     console.log('Error in registering domain ->', error)
+  //     toast({
+  //       title: 'Error',
+  //       description: (error as Error).message,
+  //     })
+  //   }
+  // }
+
   return (
     <div className="register__modal modal" onClick={(e) => handleClose(e)}>
       <div className="register__modal__content max-w-lg space-y-5">
@@ -42,23 +73,17 @@ function ExtendModal({ option }: IProps) {
           <div className="w-full flex items-center justify-between">
             <span className="text-base text-gray-text">Period:</span>
             <div className="flex items-center space-x-3">
-              <Button
+              <MinusIcon
                 onClick={() => setYear(year > 1 ? year - 1 : year)}
-                variant="outline"
-                className="h-5 w-5 p-0 flex items-center"
-              >
-                -
-              </Button>
-              <div className="text-primary-text text-center min-w-[70px]">
+                className="unary__button"
+              />
+              <div className="text-primary-text text-center md:text-base text-sm min-w-[70px]">
                 {year} year
               </div>
-              <Button
+              <PlusIcon
                 onClick={() => setYear(year + 1)}
-                variant="outline"
-                className="h-5 w-5 p-0 flex-shrink-0 flex items-center justify-center text-base"
-              >
-                +
-              </Button>
+                className="unary__button text-red-700 hover:text-red-700 ease-in-out"
+              />
             </div>
           </div>
           <div className="w-full flex items-center justify-between">

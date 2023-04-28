@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReactComponent as WebIcon } from '../../assets/icons/web-logo.svg'
-import SearchDomain from '../../components/UI/search-domain'
+import SearchDomain from '../../components/InputField/search-domain'
 
 const Home = () => {
   return (
