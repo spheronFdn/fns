@@ -72,7 +72,6 @@ const DomainDetail = () => {
         string,
       ]
     >()
-
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   async function getAddressFromDomainName() {
@@ -264,7 +263,7 @@ const DomainDetail = () => {
                                   !controller
                                 }
                               >
-                                {!!ownerAddress ? 'Update' : 'Add'}
+                                {!!ownerAddress ? 'Update' : 'Set'}
                               </Button>
                             </div>
                             <CancelIcon
@@ -450,9 +449,9 @@ const DomainDetail = () => {
                           setModalOpen(true)
                           setModalType('extendDomain')
                           setModalOption({
-                            price: '0',
-                            gasFee: '2',
-                            priceLoading: false,
+                            searchQuery,
+                            expirationDate,
+                            isDomainAvailable,
                           })
                         }}
                         className="py-1"

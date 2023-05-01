@@ -182,13 +182,14 @@ export const getOwnerNames = async (address: string) => {
 
 export const setTextRecord = async (
   domainName: string,
-  pair: { key: string; value: string },
+  key: string,
+  value: string,
 ) => {
   try {
     const FNSInstance = new FNS()
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
-    const res = await FNSInstance.setTxtRecord(domainName, pair)
+    const res = await FNSInstance.setTxtRecord(domainName, { key, value })
     await res.wait()
     return { error: false, response: res }
   } catch (error) {
@@ -203,7 +204,19 @@ export const getTextRecord = async (domainName: string, key: string) => {
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
     await FNSInstance.setProvider(provider)
     const res = await FNSInstance.getTxtRecord(domainName, key)
-    await res.wait()
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const getRecords = async (domainName: string) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.getRecords(domainName)
     return { error: false, response: res }
   } catch (error) {
     console.log('ERROR: ', error)

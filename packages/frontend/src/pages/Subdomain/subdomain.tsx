@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { Button } from '../../components/UI/button'
 import Loader from '../../components/Loader/loader'
@@ -37,10 +37,12 @@ const Subdomain = () => {
       ]
     >()
 
+  // TODO - WILL BE RELEASED WHEN PACKAGE SUPPORT FOR SUBDOMAIN IS RELEASED
+  // DUMMY DATA USED AS OF NOW
   const subdomainList = [
-    { id: 1, name: 'nitinsharma' },
-    { id: 2, name: 'anuragsrivastava' },
-    { id: 3, name: 'abhinavgaur' },
+    { id: 1, name: 'spheronprotocol1' },
+    { id: 2, name: 'spheronprotocol2' },
+    { id: 3, name: 'spheronprotocol3' },
   ]
 
   const [addSubdomainName, setAddSubdomainName] = useState<string>('')

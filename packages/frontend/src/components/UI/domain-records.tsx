@@ -1,49 +1,44 @@
 import React, { useState } from 'react'
 import { ReactComponent as PlusIcon } from '../../assets/icons/plus-icon.svg'
 import { ReactComponent as MinusIcon } from '../../assets/icons/minus-icon.svg'
-import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
-import { toast } from '../../hooks/useToast'
-import { setTextRecord } from '../../services/spheron-fns'
+import EditRecord from './edit-record'
+import config from '../../config'
+import DiscordIcon from '../../assets/icons/social-discord-icon.svg'
+import TwitterIcon from '../../assets/icons/social-twitter-icon.svg'
+import GithubIcon from '../../assets/icons/social-github-icon.svg'
+import RedditIcon from '../../assets/icons/social-reddit-icon.svg'
+import TelegramIcon from '../../assets/icons/social-telegram-icon.svg'
 
-const DomainRecords = () => {
+interface IProps {
+  ownerAddress: string
+  domainName: string
+}
+
+const DomainRecords = ({ ownerAddress, domainName }: IProps) => {
   const [showRecords, setShowRecords] = useState<boolean>(false)
   const [showAddressRecords, setShowAddressRecords] = useState<boolean>(false)
   const [showTextRecords, setShowTextRecords] = useState<boolean>(false)
   const [showSocialRecords, setShowSocialRecords] = useState<boolean>(false)
 
-  const handleSetTextRecord = async () => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res: any = await setTextRecord('nitinshr', {
-        key: 'eth',
-        value: 'helloiamunderthewaterblll..',
-      })
-      console.log('YEE RES --', res)
-      if (!res.error) {
-        toast({
-          title: 'Success',
-          description: 'Record updated successfully',
-        })
-      } else {
-        toast({
-          title: 'Error',
-          variant: 'destructive',
-          description: res.response,
-        })
-      }
-    } catch (error) {
-      console.log('Error in setting record ->', error)
-      toast({
-        title: 'Error',
-        description: (error as Error).message,
-      })
-    }
-  }
-
   const addressRecordList = [
-    { id: 1, key: 'FIL' },
-    { id: 2, key: 'ETH' },
-    { id: 3, key: 'BTC' },
+    { id: 1, key: config.domainRecordsKey.address.FIL },
+    { id: 2, key: config.domainRecordsKey.address.ETH },
+    { id: 3, key: config.domainRecordsKey.address.BTC },
+  ]
+
+  const textRecordList = [
+    { id: 1, key: config.domainRecordsKey.text.URL },
+    { id: 2, key: config.domainRecordsKey.text.AVATAR },
+    { id: 3, key: config.domainRecordsKey.text.EMAIL },
+    { id: 4, key: config.domainRecordsKey.text.DESCRIPTION },
+  ]
+
+  const socialRecordList = [
+    { id: 1, key: config.domainRecordsKey.social.DISCORD, img: DiscordIcon },
+    { id: 2, key: config.domainRecordsKey.social.GITHUB, img: GithubIcon },
+    { id: 3, key: config.domainRecordsKey.social.TWITTER, img: TwitterIcon },
+    { id: 4, key: config.domainRecordsKey.social.REDDIT, img: RedditIcon },
+    { id: 4, key: config.domainRecordsKey.social.TELEGRAM, img: TelegramIcon },
   ]
 
   return (
@@ -78,7 +73,7 @@ const DomainRecords = () => {
             </h2>
             {showAddressRecords ? (
               <MinusIcon
-                onClick={() => handleSetTextRecord()}
+                onClick={() => setShowAddressRecords(false)}
                 className="unary__button ease-in-out"
               />
             ) : (
@@ -90,23 +85,23 @@ const DomainRecords = () => {
           </div>
           {showAddressRecords && (
             <div className="pb-7 space-y-7">
-              {addressRecordList.map((address) => (
-                <div
-                  key={address.id}
-                  className="flex flex-row items-center justify-between"
-                >
-                  <h3 className="md:text-base text-sm text-gray-unaryBorder text-left">
-                    {address.key}:
-                  </h3>
-                  <EditIcon className="copy__button" onClick={() => null} />
-                </div>
+              {addressRecordList.map((record) => (
+                <EditRecord
+                  recordKey={record.key}
+                  ownerAddress={ownerAddress}
+                  key={record.id}
+                  img={null}
+                  type="address"
+                  domainName={domainName}
+                />
               ))}
             </div>
           )}
           <div
             className="flex flex-row justify-between items-center
                border-t border-gray-border
-               py-7"
+               py-7 cursor-pointer"
+            onClick={() => setShowTextRecords(!showTextRecords)}
           >
             <h2 className="text-md text-gray-400 font-medium uppercase">
               Text Records
@@ -123,10 +118,25 @@ const DomainRecords = () => {
               />
             )}
           </div>
+          {showTextRecords && (
+            <div className="pb-7 space-y-7">
+              {textRecordList.map((record) => (
+                <EditRecord
+                  recordKey={record.key}
+                  ownerAddress={ownerAddress}
+                  key={record.id}
+                  img={null}
+                  type="text"
+                  domainName={domainName}
+                />
+              ))}
+            </div>
+          )}
           <div
             className="flex flex-row justify-between items-center
                border-t border-gray-border
-               py-7"
+               py-7 cursor-pointer"
+            onClick={() => setShowSocialRecords(!showSocialRecords)}
           >
             <h2 className="text-md text-gray-400 font-medium uppercase">
               Social Records
@@ -143,6 +153,20 @@ const DomainRecords = () => {
               />
             )}
           </div>
+          {showSocialRecords && (
+            <div className="space-y-7">
+              {socialRecordList.map((record) => (
+                <EditRecord
+                  recordKey={record.key}
+                  ownerAddress={ownerAddress}
+                  key={record.id}
+                  img={record.img}
+                  type="social"
+                  domainName={domainName}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -200,12 +200,13 @@ const Domain = () => {
       route: 'details',
       isActive: domainOptionsPathname === 'details',
     },
-    {
-      id: 2,
-      label: 'subdomains',
-      route: 'subdomain',
-      isActive: domainOptionsPathname === 'subdomain',
-    },
+    // TODO - WILL BE RELEASED WHEN PACKAGE SUPPORT FOR SUBDOMAIN IS RELEASED
+    // {
+    //   id: 2,
+    //   label: 'subdomains',
+    //   route: 'subdomain',
+    //   isActive: domainOptionsPathname === 'subdomain',
+    // },
   ]
 
   const processInformation = [
@@ -404,7 +405,7 @@ const Domain = () => {
       )}
 
       {!isDomainAvailable && domainOptionsPathname === 'details' && (
-        <DomainRecords />
+        <DomainRecords ownerAddress={ownerAddress} domainName={searchQuery} />
       )}
 
       {isDomainAvailable && (
