@@ -8,6 +8,17 @@ import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
 import { ReactComponent as CancelIcon } from '../../assets/icons/cancel-icon.svg'
 import Loader from '../Loader/loader'
 
+interface IGetTextRecordResponse {
+  error: boolean
+  response: string
+}
+
+interface ISetTextRecordResponse {
+  error: boolean
+  // response type - ethers.ContractTransaction & {customData?: Record<string, any> | undefined;}
+  response: any
+}
+
 interface IProps {
   recordKey: string
   ownerAddress: string
@@ -35,7 +46,10 @@ const EditRecord = ({
   const handleGetTextRecord = async (key: string) => {
     try {
       setRecordLoading(true)
-      const getRecordRes: any = await getTextRecord(domainName, key)
+      const getRecordRes: IGetTextRecordResponse = await getTextRecord(
+        domainName,
+        key,
+      )
       if (!getRecordRes.error) {
         setPresetRecordValue(getRecordRes.response)
         setRecordValue(getRecordRes.response)
@@ -59,7 +73,11 @@ const EditRecord = ({
   const handleSetTextRecord = async (key: string, value: string) => {
     try {
       setRecordLoading(true)
-      const setRecordRes: any = await setTextRecord(domainName, key, value)
+      const setRecordRes: ISetTextRecordResponse = await setTextRecord(
+        domainName,
+        key,
+        value,
+      )
       if (!setRecordRes.error) {
         toast({
           title: 'Success',

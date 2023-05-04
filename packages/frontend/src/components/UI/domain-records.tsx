@@ -47,7 +47,7 @@ const DomainRecords = ({ ownerAddress, domainName }: IProps) => {
         className="flex flex-row justify-between items-center cursor-pointer"
         onClick={() => setShowRecords(!showRecords)}
       >
-        <h2 className="text-lg text-white font-medium">Records</h2>
+        <h2 className="lg:text-lg text-base text-white font-medium">Records</h2>
         {showRecords ? (
           <MinusIcon
             onClick={() => setShowRecords(false)}
@@ -68,7 +68,7 @@ const DomainRecords = ({ ownerAddress, domainName }: IProps) => {
                py-7 cursor-pointer"
             onClick={() => setShowAddressRecords(!showAddressRecords)}
           >
-            <h2 className="text-md text-gray-400 font-medium uppercase">
+            <h2 className="md:text-base text-sm text-gray-400 font-medium uppercase">
               Addresses
             </h2>
             {showAddressRecords ? (
@@ -103,7 +103,7 @@ const DomainRecords = ({ ownerAddress, domainName }: IProps) => {
                py-7 cursor-pointer"
             onClick={() => setShowTextRecords(!showTextRecords)}
           >
-            <h2 className="text-md text-gray-400 font-medium uppercase">
+            <h2 className="md:text-base text-sm text-gray-400 font-medium uppercase">
               Text Records
             </h2>
             {showTextRecords ? (
@@ -138,7 +138,7 @@ const DomainRecords = ({ ownerAddress, domainName }: IProps) => {
                py-7 cursor-pointer"
             onClick={() => setShowSocialRecords(!showSocialRecords)}
           >
-            <h2 className="text-md text-gray-400 font-medium uppercase">
+            <h2 className="md:text-base text-sm text-gray-400 font-medium uppercase">
               Social Records
             </h2>
             {showSocialRecords ? (
