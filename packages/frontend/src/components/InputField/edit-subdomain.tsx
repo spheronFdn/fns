@@ -6,7 +6,7 @@ interface IProps {
   classname: string
   domainName: string
   subdomainName: string
-  editSubdomainName: (e: any) => void
+  editSubdomainName: (e: React.SetStateAction<string>) => void
 }
 
 function EditSubdomain({
