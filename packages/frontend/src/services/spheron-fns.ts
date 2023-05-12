@@ -179,3 +179,71 @@ export const getOwnerNames = async (address: string) => {
     return { error: true, response: (error as Error).message }
   }
 }
+
+export const setTextRecord = async (
+  domainName: string,
+  key: string,
+  value: string,
+) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.setTxtRecord(domainName, { key, value })
+    await res.wait()
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const getTextRecord = async (domainName: string, key: string) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.getTxtRecord(domainName, key)
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const getRecords = async (domainName: string) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.getRecords(domainName)
+    return { error: false, response: res }
+  } catch (error) {
+    console.log('ERROR: ', error)
+    return { error: true, response: (error as Error).message }
+  }
+}
+
+export const renewNames = async (
+  name: string,
+  duration: number,
+  price: string,
+) => {
+  try {
+    const FNSInstance = new FNS()
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum)
+    await FNSInstance.setProvider(provider)
+    const res = await FNSInstance.renewNames(name, {
+      duration: getSecondsFromYear(duration),
+      value: ethers.utils.parseUnits(price, 18),
+    })
+    await res.wait()
+    if (res.hash) {
+      return { error: false, response: res.hash }
+    } else {
+      return { error: true, response: 'Something went wrong' }
+    }
+  } catch (error) {
+    return { error: true, response: (error as Error).message }
+  }
+}

@@ -11,7 +11,7 @@ import { Button } from '../../components/UI/button'
 import { ModalContext } from '../../context/modal-context'
 import { Web3Context } from '../../context/web3-context'
 import { useToast } from '../../hooks/useToast'
-import { getFee, getUserBalance } from '../../lib/utils'
+import { copyToClipboard, getFee, getUserBalance } from '../../lib/utils'
 import {
   getAddress,
   getContentHash,
@@ -21,7 +21,10 @@ import {
   registerDomain,
   setAddr,
 } from '../../services/spheron-fns'
-import SearchDomain from '../../components/UI/search-domain'
+import { ReactComponent as CopyIcon } from '../../assets/icons/copy-icon.svg'
+import CopyPopup from '../../components/Popup/copy-popup'
+import SearchDomain from '../../components/InputField/search-domain'
+import DomainRecords from '../../components/UI/domain-records'
 
 const Domain = () => {
   const navigate = useNavigate()
@@ -182,19 +185,28 @@ const Domain = () => {
     if (currentAccount) getBalance(currentAccount)
   }, [currentAccount])
 
+  const domainOptionsPathname = location.pathname.split('/')[3]
+
   const navItems = [
     {
       id: 1,
       label: 'registration',
       route: 'register',
-      isActive: location.pathname.split('/')[3] === 'register',
+      isActive: domainOptionsPathname === 'register',
     },
     {
       id: 2,
       label: 'details',
       route: 'details',
-      isActive: location.pathname.split('/')[3] === 'details',
+      isActive: domainOptionsPathname === 'details',
     },
+    // TODO - WILL BE RELEASED WHEN PACKAGE SUPPORT FOR SUBDOMAIN IS RELEASED
+    // {
+    //   id: 2,
+    //   label: 'subdomains',
+    //   route: 'subdomain',
+    //   isActive: domainOptionsPathname === 'subdomain',
+    // },
   ]
 
   const processInformation = [
@@ -295,11 +307,45 @@ const Domain = () => {
     connectWallet()
   }
 
+  const [showCopyPopup, setShowCopyPopup] = useState<boolean>(false)
+  const [copyPopupText, setPopupText] = useState<string>('Click to Copy')
+
+  useEffect(() => {
+    if (copyPopupText === 'Copied!') {
+      setTimeout(() => {
+        setPopupText('Click to Copy')
+      }, 2000)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [copyPopupText])
+
   return (
     <div className="w-11/12 lg:w-10/12 mx-auto flex flex-col justify-end">
       <div className="mt-6 mb-5 flex flex-col items-start gap-8">
         <SearchDomain showBtn={false} classname="lg:hidden w-full" />
-        <span className="result__text">Result for `{searchQuery}`</span>
+        {isDomainAvailable ? (
+          <span className="result__text">Result for `{searchQuery}`</span>
+        ) : (
+          <div className="flex flex-row gap-4 items-center">
+            <h2 className="result__text">{searchQuery}</h2>
+            <div className="static">
+              {showCopyPopup && (
+                <CopyPopup text={copyPopupText} classname="-mt-11 -ml-9" />
+              )}
+              <CopyIcon
+                className="copy__button copy__button__result"
+                onClick={() => {
+                  copyToClipboard(searchQuery)
+                  setPopupText('Copied!')
+                }}
+                onMouseOver={() => setShowCopyPopup(true)}
+                onMouseOut={() => {
+                  setShowCopyPopup(false)
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className="result__container p-6 md:p-8">
         <div className="flex justify-start space-x-8">
@@ -356,6 +402,10 @@ const Domain = () => {
               : 'connect to register'}
           </Button>
         </div>
+      )}
+
+      {!isDomainAvailable && domainOptionsPathname === 'details' && (
+        <DomainRecords ownerAddress={ownerAddress} domainName={searchQuery} />
       )}
 
       {isDomainAvailable && (

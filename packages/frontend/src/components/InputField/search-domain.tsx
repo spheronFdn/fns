@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { isValidAddress } from '../../lib/utils'
-import { Input } from './input'
 import { ReactComponent as SearchLogo } from '../../assets/icons/search-logo.svg'
-import { Button } from './button'
+import { Input } from './input'
+import { Button } from '../UI/button'
 
 interface IProps {
   showBtn: boolean

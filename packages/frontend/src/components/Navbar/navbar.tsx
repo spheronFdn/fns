@@ -18,9 +18,9 @@ import {
   getMiddleEllipsis,
   truncateAddress,
 } from '../../lib/utils'
-import SearchDomain from '../UI/search-domain'
 import { useLocation, useNavigate } from 'react-router-dom'
 import config from '../../config'
+import SearchDomain from '../InputField/search-domain'
 
 interface IDropdownOption {
   id: number

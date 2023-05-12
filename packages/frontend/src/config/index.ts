@@ -17,6 +17,26 @@ export interface IConfig {
       blockExplorerUrls: string[]
     }
   }
+  domainRecordsKey: {
+    address: {
+      FIL: string
+      ETH: string
+      BTC: string
+    }
+    social: {
+      DISCORD: string
+      GITHUB: string
+      REDDIT: string
+      TWITTER: string
+      TELEGRAM: string
+    }
+    text: {
+      URL: string
+      AVATAR: string
+      EMAIL: string
+      DESCRIPTION: string
+    }
+  }
 }
 
 const NODE_ENV: string = process.env.REACT_APP_STAGE || 'local'
@@ -35,6 +55,27 @@ const local: IConfig = {
       blockExplorerUrls: ['https://hyperspace.filfox.info'],
     },
   },
+
+  domainRecordsKey: {
+    address: {
+      FIL: 'fil',
+      ETH: 'eth',
+      BTC: 'btc',
+    },
+    social: {
+      DISCORD: 'discord',
+      GITHUB: 'github',
+      REDDIT: 'reddit',
+      TWITTER: 'twitter',
+      TELEGRAM: 'telegram',
+    },
+    text: {
+      URL: 'URL',
+      AVATAR: 'avatar',
+      EMAIL: 'email',
+      DESCRIPTION: 'description',
+    },
+  },
 }
 
 const production: IConfig = {
@@ -49,6 +90,26 @@ const production: IConfig = {
         decimals: 18,
       },
       blockExplorerUrls: ['https://filfox.info'],
+    },
+  },
+  domainRecordsKey: {
+    address: {
+      FIL: 'fil',
+      ETH: 'eth',
+      BTC: 'btc',
+    },
+    social: {
+      DISCORD: 'discord',
+      GITHUB: 'github',
+      REDDIT: 'reddit',
+      TWITTER: 'twitter',
+      TELEGRAM: 'telegram',
+    },
+    text: {
+      URL: 'URL',
+      AVATAR: 'avatar',
+      EMAIL: 'email',
+      DESCRIPTION: 'description',
     },
   },
 }

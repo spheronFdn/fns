@@ -3,9 +3,9 @@ import { useOutletContext, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import InfoLoader from '../../components/Loader/info-loader'
 import Loader from '../../components/Loader/loader'
-import { Input } from '../../components/UI/input'
 import { Button } from '../../components/UI/button'
 import { Web3Context } from '../../context/web3-context'
+import { ModalContext } from '../../context/modal-context'
 import {
   getAddress,
   getOwnerNames,
@@ -18,12 +18,15 @@ import { ReactComponent as EditIcon } from '../../assets/icons/edit-icon.svg'
 import { ReactComponent as CancelIcon } from '../../assets/icons/cancel-icon.svg'
 import { copyToClipboard } from '../../lib/utils'
 import CopyPopup from '../../components/Popup/copy-popup'
+import { Input } from '../../components/InputField/input'
 
 const DomainDetail = () => {
   const params = useParams()
   const { toast } = useToast()
   const Web3Cntx = useContext<any>(Web3Context)
   const { currentAccount } = Web3Cntx
+  const ModalCntx = useContext<any>(ModalContext)
+  const { setModalOpen, setModalType, setModalOption } = ModalCntx
   const [contentHashQuery, setContentHashQuery] = useState<string>('')
   const [controller, setController] = useState<string>('')
   const [updateControllerLoading, setUpdateControllerLoading] =
@@ -69,7 +72,6 @@ const DomainDetail = () => {
         string,
       ]
     >()
-
   let expirationDate = String(dayjs(Number(expiryDate) * 1000))
 
   async function getAddressFromDomainName() {
@@ -261,7 +263,7 @@ const DomainDetail = () => {
                                   !controller
                                 }
                               >
-                                {!!ownerAddress ? 'Update' : 'Add'}
+                                {!!ownerAddress ? 'Update' : 'Set'}
                               </Button>
                             </div>
                             <CancelIcon
@@ -442,21 +444,20 @@ const DomainDetail = () => {
                       <div className="md:text-base text-sm text-right font-semibold text-primary-text">
                         {expirationDate}
                       </div>
-                      {/* TODO - EXTEND TO BE RELEASED NEXT */}
-                      {/* <Button
+                      <Button
                         onClick={() => {
                           setModalOpen(true)
                           setModalType('extendDomain')
                           setModalOption({
-                            price: '0',
-                            gasFee: '2',
-                            priceLoading: false,
+                            searchQuery,
+                            expirationDate,
+                            isDomainAvailable,
                           })
                         }}
                         className="py-1"
                       >
                         Extend
-                      </Button> */}
+                      </Button>
                     </div>
                   )}
                 </div>

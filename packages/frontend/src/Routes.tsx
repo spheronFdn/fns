@@ -22,6 +22,8 @@ const Router = () => {
           <Route path="/domain/:domainName" element={<Domain />}>
             <Route index path="register" element={<DomainRegister />} />
             <Route path="details" element={<DomainDetail />} />
+            {/* TODO - WILL BE UPDATED WHEN PACKAGE SUPPORT FOR SUBDOMAIN IS RELEASED */}
+            {/* <Route path="subdomain" element={<Subdomain />} /> */}
           </Route>
           <Route path="/address/:address" element={<Address />}>
             <Route index path="registrant" element={<AddressRegistrant />} />
