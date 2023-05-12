@@ -206,7 +206,11 @@ const ExtendModal = ({ option }: IProps) => {
                 >
                   Cancel
                 </Button>
-                <Button onClick={handleExtend} className="py-1 uppercase">
+                <Button
+                  onClick={handleExtend}
+                  disabled={priceLoading || extendLoading}
+                  className="py-1 uppercase disabled:bg-primary-buttonHover"
+                >
                   Extend Validity
                 </Button>
               </div>

@@ -70,7 +70,7 @@ const local: IConfig = {
       TELEGRAM: 'telegram',
     },
     text: {
-      URL: 'url',
+      URL: 'URL',
       AVATAR: 'avatar',
       EMAIL: 'email',
       DESCRIPTION: 'description',
@@ -106,7 +106,7 @@ const production: IConfig = {
       TELEGRAM: 'telegram',
     },
     text: {
-      URL: 'url',
+      URL: 'URL',
       AVATAR: 'avatar',
       EMAIL: 'email',
       DESCRIPTION: 'description',
